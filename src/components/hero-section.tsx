@@ -15,7 +15,7 @@ const stats = [
 
 export function HeroSection() {
   return (
-    <div className="relative w-full h-screen bg-[#EBEAE6]">
+    <div className="relative w-full h-screen bg-background">
       <Header />
       <div className="flex h-full">
         {/* Left Panel */}
@@ -40,12 +40,12 @@ export function HeroSection() {
         </div>
 
         {/* Right Panel */}
-        <div className="hidden md:flex w-3/5 relative items-center justify-center">
+        <div className="hidden md:flex w-3/5 relative items-center justify-center bg-background">
           <div className="absolute right-16 bottom-20 z-20 space-y-8 text-right font-body">
             {stats.map((stat) => (
               <div key={stat.label}>
-                <p className="text-5xl font-bold text-stone-800 font-headline">{stat.value}</p>
-                <p className="text-stone-500">{stat.label}</p>
+                <p className="text-5xl font-bold text-stone-100 font-headline">{stat.value}</p>
+                <p className="text-stone-400">{stat.label}</p>
               </div>
             ))}
           </div>
