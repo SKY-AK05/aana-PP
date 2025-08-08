@@ -131,25 +131,13 @@ export function HeroSection() {
         </div>
         
         {/* Right Content */}
-        <div className="right-content text-left md:text-right space-y-8 order-3 md:order-3 pt-24 md:pt-0">
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-8">
-              <div>
-                <p className="text-4xl font-bold font-headline text-primary">15+</p>
-                <p className="text-foreground/70">Years Experience</p>
-              </div>
-              <div>
-                <p className="text-4xl font-bold font-headline text-primary">280+</p>
-                <p className="text-foreground/70">Projects Delivered</p>
-              </div>
-              <div>
-                <p className="text-4xl font-bold font-headline text-primary">*99%</p>
-                <p className="text-foreground/70">Client Satisfaction</p>
-              </div>
-              <div>
-                <p className="text-4xl font-bold font-headline text-primary">50</p>
-                <p className="text-foreground/70">Clients worldwide</p>
-              </div>
-            </div>
+        <div className="right-content text-left md:text-left space-y-6 order-3 md:order-3 pt-24 md:pt-0 md:pl-8">
+            <h2 className="text-4xl lg:text-5xl font-bold font-headline">
+              A VIDEO<br/>& MOTION<br/><span className="text-accent-foreground/80">DESIGNER</span>
+            </h2>
+            <p className="text-md text-foreground/70">
+              Transforming ideas into stunning visuals – Video editing and motion graphics that captivates, engages, and delivers results.
+            </p>
         </div>
       </div>
     </div>
