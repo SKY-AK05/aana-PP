@@ -78,23 +78,7 @@ export function HeroSection() {
         {/* Left Panel */}
         <div className="flex items-center justify-center p-8 md:p-12">
             <div className="max-w-md text-center md:text-left">
-                <p className="text-lg text-primary mb-2 font-medium">Hey. I'm Bharath,</p>
-                <h1 className="text-5xl lg:text-7xl font-bold font-headline uppercase leading-none">
-                A Video
-                <br />
-                & Motion
-                <br />
-                <span className="text-foreground/80">Designer</span>
-                </h1>
-                <p className="mt-6 text-foreground/70 font-body">
-                Transforming ideas into stunning visuals – Video editing and motion graphics
-                that captivates, engages, and delivers results.
-                </p>
-                <div className="mt-8">
-                    <Button asChild size="lg" className="h-14 text-lg font-bold rounded-full">
-                        <Link href="#contact">Contact Me <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                    </Button>
-                </div>
+                
             </div>
         </div>
 
