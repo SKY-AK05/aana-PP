@@ -3,7 +3,6 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ProjectCard } from './project-card';
 import { Button } from './ui/button';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -80,7 +79,7 @@ export function ProjectsSection() {
   const filteredProjects = projects.filter(p => activeFilter === 'All' || p.tags.includes(activeFilter));
 
   return (
-    <section id="work" ref={containerRef} className="bg-secondary/20 border-t border-border">
+    <section id="work" ref={containerRef} className="bg-secondary/20 border-t border-border py-20 md:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">My Work</h2>
@@ -97,7 +96,6 @@ export function ProjectsSection() {
             ))}
         </div>
 
-        {/* The project grid has been removed as requested */}
       </div>
     </section>
   );
