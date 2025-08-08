@@ -74,7 +74,7 @@ export function HeroSection() {
       )}
 
       {/* Main Content */}
-       <div className="flex-1 p-8">
+       <div className="flex-1">
         {/* Image */}
         <div className="relative w-[350px] h-[450px] mx-auto">
             <div className="relative h-full w-full rounded-br-[80px] overflow-hidden shadow-2xl">
