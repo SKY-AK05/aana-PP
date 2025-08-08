@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from "next/link";
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X, Phone } from 'lucide-react';
 
 const navLinks = [
     { href: "#about", label: "About" },
@@ -34,6 +34,10 @@ export function HeroSection() {
                         {link.label}
                     </Link>
                 ))}
+                 <div className="flex items-center gap-2 text-sm font-medium text-stone-300">
+                  <Phone className="h-4 w-4 text-primary" />
+                  <span>+91 123 456 7890</span>
+                </div>
             </nav>
 
             <div className="flex items-center">
@@ -57,6 +61,10 @@ export function HeroSection() {
                               {link.label}
                           </Link>
                       ))}
+                      <div className="flex items-center justify-center gap-2 text-lg font-medium text-stone-300 pt-4">
+                        <Phone className="h-5 w-5 text-primary" />
+                        <span>+91 123 456 7890</span>
+                      </div>
                   </nav>
               </div>
           </div>
