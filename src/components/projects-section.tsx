@@ -97,13 +97,7 @@ export function ProjectsSection() {
             ))}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 projects-grid">
-          {filteredProjects.map((project, index) => (
-            <div key={index} className="project-card">
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </div>
+        {/* The project grid has been removed as requested */}
       </div>
     </section>
   );
