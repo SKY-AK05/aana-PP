@@ -28,21 +28,24 @@ export function HeroSection() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center space-x-8">
-                {navLinks.map(link => (
-                    <Link key={link.href} href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
-                        {link.label}
-                    </Link>
-                ))}
-                 <div className="flex items-center gap-2 text-sm font-medium text-stone-300">
-                  <Phone className="h-4 w-4 text-primary" />
-                  <span>+91 123 456 7890</span>
-                </div>
-            </nav>
+            <div className="hidden md:flex items-center gap-8">
+              <nav className="flex items-center space-x-8">
+                  {navLinks.map(link => (
+                      <Link key={link.href} href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
+                          {link.label}
+                      </Link>
+                  ))}
+              </nav>
+               <div className="flex items-center gap-2 text-sm font-medium text-stone-300">
+                <Phone className="h-4 w-4 text-primary" />
+                <span>+91 123 456 7890</span>
+              </div>
+            </div>
 
-            <div className="flex items-center">
+
+            <div className="flex items-center md:hidden">
               {/* Mobile Menu Button */}
-              <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                 <span className="sr-only">Toggle Menu</span>
               </Button>
