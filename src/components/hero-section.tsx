@@ -102,7 +102,7 @@ export function HeroSection() {
 
           {/* Right Panel */}
           <div className="hidden md:flex flex-col items-center justify-center space-y-8">
-              <div className="relative w-full max-w-md aspect-square rounded-full overflow-hidden border-8 border-primary/20 shadow-2xl">
+              <div className="relative w-full max-w-sm aspect-square rounded-full overflow-hidden border-8 border-primary/20 shadow-2xl">
                   <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
               </div>
 
