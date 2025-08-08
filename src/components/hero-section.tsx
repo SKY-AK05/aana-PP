@@ -1,26 +1,25 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
-import Image from "next/image";
-import { Button } from "./ui/button";
-import { ArrowDown } from "lucide-react";
-import { gsap } from "gsap";
+import React, { useLayoutEffect, useRef } from 'react';
+import Image from 'next/image';
+import {Button} from './ui/button';
+import {ArrowDown} from 'lucide-react';
+import {gsap} from 'gsap';
 
 export function HeroSection() {
-    const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
 
-    useLayoutEffect(() => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-        const ctx = gsap.context(() => {
-            tl.fromTo(".hero-eyebrow", { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.2);
-            tl.fromTo(".hero-heading", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, 0.4);
-            tl.fromTo(".hero-subheading", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, 0.6);
-            tl.fromTo(".hero-button", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, 0.8);
-            tl.fromTo(".hero-image", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2 }, 0.6);
-        }, containerRef);
-        return () => ctx.revert();
-    }, []);
-
+  useLayoutEffect(() => {
+    const tl = gsap.timeline({defaults: {ease: 'power3.out'}});
+    const ctx = gsap.context(() => {
+      tl.fromTo('.hero-eyebrow', {y: -20, opacity: 0}, {y: 0, opacity: 1, duration: 0.8}, 0.2);
+      tl.fromTo('.hero-heading', {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 1}, 0.4);
+      tl.fromTo('.hero-subheading', {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 1}, 0.6);
+      tl.fromTo('.hero-button', {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 1}, 0.8);
+      tl.fromTo('.hero-image', {scale: 0.9, opacity: 0}, {scale: 1, opacity: 1, duration: 1.2}, 0.6);
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section id="hero" ref={containerRef} className="relative w-full pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
@@ -44,24 +43,24 @@ export function HeroSection() {
             </div>
           </div>
           <div className="relative flex justify-center hero-image">
-             <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px]">
-                <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl"></div>
-                 <Image
-                    src="https://placehold.co/600x600.png"
-                    data-ai-hint="friendly person"
-                    alt="Bharath Naidu"
-                    width={400}
-                    height={400}
-                    className="relative z-10 rounded-full object-cover border-4 border-background"
-                    priority
-                />
+            <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px]">
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl"></div>
+              <Image
+                src="/assets/profile.jpg"
+                data-ai-hint="friendly person"
+                alt="Bharath Naidu"
+                width={400}
+                height={400}
+                className="relative z-10 rounded-full object-cover border-4 border-background"
+                priority
+              />
             </div>
           </div>
         </div>
       </div>
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
         <a href="#about" aria-label="Scroll to next section">
-            <ArrowDown className="w-8 h-8 text-foreground/50 animate-bounce" />
+          <ArrowDown className="w-8 h-8 text-foreground/50 animate-bounce" />
         </a>
       </div>
     </section>

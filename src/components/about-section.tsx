@@ -11,7 +11,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from '@/components/ui/carousel';
 import { Linkedin, Github } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -71,7 +71,7 @@ export function AboutSection() {
         <div className="grid md:grid-cols-5 gap-12 items-center about-content">
           <div className="md:col-span-2">
             <div className="aspect-square relative rounded-lg overflow-hidden shadow-2xl">
-              <Image src="https://placehold.co/600x600.png" data-ai-hint="friendly person" alt="Bharath Naidu" fill className="object-cover" />
+              <Image src="/assets/profile.jpg" data-ai-hint="friendly person" alt="Bharath Naidu" fill className="object-cover" />
             </div>
           </div>
           <div className="md:col-span-3">
