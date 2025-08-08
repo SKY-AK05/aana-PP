@@ -7,6 +7,12 @@ import { Button } from './ui/button';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -97,13 +103,23 @@ export function HeroSection() {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
-              <nav className="flex items-center space-x-8">
+               <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Open Menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
                   {navLinks.map(link => (
-                      <Link key={link.href} href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
+                    <DropdownMenuItem key={link.href} asChild>
+                      <Link href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
                           {link.label}
                       </Link>
+                    </DropdownMenuItem>
                   ))}
-              </nav>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             <div className="flex items-center md:hidden">
