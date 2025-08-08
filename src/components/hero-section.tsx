@@ -1,10 +1,20 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import Link from "next/link";
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
     { href: "#about", label: "About" },
@@ -13,12 +23,76 @@ const navLinks = [
     { href: "#contact", label: "Contact" },
 ];
 
+const stats = [
+  { value: "15+", label: "Years Experience" },
+  { value: "280+", label: "Projects Delivered" },
+  { value: "99%", label: "Client Satisfaction" },
+  { value: "50+", label: "Clients Worldwide" },
+]
 
 export function HeroSection() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Intro animations
+      gsap.from(".left-content > *", {
+        opacity: 0,
+        x: -50,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.2,
+        delay: 0.3
+      });
+
+      gsap.from(".right-content > *", {
+        opacity: 0,
+        x: 50,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.2,
+        delay: 0.5
+      });
+      
+      gsap.from(".hero-image", {
+        opacity: 0,
+        scale: 0.9,
+        duration: 1.2,
+        ease: 'power3.out',
+        delay: 0.1
+      });
+
+      gsap.from(".stat-item", {
+        scrollTrigger: {
+          trigger: ".stats-container",
+          start: "top 95%",
+        },
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power3.out',
+      });
+
+
+      // Scroll-triggered animations
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        onUpdate: self => {
+          gsap.to([".left-content", ".right-content"], { opacity: 1 - self.progress * 2, y: -self.progress * 50 });
+          gsap.to(".hero-image", { scale: 1 - self.progress * 0.1 });
+        }
+      });
+
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="relative w-full min-h-screen bg-background text-foreground flex flex-col">
+    <div ref={containerRef} className="relative w-full min-h-screen bg-background text-foreground flex flex-col overflow-hidden">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,15 +103,24 @@ export function HeroSection() {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
-              <nav className="flex items-center space-x-8">
+               <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Open Menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
                   {navLinks.map(link => (
-                      <Link key={link.href} href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
+                    <DropdownMenuItem key={link.href} asChild>
+                      <Link href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
                           {link.label}
                       </Link>
+                    </DropdownMenuItem>
                   ))}
-              </nav>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-
 
             <div className="flex items-center md:hidden">
               {/* Mobile Menu Button */}
@@ -66,15 +149,46 @@ export function HeroSection() {
       )}
 
       {/* Main Content */}
-       <div className="flex-1 flex items-start justify-center">
-        {/* Image */}
-        <div className="relative w-[350px] h-[450px] mx-auto">
-            <div className="relative h-full w-full rounded-bl-[80px] rounded-br-[80px] overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
-                 <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
-            </div>
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 items-center container mx-auto px-4 sm:px-6 lg:px-8 pt-0">
+        {/* Left Content */}
+        <div className="left-content text-left space-y-4 order-2 md:order-1 pt-24 md:pt-0">
+            <h1 className="text-4xl lg:text-5xl font-bold font-headline">Hi, I'm <br/><span className="text-primary">Bharath Naidu</span></h1>
+            <p className="text-lg text-foreground/80">Video Editor | Cinematographer | Storyteller</p>
+            <p className="text-md text-foreground/60 italic">“Blending cinematic storytelling with viral digital trends.”</p>
+        </div>
+
+        {/* Center Image */}
+        <div className="hero-image flex-1 flex items-start justify-center order-1 md:order-2 w-full h-full">
+          <div className="relative w-[320px] h-[420px] lg:w-[400px] lg:h-[500px] mx-auto mt-24 md:mt-0" style={{ transform: 'translateX(20px)' }}>
+              <div className="relative h-full w-full rounded-bl-[80px] rounded-br-[80px] overflow-hidden shadow-2xl">
+                  <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
+              </div>
+          </div>
+        </div>
+        
+        {/* Right Content */}
+        <div className="right-content text-left md:text-left space-y-6 order-3 md:order-3 pt-24 md:pt-0 md:pl-8">
+            <h2 className="text-4xl lg:text-5xl font-bold font-headline">
+              A VIDEO<br/>&amp; GRAPHIC<br/><span className="text-primary">DESIGNER</span>
+            </h2>
+            <p className="text-md text-foreground/70">
+              Transforming ideas into stunning visuals – Video editing and graphic design that captivates, engages, and delivers results.
+            </p>
         </div>
       </div>
+      
+      {/* Stats Bar */}
+      <div className="stats-container container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {stats.map((stat, index) => (
+                <div key={index} className="stat-item">
+                    <h3 className="text-4xl font-bold text-primary">{stat.value}</h3>
+                    <p className="text-sm text-foreground/60 uppercase tracking-wider">{stat.label}</p>
+                </div>
+            ))}
+        </div>
+      </div>
+
     </div>
   );
 }

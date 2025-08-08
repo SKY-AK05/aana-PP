@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Button } from './ui/button';
+import { ProjectCard } from './project-card';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -96,6 +97,13 @@ export function ProjectsSection() {
             ))}
         </div>
 
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 projects-grid">
+            {filteredProjects.map((project) => (
+                <div key={project.title} className="project-card">
+                    <ProjectCard project={project} />
+                </div>
+            ))}
+        </div>
       </div>
     </section>
   );
