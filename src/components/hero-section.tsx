@@ -106,7 +106,7 @@ export function HeroSection() {
                   <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
               </div>
 
-              <div className="grid grid-cols-2 gap-8 text-center w-full max-w-md">
+              <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-center w-full max-w-sm">
                   {stats.map((stat) => (
                       <div key={stat.label}>
                           <p className="text-4xl font-bold text-stone-100 font-headline">{stat.value}</p>
