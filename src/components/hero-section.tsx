@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from "next/link";
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { ArrowRight, Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 
 const navLinks = [
     { href: "#about", label: "About" },
@@ -74,23 +74,13 @@ export function HeroSection() {
       )}
 
       {/* Main Content */}
-       <div className="flex-1 grid grid-cols-1 md:grid-cols-2">
-        {/* Left Panel */}
-        <div className="flex items-center justify-center p-8 md:p-12">
-            <div className="max-w-md text-center md:text-left">
-                
+       <div className="flex-1 flex items-center justify-center p-8">
+        {/* Image */}
+        <div className="relative w-[350px] h-[450px]">
+            <div className="relative h-full w-full rounded-br-[80px] overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
+                 <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
             </div>
-        </div>
-
-        {/* Right Panel */}
-        <div className="relative flex items-center justify-center bg-secondary/20 p-0 md:p-0 overflow-hidden">
-             {/* Image */}
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[90%] w-[85%]">
-                <div className="relative h-full w-full rounded-br-[80px] overflow-hidden">
-                    <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
-                     <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
-                </div>
-             </div>
         </div>
       </div>
     </div>
