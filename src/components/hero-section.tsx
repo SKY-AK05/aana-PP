@@ -113,17 +113,17 @@ export function HeroSection() {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 items-center container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-0">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 items-center container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Left Content */}
-        <div className="left-content text-left space-y-4 order-2 md:order-1">
+        <div className="left-content text-left space-y-4 order-2 md:order-1 pt-24 md:pt-0">
             <h1 className="text-4xl lg:text-5xl font-bold font-headline">Hi, I'm <br/><span className="text-primary">Bharath Naidu</span></h1>
             <p className="text-lg text-foreground/80">Video Editor | Cinematographer | Storyteller</p>
             <p className="text-md text-foreground/60 italic">“Blending cinematic storytelling with viral digital trends.”</p>
         </div>
 
         {/* Center Image */}
-        <div className="hero-image flex-1 flex items-center justify-center order-1 md:order-2 py-8 md:py-0">
-          <div className="relative w-[300px] h-[400px] lg:w-[350px] lg:h-[450px] mx-auto">
+        <div className="hero-image flex-1 flex items-start justify-center order-1 md:order-2 w-full h-full">
+          <div className="relative w-[300px] h-[400px] lg:w-[350px] lg:h-[450px] mx-auto mt-24 md:mt-0">
               <div className="relative h-full w-full rounded-bl-[80px] rounded-br-[80px] overflow-hidden shadow-2xl">
                   <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
                   <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
@@ -132,7 +132,7 @@ export function HeroSection() {
         </div>
         
         {/* Right Content */}
-        <div className="right-content text-left md:text-right space-y-6 order-3 md:order-3">
+        <div className="right-content text-left md:text-right space-y-6 order-3 md:order-3 pt-24 md:pt-0">
           <div>
             <p className="text-lg font-semibold">Over <span className="text-primary">200+</span> brands</p>
             <p className="text-lg font-semibold">across <span className="text-primary">30+</span> industries</p>
