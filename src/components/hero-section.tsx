@@ -6,13 +6,6 @@ import Image from 'next/image';
 import { Button } from './ui/button';
 import { ArrowRight, Menu, X } from 'lucide-react';
 
-const stats = [
-  { value: '2+', label: 'Years Experience' },
-  { value: '10+', label: 'Projects Delivered' },
-  { value: '99%', label: 'Client Satisfaction' },
-  { value: '5+', label: 'Clients worldwide' },
-];
-
 const navLinks = [
     { href: "#about", label: "About" },
     { href: "#services", label: "Services" },
@@ -25,7 +18,7 @@ export function HeroSection() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="relative w-full min-h-screen bg-background text-foreground">
+    <div className="relative w-full min-h-screen bg-background text-foreground flex flex-col">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,46 +68,40 @@ export function HeroSection() {
           </div>
       )}
 
-
       {/* Main Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-screen pt-24 pb-12">
-        <div className="grid md:grid-cols-2 gap-12 items-center w-full">
-          {/* Left Panel */}
-          <div className="flex flex-col justify-center text-center md:text-left">
-            <p className="text-lg text-primary mb-2 font-medium">Hey. I'm Bharath,</p>
-            <h1 className="text-5xl lg:text-7xl font-bold font-headline uppercase leading-none">
-              A Video
-              <br />
-              & Motion
-              <br />
-              <span className="text-[#B5AB9D]">Designer</span>
-            </h1>
-            <p className="mt-6 max-w-lg mx-auto md:mx-0 text-stone-300 font-body">
-              Transforming ideas into stunning visuals – Video editing and motion graphics
-              that captivates, engages, and delivers results.
-            </p>
-            <div className="mt-8 flex justify-center md:justify-start">
-                <Button asChild size="lg" className="h-14 text-lg font-bold">
-                    <Link href="#contact">Contact Me <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                </Button>
+       <div className="flex-1 grid grid-cols-1 md:grid-cols-2">
+        {/* Left Panel */}
+        <div className="flex items-center justify-center p-8 md:p-12">
+            <div className="max-w-md text-center md:text-left">
+                <p className="text-lg text-primary mb-2 font-medium">Hey. I'm Bharath,</p>
+                <h1 className="text-5xl lg:text-7xl font-bold font-headline uppercase leading-none">
+                A Video
+                <br />
+                & Motion
+                <br />
+                <span className="text-foreground/80">Designer</span>
+                </h1>
+                <p className="mt-6 text-foreground/70 font-body">
+                Transforming ideas into stunning visuals – Video editing and motion graphics
+                that captivates, engages, and delivers results.
+                </p>
+                <div className="mt-8">
+                    <Button asChild size="lg" className="h-14 text-lg font-bold rounded-full">
+                        <Link href="#contact">Contact Me <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                    </Button>
+                </div>
             </div>
-          </div>
+        </div>
 
-          {/* Right Panel */}
-          <div className="hidden md:flex flex-col items-center justify-center space-y-8">
-              <div className="relative w-full max-w-sm aspect-square rounded-full overflow-hidden border-8 border-primary/20 shadow-2xl">
-                  <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
-              </div>
+        {/* Right Panel */}
+        <div className="relative flex items-center justify-center bg-secondary/20 p-8 md:p-12 overflow-hidden">
+             {/* Elliptical Shape */}
+             <div className="absolute w-[150%] h-[150%] bg-background rounded-[50%] -translate-x-1/4" />
 
-              <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-center w-full max-w-sm">
-                  {stats.map((stat) => (
-                      <div key={stat.label}>
-                          <p className="text-4xl font-bold text-stone-100 font-headline">{stat.value}</p>
-                          <p className="text-stone-400">{stat.label}</p>
-                      </div>
-                  ))}
-              </div>
-          </div>
+             {/* Image */}
+             <div className="relative z-10 w-full max-w-md aspect-[4/5] rounded-[50%/35%] overflow-hidden shadow-2xl">
+                 <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
+             </div>
         </div>
       </div>
     </div>

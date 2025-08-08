@@ -66,12 +66,12 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section id="about" ref={containerRef} className="bg-background border-t border-border">
+    <section id="about" ref={containerRef} className="py-20 md:py-28 bg-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
         <div className="grid md:grid-cols-5 gap-12 items-center about-content">
           <div className="md:col-span-2">
             <div className="aspect-square relative rounded-lg overflow-hidden shadow-2xl">
-              <Image src="/assets/profile.jpg" data-ai-hint="friendly person" alt="Bharath Naidu" fill className="object-cover" />
+              <Image src="https://placehold.co/600x600.png" data-ai-hint="friendly person" alt="Bharath Naidu" fill className="object-cover" />
             </div>
           </div>
           <div className="md:col-span-3">

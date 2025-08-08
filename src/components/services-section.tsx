@@ -53,7 +53,7 @@ export function ServicesSection() {
     }, []);
 
   return (
-    <section id="services" ref={containerRef} className="bg-secondary/20 border-t border-border">
+    <section id="services" ref={containerRef} className="py-20 md:py-28 bg-secondary/20 border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">What I Do</h2>
