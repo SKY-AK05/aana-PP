@@ -41,21 +41,6 @@ export function HeroSection() {
 
         {/* Right Panel */}
         <div className="hidden md:flex w-3/5 relative items-center justify-center">
-          {/* This div creates the circular cutout effect */}
-          <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] z-10">
-             <div className="relative w-full h-full">
-                <div className="absolute inset-0 bg-[#D8D2C7] rounded-full"></div>
-                <div className="absolute inset-[1rem] rounded-full overflow-hidden">
-                    <Image
-                      src="https://placehold.co/650x650.png"
-                      data-ai-hint="person portfolio"
-                      alt="Bharath Naidu"
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                </div>
-             </div>
-          </div>
           <div className="absolute right-16 bottom-20 z-20 space-y-8 text-right font-body">
             {stats.map((stat) => (
               <div key={stat.label}>
