@@ -98,7 +98,7 @@ export function HeroSection() {
              {/* Elliptical Shape is now part of the image container */}
 
              {/* Image */}
-             <div className="absolute top-0 right-0 h-full w-[85%]">
+             <div className="absolute top-0 right-0 h-full w-[75%]">
                 <div className="relative h-full w-full rounded-bl-[80px] overflow-hidden">
                     <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
                      <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
