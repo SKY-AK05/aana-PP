@@ -11,7 +11,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel';
+} from "@/components/ui/carousel";
 import { Linkedin, Github } from 'lucide-react';
 import { Button } from './ui/button';
 
