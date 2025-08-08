@@ -150,15 +150,6 @@ export function HeroSection() {
                 <p className="text-foreground/70">Clients worldwide</p>
               </div>
             </div>
-
-            <div className="flex flex-col items-start md:items-end space-y-4">
-                <Button asChild size="lg">
-                    <Link href="#work">View My Work <ArrowRight className="ml-2 h-5 w-5"/></Link>
-                </Button>
-                <Button asChild variant="link" className="text-foreground/80">
-                    <Link href="#contact">Let’s Collaborate</Link>
-                </Button>
-            </div>
         </div>
       </div>
     </div>
