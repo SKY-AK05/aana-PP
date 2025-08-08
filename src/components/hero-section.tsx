@@ -1,61 +1,66 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import {Button} from './ui/button';
-import {gsap} from 'gsap';
+import { Button } from './ui/button';
+import { ArrowRight } from 'lucide-react';
+import { Header } from './header';
+
+const stats = [
+  { value: '2+', label: 'Years Experience' },
+  { value: '10+', label: 'Projects Delivered' },
+  { value: '99%', label: 'Client Satisfaction' },
+  { value: '5+', label: 'Clients worldwide' },
+];
 
 export function HeroSection() {
-  const containerRef = useRef<HTMLElement>(null);
-
-  useLayoutEffect(() => {
-    const tl = gsap.timeline({defaults: {ease: 'power3.out'}});
-    const ctx = gsap.context(() => {
-      tl.fromTo('.hero-eyebrow', {y: -20, opacity: 0}, {y: 0, opacity: 1, duration: 0.8}, 0.2);
-      tl.fromTo('.hero-heading', {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 1}, 0.4);
-      tl.fromTo('.hero-subheading', {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 1}, 0.6);
-      tl.fromTo('.hero-button', {y: 20, opacity: 0}, {y: 0, opacity: 1, duration: 1}, 0.8);
-      tl.fromTo('.hero-image-container', {y: 50, opacity: 0}, {y: 0, opacity: 1, duration: 1.2}, 0.6);
-    }, containerRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section id="hero" ref={containerRef} className="relative w-full min-h-dvh flex flex-col justify-center overflow-hidden bg-background">
-      <div className="absolute inset-x-0 top-0 h-[70vh] bg-secondary/20 rounded-b-[10rem] md:rounded-b-[20rem]"></div>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 z-10">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="text-center md:text-left">
-            <p className="hero-eyebrow font-semibold text-primary uppercase tracking-widest mb-4">Bharath Naidu</p>
-            <h1 className="hero-heading font-headline font-bold text-5xl md:text-7xl text-foreground tracking-tight">
-              Creative Video Editor & Designer
+    <div className="relative w-full h-screen bg-[#EBEAE6]">
+      <Header />
+      <div className="flex h-full">
+        {/* Left Panel */}
+        <div className="w-full md:w-2/5 bg-[#1C1C1C] text-white flex flex-col justify-center p-8 md:p-16">
+          <div className="max-w-md">
+            <p className="text-lg text-stone-400 mb-2">Hey. I'm Bharath,</p>
+            <h1 className="text-5xl md:text-7xl font-bold font-headline uppercase leading-none">
+              A Video
+              <br />
+              & Motion
+              <br />
+              <span className="text-[#B5AB9D]">Designer</span>
             </h1>
-            <p className="hero-subheading text-xl text-foreground/70 mt-6 max-w-lg mx-auto md:mx-0">
-              I craft compelling visual stories that blend creativity with strategy, helping brands connect with their audience.
+            <p className="mt-6 text-stone-300">
+              Transforming ideas into stunning visuals – Video editing and motion graphics
+              that captivates, engages, and delivers results.
             </p>
-            <div className="hero-button mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <Button size="lg" asChild>
-                <a href="#work">View My Work</a>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href="#contact">Get In Touch</a>
-              </Button>
-            </div>
+            <Button className="mt-8 rounded-full bg-stone-800 text-white hover:bg-stone-700 px-8 py-6 text-lg">
+              Contact Me <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
-          <div className="relative flex justify-center items-center h-full">
-            <div className="hero-image-container relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] mt-8 md:mt-0">
-              <Image
-                src="/assets/profile.jpg"
-                data-ai-hint="friendly person"
-                alt="Bharath Naidu"
-                fill
-                className="relative z-10 rounded-full object-contain"
-                priority
-              />
-            </div>
+        </div>
+
+        {/* Right Panel */}
+        <div className="hidden md:flex w-3/5 relative items-center justify-center">
+          <div className="absolute -left-48 w-[650px] h-[650px] bg-[#D8D2C7] rounded-full" />
+          <div className="absolute -left-52 w-[650px] h-[650px] z-10">
+            <Image
+              src="https://placehold.co/600x400.png"
+              data-ai-hint="person portfolio"
+              alt="Bharath Naidu"
+              fill
+              className="object-cover rounded-full"
+            />
+          </div>
+          <div className="absolute right-16 bottom-20 z-20 space-y-8 text-right">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <p className="text-5xl font-bold text-stone-800">{stat.value}</p>
+                <p className="text-stone-500">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
