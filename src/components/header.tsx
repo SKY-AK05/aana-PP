@@ -53,7 +53,9 @@ export function Header() {
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
-             <Button>Contact Me</Button>
+             <Button asChild>
+                <a href="#contact">Contact Me</a>
+            </Button>
           </div>
 
           <div className="md:hidden">
@@ -88,7 +90,9 @@ export function Header() {
                     ))}
                   </nav>
                    <div className="mt-auto">
-                    <Button size="lg" className="w-full">Contact Me</Button>
+                    <Button asChild size="lg" className="w-full">
+                      <a href="#contact" onClick={closeMobileMenu}>Contact Me</a>
+                    </Button>
                   </div>
                 </div>
               </SheetContent>
