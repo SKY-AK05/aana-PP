@@ -74,9 +74,9 @@ export function HeroSection() {
       )}
 
       {/* Main Content */}
-       <div className="flex-1 flex items-center justify-center p-8">
+       <div className="flex-1 p-8">
         {/* Image */}
-        <div className="relative w-[350px] h-[450px]">
+        <div className="relative w-[350px] h-[450px] mx-auto">
             <div className="relative h-full w-full rounded-br-[80px] overflow-hidden shadow-2xl">
                 <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
                  <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
