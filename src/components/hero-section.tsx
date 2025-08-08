@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from "next/link";
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const navLinks = [
     { href: "#about", label: "About" },
@@ -36,10 +36,6 @@ export function HeroSection() {
                       </Link>
                   ))}
               </nav>
-               <div className="flex items-center gap-2 text-sm font-medium text-stone-300">
-                <Phone className="h-4 w-4 text-primary" />
-                <span>+91 123 456 7890</span>
-              </div>
             </div>
 
 
@@ -64,10 +60,6 @@ export function HeroSection() {
                               {link.label}
                           </Link>
                       ))}
-                      <div className="flex items-center justify-center gap-2 text-lg font-medium text-stone-300 pt-4">
-                        <Phone className="h-5 w-5 text-primary" />
-                        <span>+91 123 456 7890</span>
-                      </div>
                   </nav>
               </div>
           </div>
