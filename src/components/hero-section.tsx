@@ -1,95 +1,64 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowDown } from "lucide-react";
-import { gsap } from "gsap";
+import React from "react";
 import Image from "next/image";
+import { Button } from "./ui/button";
+import { MessageSquare } from "lucide-react";
 
 export function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const backgroundRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const subheadlineRef = useRef<HTMLParagraphElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      tl.from(backgroundRef.current, {
-        scale: 1.1,
-        opacity: 0,
-        duration: 1.5,
-        ease: "power2.out"
-      })
-      .from(headlineRef.current, {
-        y: 100,
-        opacity: 0,
-        duration: 1,
-      }, "-=0.8")
-      .from(subheadlineRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-      }, "-=0.6")
-      .from(buttonRef.current, {
-        y: 50,
-        opacity: 0,
-        scale: 0.8,
-        duration: 0.8,
-        ease: "back.out(1.7)"
-      }, "-=0.5")
-      .fromTo(scrollIndicatorRef.current, {
-        y: -20,
-        opacity: 0
-      }, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut"
-      });
-
-    }, containerRef);
-    
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section id="hero" ref={containerRef} className="relative h-dvh w-full flex items-center justify-center text-center text-white overflow-hidden">
-      <div ref={backgroundRef} className="absolute inset-0 z-0">
-        <Image
-          src="https://placehold.co/1920x1080.png"
-          alt="Abstract background"
-          data-ai-hint="abstract technology"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/70"></div>
-      </div>
-      
-      <div className="relative z-10 flex flex-col items-center px-4">
-        <h1 ref={headlineRef} className="font-headline font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter uppercase">
-          Bharath Naidu
-        </h1>
-        <p ref={subheadlineRef} className="mt-4 max-w-2xl text-lg md:text-xl text-neutral-300">
-          Creative Developer & Designer building immersive digital experiences.
-        </p>
-        <div ref={buttonRef} className="mt-8">
-          <Button asChild size="lg" className="font-bold text-lg px-8 py-6 rounded-full">
-            <Link href="#work">View My Work</Link>
-          </Button>
+    <section id="hero" className="relative w-full pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="relative">
+             <div className="absolute top-0 -left-4 w-20 h-20">
+                <svg viewBox="0 0 100 100" className="w-full h-full">
+                    <path d="M 20,50 C 20,20 80,20 80,50" stroke="#4a4a4a" fill="transparent" strokeWidth="2"/>
+                    <path d="M 20,50 C 20,80 80,80 80,50" stroke="#4a4a4a" fill="transparent" strokeWidth="2"/>
+                </svg>
+             </div>
+            <h1 className="font-headline font-extrabold text-5xl md:text-7xl text-foreground tracking-tighter">
+              <span className="relative inline-block">
+                <span className="absolute -top-12 -left-8 text-primary/70 text-6xl font-medium font-serif italic">Hey</span>
+                
+              </span>
+              <br/>
+              There,
+              <br />
+              I'm Bharath
+            </h1>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="relative w-[400px] h-[400px]">
+              <div className="absolute inset-0 bg-teal-100/50 rounded-full blur-2xl"></div>
+              <Image
+                src="https://placehold.co/600x600.png"
+                data-ai-hint="friendly person"
+                alt="Bharath Naidu"
+                width={400}
+                height={400}
+                className="relative z-10 rounded-full object-cover"
+                priority
+              />
+              <div className="absolute top-10 right-0 z-20 bg-white p-3 rounded-full shadow-md">
+                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-2xl font-bold text-foreground">HI!</span>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-end mt-8 md:-mt-16">
+            <div className="bg-amber-100/80 p-6 rounded-lg max-w-sm shadow-sm">
+                <p className="text-foreground/80 text-lg">
+                    Developer and systems thinker building AI tools, simplifying workflows, mentoring minds, and solving real-world problems with clarity, logic, and purpose.
+                </p>
+            </div>
         </div>
       </div>
-
-      <div ref={scrollIndicatorRef} className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10">
-        <ArrowDown className="h-8 w-8 text-white" />
-      </div>
+       <Button variant="default" size="icon" className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg">
+          <MessageSquare size={32} />
+       </Button>
     </section>
   );
 }

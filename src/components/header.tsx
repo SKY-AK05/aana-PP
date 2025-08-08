@@ -2,14 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { name: "About", href: "#about" },
-  { name: "Work", href: "#work" },
+  { name: "Who I Am", href: "#about" },
+  { name: "Projects", href: "#work" },
+  { name: "Mission", href: "#mission" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -31,26 +32,34 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-background/80 backdrop-blur-sm shadow-md" : "bg-transparent"
+        isScrolled ? "bg-background/80 backdrop-blur-sm shadow-sm" : "bg-transparent"
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="text-2xl font-bold font-headline tracking-tighter text-primary">
-            Bharath Naidu
+          <Link href="/" className="text-2xl font-bold font-headline tracking-tighter text-foreground">
+            Bharath
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="font-medium text-foreground/80 hover:text-primary transition-colors text-lg"
+                className="font-medium text-foreground/80 hover:text-primary transition-colors text-base"
               >
                 {item.name}
               </Link>
             ))}
           </nav>
+          
+          <div className="hidden md:flex items-center gap-4">
+            <a href="tel:+001313345678" className="font-medium flex items-center gap-2 text-foreground/80 hover:text-primary transition-colors">
+              <Phone size={16} />
+              <span>+001 (313) 345 678</span>
+            </a>
+            <Lightbulb size={24} className="text-amber-500" />
+          </div>
 
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -63,8 +72,8 @@ export function Header() {
               <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background">
                 <div className="flex flex-col h-full p-6">
                   <div className="flex justify-between items-center mb-12">
-                     <Link href="/" className="text-xl font-bold font-headline text-primary" onClick={closeMobileMenu}>
-                        Bharath Naidu
+                     <Link href="/" className="text-xl font-bold font-headline text-foreground" onClick={closeMobileMenu}>
+                        Bharath
                       </Link>
                       <Button variant="ghost" size="icon" onClick={closeMobileMenu}>
                         <X className="h-6 w-6" />
