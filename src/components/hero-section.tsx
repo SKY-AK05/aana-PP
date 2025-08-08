@@ -113,7 +113,7 @@ export function HeroSection() {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 items-center container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 items-center container mx-auto px-4 sm:px-6 lg:px-8 pt-0">
         {/* Left Content */}
         <div className="left-content text-left space-y-4 order-2 md:order-1 pt-24 md:pt-0">
             <h1 className="text-4xl lg:text-5xl font-bold font-headline">Hi, I'm <br/><span className="text-primary">Bharath Naidu</span></h1>
@@ -123,9 +123,8 @@ export function HeroSection() {
 
         {/* Center Image */}
         <div className="hero-image flex-1 flex items-start justify-center order-1 md:order-2 w-full h-full">
-          <div className="relative w-[300px] h-[400px] lg:w-[350px] lg:h-[450px] mx-auto mt-24 md:mt-0">
+          <div className="relative w-[320px] h-[420px] lg:w-[400px] lg:h-[500px] mx-auto mt-24 md:mt-0">
               <div className="relative h-full w-full rounded-bl-[80px] rounded-br-[80px] overflow-hidden shadow-2xl">
-                  <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
                   <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
               </div>
           </div>
