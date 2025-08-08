@@ -1,10 +1,14 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import Link from "next/link";
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
     { href: "#about", label: "About" },
@@ -13,12 +17,56 @@ const navLinks = [
     { href: "#contact", label: "Contact" },
 ];
 
-
 export function HeroSection() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Intro animations
+      gsap.from(".left-content > *", {
+        opacity: 0,
+        x: -50,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.2,
+        delay: 0.3
+      });
+
+      gsap.from(".right-content > *", {
+        opacity: 0,
+        x: 50,
+        duration: 1,
+        ease: 'power3.out',
+        stagger: 0.2,
+        delay: 0.5
+      });
+      
+      gsap.from(".hero-image", {
+        opacity: 0,
+        scale: 0.9,
+        duration: 1.2,
+        ease: 'power3.out',
+        delay: 0.1
+      });
+
+      // Scroll-triggered animations
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        onUpdate: self => {
+          gsap.to([".left-content", ".right-content"], { opacity: 1 - self.progress * 2, y: -self.progress * 50 });
+          gsap.to(".hero-image", { scale: 1 - self.progress * 0.1 });
+        }
+      });
+
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div className="relative w-full min-h-screen bg-background text-foreground flex flex-col">
+    <div ref={containerRef} className="relative w-full min-h-screen bg-background text-foreground flex flex-col overflow-hidden">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,12 +84,7 @@ export function HeroSection() {
                       </Link>
                   ))}
               </nav>
-               <div className="flex items-center gap-2 text-sm font-medium text-stone-300">
-                <Phone className="h-4 w-4 text-primary" />
-                <span>+91 123 456 7890</span>
-              </div>
             </div>
-
 
             <div className="flex items-center md:hidden">
               {/* Mobile Menu Button */}
@@ -64,23 +107,45 @@ export function HeroSection() {
                               {link.label}
                           </Link>
                       ))}
-                      <div className="flex items-center justify-center gap-2 text-lg font-medium text-stone-300 pt-4">
-                        <Phone className="h-5 w-5 text-primary" />
-                        <span>+91 123 456 7890</span>
-                      </div>
                   </nav>
               </div>
           </div>
       )}
 
       {/* Main Content */}
-       <div className="flex-1 flex items-start justify-center">
-        {/* Image */}
-        <div className="relative w-[350px] h-[450px] mx-auto">
-            <div className="relative h-full w-full rounded-bl-[80px] rounded-br-[80px] overflow-hidden shadow-2xl">
-                <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
-                 <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
-            </div>
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 items-center container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-0">
+        {/* Left Content */}
+        <div className="left-content text-left space-y-4 order-2 md:order-1">
+            <h1 className="text-4xl lg:text-5xl font-bold font-headline">Hi, I'm <br/><span className="text-primary">Bharath Naidu</span></h1>
+            <p className="text-lg text-foreground/80">Video Editor | Cinematographer | Storyteller</p>
+            <p className="text-md text-foreground/60 italic">“Blending cinematic storytelling with viral digital trends.”</p>
+        </div>
+
+        {/* Center Image */}
+        <div className="hero-image flex-1 flex items-center justify-center order-1 md:order-2 py-8 md:py-0">
+          <div className="relative w-[300px] h-[400px] lg:w-[350px] lg:h-[450px] mx-auto">
+              <div className="relative h-full w-full rounded-bl-[80px] rounded-br-[80px] overflow-hidden shadow-2xl">
+                  <div className="absolute inset-0 bg-background opacity-50 z-10"></div>
+                  <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
+              </div>
+          </div>
+        </div>
+        
+        {/* Right Content */}
+        <div className="right-content text-left md:text-right space-y-6 order-3 md:order-3">
+          <div>
+            <p className="text-lg font-semibold">Over <span className="text-primary">200+</span> brands</p>
+            <p className="text-lg font-semibold">across <span className="text-primary">30+</span> industries</p>
+            <p className="text-foreground/70 text-sm mt-1">From Cadbury to Prime Video</p>
+          </div>
+          <div className="flex flex-col items-start md:items-end space-y-4">
+              <Button asChild size="lg">
+                  <Link href="#work">View My Work <ArrowRight className="ml-2 h-5 w-5"/></Link>
+              </Button>
+              <Button asChild variant="link" className="text-foreground/80">
+                  <Link href="#contact">Let’s Collaborate</Link>
+              </Button>
+          </div>
         </div>
       </div>
     </div>
