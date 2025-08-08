@@ -123,7 +123,7 @@ export function HeroSection() {
 
         {/* Center Image */}
         <div className="hero-image flex-1 flex items-start justify-center order-1 md:order-2 w-full h-full">
-          <div className="relative w-[320px] h-[420px] lg:w-[400px] lg:h-[500px] mx-auto mt-24 md:mt-0">
+          <div className="relative w-[320px] h-[420px] lg:w-[400px] lg:h-[500px] mx-auto mt-24 md:mt-0" style={{ transform: 'translateX(20px)' }}>
               <div className="relative h-full w-full rounded-bl-[80px] rounded-br-[80px] overflow-hidden shadow-2xl">
                   <Image src="/assets/profile-hero.jpg" data-ai-hint="man portrait" alt="Bharath Naidu" fill className="object-cover" />
               </div>
