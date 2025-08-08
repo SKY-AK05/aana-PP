@@ -17,6 +17,13 @@ const navLinks = [
     { href: "#contact", label: "Contact" },
 ];
 
+const stats = [
+  { value: "15+", label: "Years Experience" },
+  { value: "280+", label: "Projects Delivered" },
+  { value: "99%", label: "Client Satisfaction" },
+  { value: "50+", label: "Clients Worldwide" },
+]
+
 export function HeroSection() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,6 +56,19 @@ export function HeroSection() {
         ease: 'power3.out',
         delay: 0.1
       });
+
+      gsap.from(".stat-item", {
+        scrollTrigger: {
+          trigger: ".stats-container",
+          start: "top 95%",
+        },
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power3.out',
+      });
+
 
       // Scroll-triggered animations
       ScrollTrigger.create({
@@ -140,6 +160,19 @@ export function HeroSection() {
             </p>
         </div>
       </div>
+      
+      {/* Stats Bar */}
+      <div className="stats-container container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {stats.map((stat, index) => (
+                <div key={index} className="stat-item">
+                    <h3 className="text-4xl font-bold text-primary">{stat.value}</h3>
+                    <p className="text-sm text-foreground/60 uppercase tracking-wider">{stat.label}</p>
+                </div>
+            ))}
+        </div>
+      </div>
+
     </div>
   );
 }
