@@ -18,17 +18,17 @@ import { Button } from './ui/button';
 gsap.registerPlugin(ScrollTrigger);
 
 const skills = [
-  { name: 'JavaScript / TypeScript', level: 95 },
-  { name: 'React / Next.js', level: 90 },
-  { name: 'UI/UX Design', level: 85 },
-  { name: 'GSAP Animation', level: 80 },
-  { name: 'Webflow / Framer', level: 75 },
+  { name: 'Video Editing (Premiere Pro, Final Cut)', level: 95 },
+  { name: 'Motion Graphics (After Effects)', level: 90 },
+  { name: 'Graphic Design (Photoshop, Illustrator)', level: 85 },
+  { name: 'Color Correction & Grading', level: 80 },
+  { name: 'Storytelling & Narrative', level: 90 },
 ];
 
 const testimonials = [
-  { quote: "Bharath's work exceeded all expectations. A true professional with an eye for detail.", name: "Jane Doe, CEO of TechCorp" },
-  { quote: "The animations brought our project to life. Incredible talent and collaboration.", name: "John Smith, Project Manager" },
-  { quote: "A seamless process from start to finish. The final product was both beautiful and highly functional.", name: "Emily White, Marketing Director" },
+  { quote: "Bharath's editing transformed our footage into a compelling story. A true artist.", name: "Jane Doe, CEO of TechCorp" },
+  { quote: "The motion graphics were stunning and perfectly matched our brand's energy.", name: "John Smith, Project Manager" },
+  { quote: "An absolute pleasure to work with. Professional, creative, and delivered beyond expectations.", name: "Emily White, Marketing Director" },
 ];
 
 export function AboutSection() {
@@ -77,17 +77,17 @@ export function AboutSection() {
           <div className="md:col-span-3">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-4">About Me</h2>
             <p className="text-lg text-foreground/80 mb-6">
-              I'm a passionate developer and designer with over a decade of experience crafting beautiful, functional, and user-centric digital experiences. My expertise lies in bridging the gap between design and development, creating fluid animations and intuitive interfaces that solve real-world problems.
+              I'm a passionate Video Editor and Graphic Designer with a keen eye for storytelling. My experience is rooted in transforming raw ideas and footage into polished, impactful visual narratives that resonate with audiences.
             </p>
             <p className="text-lg text-foreground/80 mb-8">
-              Whether it's a complex web application or a stunning portfolio site, I bring a commitment to quality and a love for clean, performant code. Let's build something amazing together.
+              From fast-paced promotional videos to detailed graphic layouts, I bring a commitment to quality, creativity, and technical excellence. Let's create something memorable together.
             </p>
             <div className="flex space-x-4">
               <Button asChild variant="outline">
                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><Linkedin className="mr-2 h-5 w-5" /> LinkedIn</a>
               </Button>
               <Button asChild variant="outline">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-5 w-5" /> GitHub</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-5 w-5" /> Portfolio</a>
               </Button>
             </div>
           </div>
@@ -117,7 +117,7 @@ export function AboutSection() {
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index}>
                   <div className="p-1">
-                    <Card className="bg-muted border-0 testimonial-card">
+                    <Card className="bg-secondary border-0 testimonial-card">
                       <CardContent className="flex flex-col items-center justify-center p-8 text-center">
                         <p className="text-xl italic text-foreground mb-4">&ldquo;{testimonial.quote}&rdquo;</p>
                         <cite className="font-semibold text-primary not-italic">{testimonial.name}</cite>

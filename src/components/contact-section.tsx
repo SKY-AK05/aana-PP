@@ -7,6 +7,7 @@ import { z } from "zod";
 import { submitContactForm } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -50,17 +51,17 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="border-t border-border">
+    <section id="contact" className="border-t border-border bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Let's Work Together</h2>
+            <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Let's Create Together</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-              Have a project in mind or just want to say hello? Drop me a line.
+              Have a project in mind or just want to connect? I'd love to hear from you.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-start">
+          <Card className="p-8 md:p-10 bg-secondary/30">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
@@ -70,7 +71,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel className="text-lg">Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your Name" {...field} className="h-12 text-base" />
+                        <Input placeholder="Your Name" {...field} className="h-12 text-base bg-background" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -83,7 +84,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel className="text-lg">Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="your.email@example.com" {...field} className="h-12 text-base" />
+                        <Input placeholder="your.email@example.com" {...field} className="h-12 text-base bg-background" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -96,7 +97,7 @@ export function ContactSection() {
                     <FormItem>
                       <FormLabel className="text-lg">Message</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Tell me about your project..." {...field} rows={6} className="text-base" />
+                        <Textarea placeholder="Tell me about your project..." {...field} rows={6} className="text-base bg-background" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -107,19 +108,7 @@ export function ContactSection() {
                 </Button>
               </form>
             </Form>
-            
-            <div className="space-y-6 pt-2">
-                <h3 className="text-2xl font-bold font-headline">Other ways to reach me</h3>
-                <p className="text-foreground/70">
-                    If you prefer, you can also send me an email directly. I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
-                </p>
-                <a href="mailto:hello@bharathnaidu.com" className="inline-block">
-                    <Button variant="outline" className="h-14 text-lg">
-                        <Mail className="mr-3 h-6 w-6" /> hello@bharathnaidu.com
-                    </Button>
-                </a>
-            </div>
-          </div>
+          </Card>
         </div>
       </div>
     </section>

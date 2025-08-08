@@ -8,9 +8,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { name: "Who I Am", href: "#about" },
-  { name: "Projects", href: "#work" },
-  { name: "Mission", href: "#mission" },
+  { name: "About", href: "#about" },
+  { name: "Work", href: "#work" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -32,7 +31,7 @@ export function Header() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-background/80 backdrop-blur-sm shadow-sm" : "bg-transparent"
+        isScrolled ? "bg-background/80 backdrop-blur-sm shadow-md" : "bg-transparent"
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,11 +53,7 @@ export function Header() {
           </nav>
           
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+001313345678" className="font-medium flex items-center gap-2 text-foreground/80 hover:text-primary transition-colors">
-              <Phone size={16} />
-              <span>+001 (313) 345 678</span>
-            </a>
-            <Lightbulb size={24} className="text-amber-500" />
+             <Button>Contact Me</Button>
           </div>
 
           <div className="md:hidden">
@@ -92,6 +87,9 @@ export function Header() {
                       </Link>
                     ))}
                   </nav>
+                   <div className="mt-auto">
+                    <Button size="lg" className="w-full">Contact Me</Button>
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

@@ -10,50 +10,50 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
-    title: "QuantumLeap AI",
-    description: "A cutting-edge platform for AI model deployment and management.",
+    title: "Corporate Brand Film",
+    description: "A compelling brand story for a leading tech company.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "futuristic dashboard",
-    tags: ["Next.js", "AI", "SaaS", "Design"],
+    aiHint: "corporate video",
+    tags: ["Video Editing", "Color Grading", "Storytelling"],
   },
   {
-    title: "Nova Finance",
-    description: "A mobile-first banking app designed for the next generation of users.",
+    title: "Social Media Campaign",
+    description: "A series of high-energy ads for a new product launch.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "finance app",
-    tags: ["React Native", "FinTech", "Mobile"],
+    aiHint: "social media ad",
+    tags: ["Motion Graphics", "Graphic Design", "Social Media"],
   },
   {
-    title: "Helios Design System",
-    description: "A comprehensive design system to unify product aesthetics and workflow.",
+    title: "Event Highlights",
+    description: "Capturing the energy and key moments of a major industry conference.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "design system",
-    tags: ["UI/UX", "Figma", "Web"],
+    aiHint: "conference event",
+    tags: ["Live Event", "Video Editing", "Fast Turnaround"],
   },
   {
-    title: "Apex E-commerce",
-    description: "A high-performance e-commerce storefront with immersive 3D product views.",
+    title: "Product Explainer Video",
+    description: "A clear and concise animated video explaining a complex software product.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "ecommerce website",
-    tags: ["E-commerce", "Three.js", "Performance"],
+    aiHint: "explainer video",
+    tags: ["Animation", "Motion Graphics", "Scripting"],
   },
    {
-    title: "Orbit Social",
-    description: "A decentralized social media platform focused on user privacy.",
+    title: "Documentary Short",
+    description: "A human-interest story told through powerful interviews and cinematography.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "social media",
-    tags: ["Web3", "Mobile", "React"],
+    aiHint: "documentary film",
+    tags: ["Documentary", "Storytelling", "Color Correction"],
   },
   {
-    title: "Zenith VR",
-    description: "An interactive virtual reality experience for architectural visualization.",
+    title: "Brand Identity Design",
+    description: "Creating a complete visual identity, from logo to brand guidelines.",
     image: "https://placehold.co/600x400.png",
-    aiHint: "virtual reality",
-    tags: ["VR", "Unreal Engine", "3D"],
+    aiHint: "branding design",
+    tags: ["Graphic Design", "Logo", "Branding"],
   },
 ];
 
-const filters = ["All", "Web", "Mobile", "Design"];
+const filters = ["All", "Video Editing", "Motion Graphics", "Graphic Design"];
 
 export function ProjectsSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -76,14 +76,16 @@ export function ProjectsSection() {
     }, containerRef);
     return () => ctx.revert();
   }, []);
+  
+  const filteredProjects = projects.filter(p => activeFilter === 'All' || p.tags.includes(activeFilter));
 
   return (
-    <section id="work" ref={containerRef} className="bg-muted/20 border-t border-border">
+    <section id="work" ref={containerRef} className="bg-secondary/20 border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">My Work</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-            A selection of projects that I'm proud of. Each one was a unique challenge.
+            A selection of projects that showcase my passion for visual storytelling.
           </p>
         </div>
 
@@ -96,7 +98,7 @@ export function ProjectsSection() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 projects-grid">
-          {projects.map((project, index) => (
+          {filteredProjects.map((project, index) => (
             <div key={index} className="project-card">
               <ProjectCard project={project} />
             </div>
