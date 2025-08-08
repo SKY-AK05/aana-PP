@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Phone, Lightbulb } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { name: "About", href: "#about" },
+  { name: "Services", href: "#services" },
   { name: "Work", href: "#work" },
   { name: "Contact", href: "#contact" },
 ];
