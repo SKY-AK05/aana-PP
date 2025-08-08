@@ -131,20 +131,34 @@ export function HeroSection() {
         </div>
         
         {/* Right Content */}
-        <div className="right-content text-left md:text-right space-y-6 order-3 md:order-3 pt-24 md:pt-0">
-          <div>
-            <p className="text-lg font-semibold">Over <span className="text-primary">200+</span> brands</p>
-            <p className="text-lg font-semibold">across <span className="text-primary">30+</span> industries</p>
-            <p className="text-foreground/70 text-sm mt-1">From Cadbury to Prime Video</p>
-          </div>
-          <div className="flex flex-col items-start md:items-end space-y-4">
-              <Button asChild size="lg">
-                  <Link href="#work">View My Work <ArrowRight className="ml-2 h-5 w-5"/></Link>
-              </Button>
-              <Button asChild variant="link" className="text-foreground/80">
-                  <Link href="#contact">Let’s Collaborate</Link>
-              </Button>
-          </div>
+        <div className="right-content text-left md:text-right space-y-8 order-3 md:order-3 pt-24 md:pt-0">
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-8">
+              <div>
+                <p className="text-4xl font-bold font-headline text-primary">15+</p>
+                <p className="text-foreground/70">Years Experience</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold font-headline text-primary">280+</p>
+                <p className="text-foreground/70">Projects Delivered</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold font-headline text-primary">*99%</p>
+                <p className="text-foreground/70">Client Satisfaction</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold font-headline text-primary">50</p>
+                <p className="text-foreground/70">Clients worldwide</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-start md:items-end space-y-4">
+                <Button asChild size="lg">
+                    <Link href="#work">View My Work <ArrowRight className="ml-2 h-5 w-5"/></Link>
+                </Button>
+                <Button asChild variant="link" className="text-foreground/80">
+                    <Link href="#contact">Let’s Collaborate</Link>
+                </Button>
+            </div>
         </div>
       </div>
     </div>
