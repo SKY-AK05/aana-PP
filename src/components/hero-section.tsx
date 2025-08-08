@@ -37,9 +37,6 @@ export function HeroSection() {
             </nav>
 
             <div className="flex items-center">
-              <Button asChild className="hidden md:inline-flex">
-                  <Link href="#contact">Contact Me</Link>
-              </Button>
               {/* Mobile Menu Button */}
               <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -60,9 +57,6 @@ export function HeroSection() {
                               {link.label}
                           </Link>
                       ))}
-                      <Button asChild>
-                          <Link href="#contact" onClick={() => setIsMenuOpen(false)}>Contact Me</Link>
-                      </Button>
                   </nav>
               </div>
           </div>
