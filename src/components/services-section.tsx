@@ -37,7 +37,7 @@ export function ServicesSection() {
             const cards = gsap.utils.toArray<HTMLDivElement>(".service-card-3d");
             if (cards.length === 0) return;
 
-            // Set initial positions
+            // Set initial positions for the curve
             gsap.set(cards, {
                 x: (i) => (i - (cards.length - 1) / 2) * 200,
                 rotationY: (i) => (i - (cards.length - 1) / 2) * -15,
@@ -46,24 +46,34 @@ export function ServicesSection() {
 
             cards.forEach((card, i) => {
                 card.addEventListener('mouseenter', () => {
-                    gsap.to(cards, {
-                        x: (j) => {
-                            if (i === j) return (j - (cards.length - 1) / 2) * 120;
-                            return (j - (cards.length - 1) / 2) * 250 + (j < i ? -100 : 100);
-                        },
-                        rotationY: (j) => {
-                             if (i === j) return 0;
-                             return (j - (cards.length - 1) / 2) * -20;
-                        },
-                        z: (j) => i === j ? 100 : 0,
+                    // Animate the hovered card to the front
+                    gsap.to(card, {
+                        x: (i - (cards.length - 1) / 2) * 120,
+                        rotationY: 0,
+                        z: 100,
                         overwrite: "auto",
                         ease: "power2.out",
                         duration: 0.5
+                    });
+                    
+                    // Animate other cards
+                    cards.forEach((otherCard, j) => {
+                        if (i !== j) {
+                             gsap.to(otherCard, {
+                                x: (j - (cards.length - 1) / 2) * 250 + (j < i ? -100 : 100),
+                                rotationY: (j - (cards.length - 1) / 2) * -20,
+                                z: 0,
+                                overwrite: "auto",
+                                ease: "power2.out",
+                                duration: 0.5
+                            });
+                        }
                     });
                 });
             });
 
             gridRef.current?.addEventListener('mouseleave', () => {
+                // Reset all cards to their initial curved position
                 gsap.to(cards, {
                      x: (i) => (i - (cards.length - 1) / 2) * 200,
                      rotationY: (i) => (i - (cards.length - 1) / 2) * -15,
