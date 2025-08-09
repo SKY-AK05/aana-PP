@@ -3,8 +3,9 @@
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
-import { Play, ExternalLink } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { gsap } from 'gsap';
+import Link from 'next/link';
 
 type ProjectCardProps = {
   project: {
@@ -21,7 +22,7 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -111,7 +112,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
   }, []);
 
   return (
-    <div 
+    <Link 
+      href={project.youtubeUrl}
+      target="_blank"
+      rel="noopener noreferrer"
       ref={cardRef}
       className="group relative bg-black border border-white/10 overflow-hidden rounded-lg h-full flex flex-col shadow-2xl shadow-black/50 will-change-transform cinematic-glow cinematic-transition"
       style={{
@@ -175,7 +179,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mt-auto pt-4">
           {project.tags.map((tag) => (
             <Badge 
               key={tag} 
@@ -186,19 +190,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
             </Badge>
           ))}
         </div>
-
-        {/* View Project Link */}
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-          <span className="text-white/60 text-sm">Case Study</span>
-          <a href={project.youtubeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary hover:brightness-125 transition-all duration-200 group/btn">
-            <span className="text-sm font-medium">View Project</span>
-            <ExternalLink className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
-          </a>
-        </div>
       </div>
 
       {/* Cinematic Border Glow */}
       <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-primary opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"></div>
-    </div>
+    </Link>
   );
 }
