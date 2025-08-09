@@ -107,7 +107,7 @@ export function ServicesSection() {
     <section id="services" ref={containerRef} className="py-24 md:py-32 bg-black border-t border-border overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-20">
-                <h2 className="font-headline text-5xl md:text-6xl font-bold text-primary">What I Do</h2>
+                <h2 className="font-headline text-5xl md:text-6xl font-bold cinematic-accent">What I Do</h2>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
                     I offer a range of services to bring your vision to life.
                 </p>
@@ -123,7 +123,7 @@ export function ServicesSection() {
                         key={index} 
                         className="service-card-3d absolute w-[320px] h-[420px] p-8 flex flex-col items-center justify-center text-center rounded-2xl cursor-pointer"
                     >
-                        <div className="mb-6 bg-black/50 p-4 rounded-full border border-primary/50">
+                        <div className="mb-6 bg-primary/10 p-4 rounded-full border border-primary/50">
                             {service.icon}
                         </div>
                         <h3 className="text-3xl font-bold font-headline text-white mb-4">{service.title}</h3>

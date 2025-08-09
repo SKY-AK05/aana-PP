@@ -50,7 +50,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         duration: 0.4,
         ease: 'power2.out'
       });
-
+      
       if (overlay) {
         gsap.to(overlay, {
           opacity: 0.3,
@@ -90,7 +90,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ease: 'power2.out'
         });
       }
-
+      
       if (content) {
         gsap.to(content, {
           y: 0,
@@ -112,9 +112,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <div 
       ref={cardRef}
-      className="group relative bg-black border border-white/10 overflow-hidden rounded-lg h-full flex flex-col shadow-2xl shadow-black/50 will-change-transform"
+      className="group relative bg-black border border-white/10 overflow-hidden rounded-lg h-full flex flex-col shadow-2xl shadow-black/50 will-change-transform cinematic-glow cinematic-transition"
       style={{
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #000000 100%)'
+        background: 'linear-gradient(135deg, hsl(var(--card)) 0%, #000000 100%)'
       }}
     >
       {/* Video/Image Container */}
@@ -132,7 +132,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {project.video && (
           <video
             ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover opacity-0 md:opacity-100 transition-opacity duration-300"
+            className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-100 transition-opacity duration-500"
             muted
             loop
             playsInline
@@ -154,21 +154,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="absolute top-4 right-4 w-12 h-12 bg-black/50 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <Play className="w-5 h-5 text-white ml-0.5" />
         </div>
-
-        {/* Film Strip Effect */}
-        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-400 via-red-500 to-amber-400 opacity-60"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-amber-400 via-red-500 to-amber-400 opacity-60"></div>
       </div>
 
       {/* Content */}
       <div ref={contentRef} className="p-6 md:p-8 flex flex-col flex-grow">
         {/* Subtitle */}
-        <div className="text-amber-400 text-sm font-medium tracking-wider uppercase mb-2">
+        <div className="text-sm font-medium tracking-wider uppercase mb-2 text-accent">
           {project.subtitle}
         </div>
 
         {/* Title */}
-        <h3 className="text-2xl md:text-3xl font-bold font-headline mb-4 text-white leading-tight">
+        <h3 className="text-2xl md:text-3xl font-bold font-headline mb-4 text-white leading-tight cinematic-title">
           {project.title}
         </h3>
 
@@ -193,7 +189,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {/* View Project Link */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
           <span className="text-white/60 text-sm">Case Study</span>
-          <button className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors duration-200 group/btn">
+          <button className="flex items-center gap-2 text-accent hover:brightness-125 transition-all duration-200 group/btn">
             <span className="text-sm font-medium">View Project</span>
             <ExternalLink className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
           </button>
@@ -201,7 +197,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Cinematic Border Glow */}
-      <div className="absolute inset-0 rounded-lg border border-transparent bg-gradient-to-r from-amber-400/20 via-red-500/20 to-amber-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+      <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-accent opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"></div>
     </div>
   );
 }

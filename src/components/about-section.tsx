@@ -126,12 +126,12 @@ export function AboutSection() {
     <section id="about" ref={containerRef} className="py-20 md:py-28 bg-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div ref={photoRef}>
-            <div className="relative">
-              {/* Photo with enhanced styling */}
+          <div ref={photoRef} className="relative">
+            {/* Photo with enhanced styling */}
+            <div className="relative group">
               <div
                 ref={photoImgRef}
-                className="aspect-square relative rounded-2xl overflow-hidden shadow-2xl shadow-neutral-900/20 bg-gradient-to-br from-neutral-100 to-neutral-200"
+                className="aspect-square relative rounded-2xl overflow-hidden shadow-2xl shadow-black/30"
               >
                 <Image
                   src="/assets/profile-hero.jpg"
@@ -140,8 +140,7 @@ export function AboutSection() {
                   fill
                   className="object-cover transition-transform duration-500"
                 />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
               </div>
 
               {/* Animated border element */}
@@ -149,14 +148,14 @@ export function AboutSection() {
                 ref={photoBorderRef}
                 className="absolute -inset-4 rounded-2xl border-2 border-primary/20 -z-10"
                 style={{
-                  background: 'linear-gradient(45deg, transparent 30%, rgba(213, 0, 50, 0.1) 50%, transparent 70%)'
+                  background: 'linear-gradient(45deg, transparent 30%, hsl(var(--primary) / 0.1) 50%, transparent 70%)'
                 }}
               />
-
-              {/* Decorative elements */}
-              <div className="absolute -top-6 -right-6 w-12 h-12 bg-primary/10 rounded-full blur-xl" />
-              <div className="absolute -bottom-4 -left-4 w-8 h-8 bg-primary/20 rounded-full blur-lg" />
             </div>
+
+            {/* Decorative elements */}
+            <div className="absolute -top-6 -right-6 w-12 h-12 bg-primary/10 rounded-full blur-xl -z-10" />
+            <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/5 rounded-full blur-lg -z-10" />
           </div>
 
           <div ref={bioContentRef}>
@@ -171,13 +170,13 @@ export function AboutSection() {
             </p>
 
             <div className="flex space-x-4" ref={socialLinksRef}>
-              <Button asChild variant="outline" className="group transition-all duration-300 hover:border-primary/50">
+              <Button asChild variant="outline" className="group cinematic-focus rounded-lg">
                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   LinkedIn
                 </a>
               </Button>
-              <Button asChild variant="outline" className="group transition-all duration-300 hover:border-primary/50">
+              <Button asChild variant="outline" className="group cinematic-focus rounded-lg">
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   Portfolio
