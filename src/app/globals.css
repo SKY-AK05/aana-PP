@@ -78,3 +78,174 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Cinematic Dark Theme Styles */
+@layer components {
+  /* Film grain texture */
+  .film-grain {
+    position: relative;
+  }
+  
+  .film-grain::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 50%, transparent 20%, rgba(255,255,255,0.3) 21%, rgba(255,255,255,0.3) 34%, transparent 35%, transparent),
+      linear-gradient(0deg, transparent 24%, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,0.05) 75%, rgba(255,255,255,0.05) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Cinematic letterbox effect */
+  .letterbox {
+    position: relative;
+  }
+  
+  .letterbox::before,
+  .letterbox::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .letterbox::before {
+    top: 0;
+  }
+  
+  .letterbox::after {
+    bottom: 0;
+    transform: rotate(180deg);
+  }
+
+  /* Cinematic glow effects */
+  .cinematic-glow {
+    box-shadow: 
+      0 0 20px rgba(255, 165, 0, 0.1),
+      0 0 40px rgba(213, 0, 50, 0.05),
+      0 0 80px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Smooth cinematic transitions */
+  .cinematic-transition {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Focus ring for cinematic UI */
+  .cinematic-focus {
+    position: relative;
+  }
+  
+  .cinematic-focus::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px solid transparent;
+    border-radius: inherit;
+    background: linear-gradient(45deg, #FFA500, #D50032, #FFA500) border-box;
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .cinematic-focus:focus::after,
+  .cinematic-focus:hover::after {
+    opacity: 1;
+  }
+
+  /* Custom scrollbar for cinematic theme */
+  .cinematic-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .cinematic-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  
+  .cinematic-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #FFA500, #D50032);
+    border-radius: 4px;
+  }
+  
+  .cinematic-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #FFB520, #E51040);
+  }
+
+  /* Cinematic text effects */
+  .cinematic-title {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  }
+
+  .cinematic-accent {
+    background: linear-gradient(135deg, #FFA500 0%, #D50032 50%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Video overlay effects */
+  .video-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  }
+
+  /* Cinematic button styles */
+  .cinematic-button {
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, rgba(213, 0, 50, 0.1) 100%);
+    border: 1px solid rgba(255, 165, 0, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .cinematic-button:hover {
+    background: linear-gradient(135deg, rgba(255, 165, 0, 0.2) 0%, rgba(213, 0, 50, 0.2) 100%);
+    border-color: rgba(255, 165, 0, 0.6);
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
+  }
+
+  /* Loading indicator */
+  .cinematic-loading {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cinematic-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.4), transparent);
+    animation: cinematic-shimmer 2s infinite;
+  }
+  
+  @keyframes cinematic-shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+}
