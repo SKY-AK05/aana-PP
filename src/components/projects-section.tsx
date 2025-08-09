@@ -17,7 +17,8 @@ const projects = [
         video: "/assets/videos/cadbury-preview.mp4",
         poster: "/assets/images/cadbury-poster.jpg",
         aiHint: "chocolate commercial",
-        tags: ["Video Editing", "Cinematography", "Color Grading", "Storyboarding"]
+        tags: ["Video Editing", "Cinematography", "Color Grading", "Storyboarding"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "Winter Wonderland – Coca-Cola Festive Spot",
@@ -27,7 +28,8 @@ const projects = [
         video: "/assets/videos/cocacola-preview.mp4",
         poster: "/assets/images/cocacola-poster.jpg",
         aiHint: "holiday commercial",
-        tags: ["Video Editing", "Motion Graphics", "Sound Design", "Adobe After Effects"]
+        tags: ["Video Editing", "Motion Graphics", "Sound Design", "Adobe After Effects"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "Prime Time – Prime Video Trailer",
@@ -37,7 +39,8 @@ const projects = [
         video: "/assets/videos/primevideo-preview.mp4",
         poster: "/assets/images/primevideo-poster.jpg",
         aiHint: "movie trailer",
-        tags: ["Video Editing", "Trailer Editing", "Color Correction", "Adobe Premiere Pro"]
+        tags: ["Video Editing", "Trailer Editing", "Color Correction", "Adobe Premiere Pro"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "Starlight – Dharma Productions Promo",
@@ -47,7 +50,8 @@ const projects = [
         video: "/assets/videos/dharma-preview.mp4",
         poster: "/assets/images/dharma-poster.jpg",
         aiHint: "bollywood film",
-        tags: ["Video Editing", "Cinematography", "Interview Filming", "DaVinci Resolve"]
+        tags: ["Video Editing", "Cinematography", "Interview Filming", "DaVinci Resolve"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "AI Faces – Jio-Hotstar Original IP",
@@ -57,7 +61,8 @@ const projects = [
         video: "/assets/videos/jiohotstar-preview.mp4",
         poster: "/assets/images/jiohotstar-poster.jpg",
         aiHint: "AI characters",
-        tags: ["AI Tools", "Video Editing", "Visual Effects", "Python"]
+        tags: ["AI Tools", "Video Editing", "Visual Effects", "Python"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "Ocean Beats – Universal Music Video",
@@ -67,7 +72,8 @@ const projects = [
         video: "/assets/videos/universal-preview.mp4",
         poster: "/assets/images/universal-poster.jpg",
         aiHint: "music video",
-        tags: ["Video Editing", "Music Video Editing", "Color Grading", "Adobe Premiere Pro"]
+        tags: ["Video Editing", "Music Video Editing", "Color Grading", "Adobe Premiere Pro"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "Glide – Boat Gaming Headset Campaign",
@@ -77,7 +83,8 @@ const projects = [
         video: "/assets/videos/boat-preview.mp4",
         poster: "/assets/images/boat-poster.jpg",
         aiHint: "gaming headset",
-        tags: ["Video Editing", "Cinematography", "Motion Graphics", "Adobe After Effects"]
+        tags: ["Video Editing", "Cinematography", "Motion Graphics", "Adobe After Effects"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "HealthGuard – Doctorpedia Series",
@@ -87,7 +94,8 @@ const projects = [
         video: "/assets/videos/doctorpedia-preview.mp4",
         poster: "/assets/images/doctorpedia-poster.jpg",
         aiHint: "medical education",
-        tags: ["Video Editing", "Cinematography", "Graphic Design", "Storyboarding"]
+        tags: ["Video Editing", "Cinematography", "Graphic Design", "Storyboarding"],
+        youtubeUrl: "https://www.youtube.com"
     },
     {
         title: "Reels of Laughter – ComedyCulture YouTube",
@@ -97,7 +105,8 @@ const projects = [
         video: "/assets/videos/comedy-preview.mp4",
         poster: "/assets/images/comedy-poster.jpg",
         aiHint: "comedy show",
-        tags: ["Video Editing", "Social Media Content", "Comedy Editing", "Sound Design"]
+        tags: ["Video Editing", "Social Media Content", "Comedy Editing", "Sound Design"],
+        youtubeUrl: "https://www.youtube.com"
     }
 ];
 

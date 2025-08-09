@@ -16,6 +16,7 @@ type ProjectCardProps = {
     poster?: string;
     tags: string[];
     aiHint: string;
+    youtubeUrl: string;
   };
 };
 
@@ -189,10 +190,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {/* View Project Link */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
           <span className="text-white/60 text-sm">Case Study</span>
-          <button className="flex items-center gap-2 text-primary hover:brightness-125 transition-all duration-200 group/btn">
+          <a href={project.youtubeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary hover:brightness-125 transition-all duration-200 group/btn">
             <span className="text-sm font-medium">View Project</span>
             <ExternalLink className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
-          </button>
+          </a>
         </div>
       </div>
 
