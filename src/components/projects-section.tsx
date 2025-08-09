@@ -201,7 +201,7 @@ export function ProjectsSection() {
                             <h2 className="font-headline text-5xl md:text-6xl font-bold text-white mb-6 cinematic-title">
                                 MY WORK
                             </h2>
-                            <div className="w-24 h-1 bg-gradient-to-r from-accent to-primary mx-auto mb-6"></div>
+                            <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto mb-6"></div>
                             <p className="mt-4 max-w-2xl mx-auto text-lg text-white/70 leading-relaxed">
                                 Cinematic stories crafted for brands that demand excellence. Each project is a journey from concept to compelling narrative.
                             </p>
@@ -225,16 +225,16 @@ export function ProjectsSection() {
                         <div className="flex items-center pr-32">
                             <div className="text-left w-[35vw] max-w-lg">
                                 <div className="mb-8">
-                                    <div className="inline-block px-4 py-2 bg-accent/10 border border-accent/20 rounded-full mb-6">
-                                        <span className="text-accent text-sm font-medium tracking-wider uppercase">Featured Work</span>
+                                    <div className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6">
+                                        <span className="text-primary text-sm font-medium tracking-wider uppercase">Featured Work</span>
                                     </div>
                                     <h2 className="font-headline text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight cinematic-title">
                                         MY<br />
-                                        <span className="cinematic-accent">
+                                        <span className="cinematic-accent-primary">
                                             WORK
                                         </span>
                                     </h2>
-                                    <div className="w-32 h-1 bg-gradient-to-r from-accent to-primary mb-8"></div>
+                                    <div className="w-32 h-1 bg-gradient-to-r from-primary to-primary/50 mb-8"></div>
                                 </div>
                                 <p className="text-xl text-white/80 leading-relaxed mb-8">
                                     Cinematic stories crafted for brands that demand excellence. Each project is a journey from concept to compelling narrative.

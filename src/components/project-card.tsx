@@ -159,7 +159,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {/* Content */}
       <div ref={contentRef} className="p-6 md:p-8 flex flex-col flex-grow">
         {/* Subtitle */}
-        <div className="text-sm font-medium tracking-wider uppercase mb-2 text-accent">
+        <div className="text-sm font-medium tracking-wider uppercase mb-2 text-primary">
           {project.subtitle}
         </div>
 
@@ -189,7 +189,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {/* View Project Link */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
           <span className="text-white/60 text-sm">Case Study</span>
-          <button className="flex items-center gap-2 text-accent hover:brightness-125 transition-all duration-200 group/btn">
+          <button className="flex items-center gap-2 text-primary hover:brightness-125 transition-all duration-200 group/btn">
             <span className="text-sm font-medium">View Project</span>
             <ExternalLink className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" />
           </button>
@@ -197,7 +197,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Cinematic Border Glow */}
-      <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-accent opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"></div>
+      <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-primary opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none"></div>
     </div>
   );
 }
