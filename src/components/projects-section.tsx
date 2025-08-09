@@ -189,9 +189,6 @@ export function ProjectsSection() {
             id="work"
             ref={sectionRef}
             className="bg-black text-white overflow-hidden relative film-grain"
-            style={{
-                background: 'linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%)'
-            }}
         >
             {/* Mobile Layout */}
             <div className="block md:hidden">
