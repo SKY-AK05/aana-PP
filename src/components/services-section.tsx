@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useLayoutEffect, useRef } from 'react';
-import { Video, Scissors, Layers, Sparkles, Youtube } from 'lucide-react';
+import { Video, Scissors, Layers, Sparkles } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -13,28 +13,24 @@ const services = [
     title: 'Video Editing',
     description: 'Crafting compelling stories from raw footage through precise cutting, sequencing, and sound mixing.',
     previewVideo: "/assets/videos/cadbury-preview.mp4",
-    youtubeUrl: "https://youtube.com"
   },
   {
     icon: <Sparkles className="w-12 h-12 text-primary" />,
     title: 'Motion Graphics',
     description: 'Bringing static visuals to life with dynamic intros, lower thirds, and engaging animations.',
     previewVideo: "/assets/videos/boat-preview.mp4",
-    youtubeUrl: "https://youtube.com"
   },
   {
     icon: <Layers className="w-12 h-12 text-primary" />,
     title: 'Graphic Design',
     description: 'Creating stunning visuals for thumbnails, branding, and social media that capture attention.',
     previewVideo: "/assets/videos/primevideo-preview.mp4",
-    youtubeUrl: "https://youtube.com"
   },
   {
     icon: <Scissors className="w-12 h-12 text-primary" />,
     title: 'Color Grading',
     description: 'Enhancing footage with professional color correction to create a consistent, cinematic look.',
     previewVideo: "/assets/videos/cocacola-preview.mp4",
-    youtubeUrl: "https://youtube.com"
   },
 ];
 
@@ -57,7 +53,7 @@ export function ServicesSection() {
             videoRefs.current.forEach((video, i) => {
                 if (video) {
                     if (i === index) {
-                        video.play();
+                        video.play().catch(e => console.error("Video play failed", e));
                     } else {
                         video.pause();
                         video.currentTime = 0;
@@ -134,8 +130,7 @@ export function ServicesSection() {
                 {services.map((service, index) => (
                     <div 
                         key={index}
-                        className="service-card h-screen flex items-center justify-center relative rounded-2xl overflow-hidden group cursor-pointer"
-                        onClick={() => window.open(service.youtubeUrl, "_blank")}
+                        className="service-card h-screen flex items-center justify-center relative rounded-2xl overflow-hidden group"
                     >
                         <video
                             ref={el => videoRefs.current[index] = el}
@@ -153,9 +148,6 @@ export function ServicesSection() {
                             </div>
                             <h3 className="text-4xl font-bold font-headline text-white mb-4">{service.title}</h3>
                             <p className="text-foreground/80 leading-relaxed text-lg">{service.description}</p>
-                            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
-                                <Youtube className="w-8 h-8 text-white"/>
-                            </div>
                         </div>
                     </div>
                 ))}
