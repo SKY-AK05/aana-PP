@@ -249,29 +249,4 @@ body {
     100% { left: 100%; }
   }
 
-  /* Services Section 3D Styles */
-  .services-3d-container {
-    perspective: 1200px;
-    position: relative;
-  }
-  .services-grid-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image:
-      linear-gradient(hsl(var(--primary) / 0.15) 1px, transparent 1px),
-      linear-gradient(to right, hsl(var(--primary) / 0.15) 1px, transparent 1px);
-    background-size: 50px 50px;
-    z-index: 0;
-  }
-
-  .service-card-3d {
-    transform-style: preserve-3d;
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    background: rgba(20, 20, 20, 0.5);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
 }

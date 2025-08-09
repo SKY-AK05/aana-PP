@@ -1,134 +1,163 @@
 "use client";
 
 import React, { useLayoutEffect, useRef } from 'react';
-import { Video, Scissors, Layers, Sparkles } from 'lucide-react';
+import { Video, Scissors, Layers, Sparkles, Youtube } from 'lucide-react';
 import { gsap } from 'gsap';
-import { Card } from './ui/card';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
-    icon: <Video className="w-10 h-10 text-primary" />,
+    icon: <Video className="w-12 h-12 text-primary" />,
     title: 'Video Editing',
     description: 'Crafting compelling stories from raw footage through precise cutting, sequencing, and sound mixing.',
+    previewVideo: "/assets/videos/cadbury-preview.mp4",
+    youtubeUrl: "https://youtube.com"
   },
   {
-    icon: <Sparkles className="w-10 h-10 text-primary" />,
+    icon: <Sparkles className="w-12 h-12 text-primary" />,
     title: 'Motion Graphics',
     description: 'Bringing static visuals to life with dynamic intros, lower thirds, and engaging animations.',
+    previewVideo: "/assets/videos/boat-preview.mp4",
+    youtubeUrl: "https://youtube.com"
   },
   {
-    icon: <Layers className="w-10 h-10 text-primary" />,
+    icon: <Layers className="w-12 h-12 text-primary" />,
     title: 'Graphic Design',
     description: 'Creating stunning visuals for thumbnails, branding, and social media that capture attention.',
+    previewVideo: "/assets/videos/primevideo-preview.mp4",
+    youtubeUrl: "https://youtube.com"
   },
   {
-    icon: <Scissors className="w-10 h-10 text-primary" />,
+    icon: <Scissors className="w-12 h-12 text-primary" />,
     title: 'Color Grading',
     description: 'Enhancing footage with professional color correction to create a consistent, cinematic look.',
+    previewVideo: "/assets/videos/cocacola-preview.mp4",
+    youtubeUrl: "https://youtube.com"
   },
 ];
 
 export function ServicesSection() {
-    const containerRef = useRef<HTMLElement>(null);
-    const gridRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
+    const leftRef = useRef<HTMLDivElement>(null);
+    const rightRef = useRef<HTMLDivElement>(null);
+    const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
     useLayoutEffect(() => {
+        const leftEl = leftRef.current;
+        const rightEl = rightRef.current;
+
+        if (!leftEl || !rightEl || !sectionRef.current) return;
+
+        const cards = gsap.utils.toArray<HTMLDivElement>('.service-card');
+        videoRefs.current = cards.map(card => card.querySelector('video'));
+
+        const playVideo = (index: number) => {
+            videoRefs.current.forEach((video, i) => {
+                if (video) {
+                    if (i === index) {
+                        video.play();
+                    } else {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                }
+            });
+        };
+
         const ctx = gsap.context(() => {
-            const cards = gsap.utils.toArray<HTMLDivElement>(".service-card-3d");
-            if (cards.length === 0) return;
-
-            // Set initial positions for the curve
-            gsap.set(cards, {
-                x: (i) => (i - (cards.length - 1) / 2) * 200,
-                rotationY: (i) => (i - (cards.length - 1) / 2) * -15,
-                transformOrigin: "center center -200px"
+             // Pin the left column
+            ScrollTrigger.create({
+                trigger: sectionRef.current,
+                start: 'top top',
+                end: () => `+=${rightEl.offsetHeight - window.innerHeight}`,
+                pin: leftEl,
+                pinSpacing: true,
+                scrub: true,
             });
 
-            cards.forEach((card, i) => {
-                card.addEventListener('mouseenter', () => {
-                    // Animate the hovered card to the front
-                    gsap.to(card, {
-                        x: (i - (cards.length - 1) / 2) * 120,
-                        rotationY: 0,
-                        z: 100,
-                        overwrite: "auto",
-                        ease: "power2.out",
-                        duration: 0.5
-                    });
-                    
-                    // Animate other cards
-                    cards.forEach((otherCard, j) => {
-                        if (i !== j) {
-                             gsap.to(otherCard, {
-                                x: (j - (cards.length - 1) / 2) * 250 + (j < i ? -100 : 100),
-                                rotationY: (j - (cards.length - 1) / 2) * -20,
-                                z: 0,
-                                overwrite: "auto",
-                                ease: "power2.out",
-                                duration: 0.5
-                            });
-                        }
-                    });
+            // Animate card content on scroll
+            cards.forEach((card, index) => {
+                const cardContent = card.querySelector('.service-card-content');
+                gsap.fromTo(card,
+                    { opacity: 0.3, scale: 0.95 },
+                    {
+                    opacity: 1,
+                    scale: 1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top center+=100',
+                        end: 'center center',
+                        scrub: 1,
+                        onEnter: () => playVideo(index),
+                        onEnterBack: () => playVideo(index),
+                    }
+                });
+
+                 gsap.fromTo(cardContent,
+                    { y: 30, opacity: 0 },
+                    {
+                    y: 0,
+                    opacity: 1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top center',
+                        end: 'center center',
+                        scrub: 1,
+                    }
                 });
             });
 
-            gridRef.current?.addEventListener('mouseleave', () => {
-                // Reset all cards to their initial curved position
-                gsap.to(cards, {
-                     x: (i) => (i - (cards.length - 1) / 2) * 200,
-                     rotationY: (i) => (i - (cards.length - 1) / 2) * -15,
-                     z: 0,
-                     ease: "power2.out",
-                     duration: 0.7
-                });
-            });
+        }, sectionRef);
 
-             // Entrance animation
-            gsap.from(cards, {
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top 70%",
-                    toggleActions: "play none none reverse"
-                },
-                opacity: 0,
-                y: 100,
-                z: -300,
-                stagger: 0.1,
-                duration: 0.8,
-                ease: 'power3.out',
-            });
-
-
-        }, containerRef);
         return () => ctx.revert();
     }, []);
 
   return (
-    <section id="services" ref={containerRef} className="py-24 md:py-32 bg-black border-t border-border overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div className="text-center mb-20">
-                <h2 className="font-headline text-5xl md:text-6xl font-bold cinematic-accent">What I Do</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-foreground/70">
-                    I offer a range of services to bring your vision to life.
-                </p>
+    <section id="services" ref={sectionRef} className="py-24 md:py-32 bg-black border-t border-border overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-16 md:gap-24 items-start">
+            {/* Left Sticky Column */}
+            <div ref={leftRef} className="md:h-screen flex flex-col justify-center">
+                <div className="max-w-md">
+                     <h2 className="font-headline text-5xl md:text-6xl font-bold cinematic-title mb-6">What I Do</h2>
+                    <p className="mt-4 text-lg text-foreground/70 leading-relaxed">
+                        I offer a range of specialized services to bring your vision to life with cinematic quality and creative flair. Each service is tailored to meet the unique demands of your project.
+                    </p>
+                </div>
             </div>
-            
-            <div 
-                ref={gridRef} 
-                className="services-3d-container flex items-center justify-center h-[500px] w-full"
-            >
-                <div className="services-grid-background"></div>
+
+            {/* Right Scrollable Column */}
+            <div ref={rightRef} className="flex flex-col gap-24 md:gap-32">
                 {services.map((service, index) => (
-                    <Card 
-                        key={index} 
-                        className="service-card-3d absolute w-[320px] h-[420px] p-8 flex flex-col items-center justify-center text-center rounded-2xl cursor-pointer"
+                    <div 
+                        key={index}
+                        className="service-card h-screen flex items-center justify-center relative rounded-2xl overflow-hidden group cursor-pointer"
+                        onClick={() => window.open(service.youtubeUrl, "_blank")}
                     >
-                        <div className="mb-6 bg-primary/10 p-4 rounded-full border border-primary/50">
-                            {service.icon}
+                        <video
+                            ref={el => videoRefs.current[index] = el}
+                            src={service.previewVideo}
+                            className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
+                            muted
+                            loop
+                            playsInline
+                        />
+                        <div className="absolute inset-0 bg-black/60"></div>
+                        
+                        <div className="service-card-content relative text-center p-8 max-w-lg">
+                            <div className="inline-block mb-6 bg-primary/10 p-4 rounded-full border border-primary/50">
+                                {service.icon}
+                            </div>
+                            <h3 className="text-4xl font-bold font-headline text-white mb-4">{service.title}</h3>
+                            <p className="text-foreground/80 leading-relaxed text-lg">{service.description}</p>
+                            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
+                                <Youtube className="w-8 h-8 text-white"/>
+                            </div>
                         </div>
-                        <h3 className="text-3xl font-bold font-headline text-white mb-4">{service.title}</h3>
-                        <p className="text-foreground/70 leading-relaxed">{service.description}</p>
-                    </Card>
+                    </div>
                 ))}
             </div>
         </div>
