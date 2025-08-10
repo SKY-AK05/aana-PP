@@ -1,259 +1,270 @@
 
 "use client";
 
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { Play } from 'lucide-react';
 
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
-interface WorkItem {
-  name: string;
-  role: string;
-  videoUrl: string;
-  poster: string;
-  youtubeUrl: string;
-}
-
-interface Category {
-  title: string;
-  items: WorkItem[];
-}
-
-const portfolioData: Category[] = [
+const workData = [
   {
-    title: "OTT & Entertainment",
-    items: [
+    category: "OTT & Entertainment",
+    subcategories: [
       {
-        name: "Jio-Hotstar",
-        role: "Creative Technologist & Editor for AI-based teasers",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "Jio-Hotstar",
+        description: "Creative Technologist & Editor for AI-based teasers",
+        video: "/assets/videos/jiohotstar-preview.mp4",
         poster: "/assets/images/jiohotstar-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
+        youtubeUrl: "https://www.youtube.com"
       },
       {
-        name: "Prime Video",
-        role: "Video Editor for a new series trailer, focusing on suspenseful pacing",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "Prime Video",
+        description: "Video Editor for suspenseful series trailer",
+        video: "/assets/videos/primevideo-preview.mp4",
         poster: "/assets/images/primevideo-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
+        youtubeUrl: "https://www.youtube.com"
       },
       {
-        name: "Dharma Productions",
-        role: "Assistant Editor for a film promo, crafting a character-driven teaser",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "Dharma Productions",
+        description: "Assistant Editor for character-driven promo",
+        video: "/assets/videos/dharma-preview.mp4",
         poster: "/assets/images/dharma-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
-      },
-    ],
+        youtubeUrl: "https://www.youtube.com"
+      }
+    ]
   },
   {
-    title: "Global Brands",
-    items: [
+    category: "Global Brands",
+    subcategories: [
       {
-        name: "Cadbury",
-        role: "Lead Video Editor for a cinematic social media campaign",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "Cadbury",
+        description: "Lead Video Editor for a cinematic social media campaign",
+        video: "/assets/videos/cadbury-preview.mp4",
         poster: "/assets/images/cadbury-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
+        youtubeUrl: "https://www.youtube.com"
       },
       {
-        name: "Coca-Cola",
-        role: "Senior Video Editor for a festive holiday commercial with motion graphics",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "Coca-Cola",
+        description: "Senior Video Editor for a festive holiday commercial with motion graphics",
+        video: "/assets/videos/cocacola-preview.mp4",
         poster: "/assets/images/cocacola-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
+        youtubeUrl: "https://www.youtube.com"
       },
       {
-        name: "Boat",
-        role: "Lead Video Editor for a high-energy gaming headset launch video",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "Boat",
+        description: "Lead Video Editor for a high-energy gaming headset launch video",
+        video: "/assets/videos/boat-preview.mp4",
         poster: "/assets/images/boat-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
-      },
-    ],
+        youtubeUrl: "https://www.youtube.com"
+      }
+    ]
   },
   {
-    title: "Music & Content",
-    items: [
-      {
-        name: "Universal Music",
-        role: "Video Editor for an emerging artist's music video",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    category: "Music & Content",
+    subcategories: [
+       {
+        title: "Universal Music",
+        description: "Video Editor for an emerging artist's music video",
+        video: "/assets/videos/universal-preview.mp4",
         poster: "/assets/images/universal-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
+        youtubeUrl: "https://www.youtube.com"
       },
       {
-        name: "Doctorpedia",
-        role: "Editor & Cinematographer for an educational medical series",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "Doctorpedia",
+        description: "Editor & Cinematographer for an educational medical series",
+        video: "/assets/videos/doctorpedia-preview.mp4",
         poster: "/assets/images/doctorpedia-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
+        youtubeUrl: "https://www.youtube.com"
       },
       {
-        name: "ComedyCulture",
-        role: "Video Editor for short-form viral comedy reels on YouTube",
-        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        title: "ComedyCulture",
+        description: "Video Editor for short-form viral comedy reels on YouTube",
+        video: "/assets/videos/comedy-preview.mp4",
         poster: "/assets/images/comedy-poster.jpg",
-        youtubeUrl: "https://www.youtube.com",
-      },
-    ],
-  },
+        youtubeUrl: "https://www.youtube.com"
+      }
+    ]
+  }
 ];
+
+const allSubcategories = workData.flatMap(cat => cat.subcategories.map(sub => ({ ...sub, category: cat.category })));
 
 export function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState<number>(0);
+  const [activeSubcategory, setActiveSubcategory] = useState(0);
 
-  const activeItems = useMemo(() => {
-    if (activeCategory === -1) return portfolioData.flatMap(cat => cat.items);
-    return portfolioData[activeCategory]?.items || [];
-  }, [activeCategory]);
-  
   useEffect(() => {
-    let ctx = gsap.context(() => {});
-    
-    // We need to wait for the DOM to update with the new activeItems
-    const timeoutId = setTimeout(() => {
-      ctx.revert(); // Clean up previous animations and ScrollTriggers
+    let ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
 
-      ctx = gsap.context(() => {
-        const mm = gsap.matchMedia();
-        
-        mm.add("(min-width: 768px)", () => {
-          if (!containerRef.current || !leftRef.current || !rightRef.current) return;
-          
-          const sections = gsap.utils.toArray('.work-item-video');
-          if (sections.length === 0) return;
+      mm.add("(min-width: 768px)", () => {
+        // Desktop: Pin left panel and animate right sections
+        if (!containerRef.current || !leftRef.current || !rightRef.current) return;
 
-          // Pin the left panel while the right one scrolls
-          const pin = gsap.to(leftRef.current, {
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top top",
-              end: () => `+=${rightRef.current!.offsetHeight - window.innerHeight}`,
-              pin: leftRef.current,
-              pinSpacing: false,
-              scrub: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-          
-          sections.forEach((section) => {
-            gsap.fromTo(section as HTMLElement, 
-              { autoAlpha: 0.2, y: 50 },
-              { 
-                autoAlpha: 1, 
-                y: 0, 
-                duration: 0.5, 
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: "top top",
+          end: () => `+=${rightRef.current!.offsetHeight - window.innerHeight}`,
+          pin: leftRef.current,
+          pinSpacing: false,
+          scrub: true,
+          invalidateOnRefresh: true,
+        });
+
+        const videoSections = gsap.utils.toArray<HTMLDivElement>('.video-section');
+        videoSections.forEach((section, index) => {
+            gsap.fromTo(section,
+                { autoAlpha: 0, y: 50 },
+                {
+                    autoAlpha: 1,
+                    y: 0,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 80%',
+                        end: 'bottom top',
+                        toggleActions: 'play none none reverse',
+                        onEnter: () => setActiveSubcategory(index),
+                        onEnterBack: () => setActiveSubcategory(index),
+                    }
+                }
+            );
+        });
+      });
+
+      mm.add("(max-width: 767px)", () => {
+        // Mobile: Animate sections in on scroll, no pinning
+        const allSections = gsap.utils.toArray<HTMLDivElement>('.mobile-section');
+        allSections.forEach(section => {
+            gsap.from(section, {
+                opacity: 0,
+                y: 50,
+                duration: 0.6,
                 ease: 'power2.out',
                 scrollTrigger: {
-                  trigger: section as HTMLElement,
-                  // containerAnimation: pin, // This was causing issues. Simpler trigger is better.
-                  start: 'top 80%',
-                  end: 'bottom 20%',
-                  toggleActions: 'play none none reverse',
+                    trigger: section,
+                    start: 'top 90%',
+                    toggleActions: 'play none none reverse'
                 }
-              }
-            );
-          });
+            });
         });
+      });
+    }, containerRef);
 
-        mm.add("(max-width: 767px)", () => {
-          // On mobile, no pinning
-        });
-      }, containerRef);
-      
-      ScrollTrigger.refresh();
-    }, 100);
+    return () => ctx.revert();
+  }, []);
 
-    return () => {
-      ctx.revert();
-      clearTimeout(timeoutId);
-    };
-  }, [activeItems]);
-
-  const handleCategoryClick = (index: number) => {
-    setActiveCategory(activeCategory === index ? -1 : index);
-    // On desktop, scroll to the top of the section to start fresh
-    if (window.innerWidth >= 768 && containerRef.current) {
-        gsap.to(window, {
-            scrollTo: {
-                y: containerRef.current.offsetTop,
-                autoKill: false
-            },
-            duration: 0.5
-        });
+  const handleVideoHover = (e: React.MouseEvent<HTMLVideoElement>, action: 'play' | 'pause') => {
+    if (window.innerWidth < 768) return;
+    const video = e.currentTarget;
+    if (action === 'play') {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
     }
   };
 
+  const handleVideoClick = (youtubeUrl: string) => {
+    window.open(youtubeUrl, '_blank');
+  };
 
   return (
     <section id="work" ref={containerRef} className="bg-black text-white film-grain overflow-hidden">
-      <div className="container mx-auto flex flex-col md:flex-row min-h-screen relative">
+      <div className="container mx-auto flex flex-col md:flex-row min-h-[100vh] relative">
         {/* Left Panel */}
         <div ref={leftRef} className="md:w-1/3 md:h-screen p-8 md:p-12 flex flex-col justify-center self-start md:sticky top-0">
-            <div className='w-full'>
-                <h2 className="font-headline text-5xl md:text-6xl font-bold text-white mb-12 cinematic-title">
-                    MY WORK
-                </h2>
-                <div className="space-y-4">
-                {portfolioData.map((cat, catIndex) => (
-                    <div key={cat.title} className="border-b border-white/10 overflow-hidden">
-                        <button 
-                            className="w-full flex justify-between items-center text-left py-4"
-                            onClick={() => handleCategoryClick(catIndex)}
-                        >
-                            <h3 className="text-2xl font-bold text-primary">{cat.title}</h3>
-                             <ChevronDown className={cn("w-6 h-6 text-primary transition-transform duration-300", { "rotate-180": activeCategory === catIndex })} />
-                        </button>
-                        <div className={cn("transition-all duration-500 ease-in-out grid", {
-                            'grid-rows-[1fr] opacity-100': activeCategory === catIndex,
-                            'grid-rows-[0fr] opacity-0': activeCategory !== catIndex,
-                        })}>
-                            <div className="overflow-hidden">
-                                <ul className="space-y-6 py-4">
-                                    {cat.items.map(item => (
-                                    <li key={item.name}>
-                                        <span className="font-semibold text-lg text-white/90">{item.name}</span><br/>
-                                        <span className="text-sm italic text-white/60">{item.role}</span>
-                                    </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+          <div className='w-full'>
+            <h2 className="font-headline text-5xl md:text-6xl font-bold text-white mb-12 cinematic-title">
+              MY WORK
+            </h2>
+            <div className="space-y-6 hidden md:block">
+              {workData.map((cat, catIndex) => (
+                <div key={cat.category}>
+                  <h3 className="font-headline text-2xl text-primary mb-4">{cat.category}</h3>
+                  <ul className="space-y-5 border-l-2 border-white/20 pl-6">
+                    {cat.subcategories.map((sub, subIndex) => {
+                      const globalIndex = allSubcategories.findIndex(s => s.title === sub.title && s.category === cat.category);
+                      const isActive = globalIndex === activeSubcategory;
+                      return (
+                        <li key={sub.title} className={cn(
+                          "transition-all duration-300",
+                          isActive ? "opacity-100" : "opacity-50 hover:opacity-75"
+                        )}>
+                          <h4 className={cn("font-bold text-lg transition-colors duration-300", isActive ? "text-primary" : "text-white")}>{sub.title}</h4>
+                          <p className={cn("text-white/70 text-sm transition-all duration-300", { "max-h-40 opacity-100 mt-1": isActive, "max-h-0 opacity-0": !isActive })}>
+                            {sub.description}
+                          </p>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
+              ))}
             </div>
+          </div>
         </div>
 
         {/* Right Panel */}
-        <div ref={rightRef} className="w-full md:w-2/3 md:py-16">
-           <div className="p-8 space-y-16">
-             {activeItems.map((item, index) => (
-                <div key={`${item.name}-${index}`} className="work-item-video space-y-4">
-                    <h3 className="font-semibold text-xl text-primary md:hidden">{item.name}</h3>
-                    <p className="text-sm italic text-white/60 md:hidden">{item.role}</p>
-                    <video
-                        src={item.videoUrl}
-                        poster={item.poster}
-                        muted
-                        loop
-                        playsInline
-                        className="w-full object-cover rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(213,0,50,0.7)] transition-shadow duration-300 cursor-pointer"
-                        style={{ aspectRatio: '16/9' }}
-                        onClick={() => window.open(item.youtubeUrl, "_blank")}
-                        onMouseEnter={e => e.currentTarget.play()}
-                        onMouseLeave={e => e.currentTarget.pause()}
-                    />
-                </div>
-             ))}
+        <div ref={rightRef} className="w-full md:w-2/3 md:py-20">
+           <div className="p-4 md:p-8 space-y-16">
+             {/* Desktop View */}
+             <div className="hidden md:block space-y-24">
+              {allSubcategories.map((item, index) => (
+                  <div key={`${item.title}-${index}`} className="video-section">
+                    <div className="relative group">
+                       <video
+                          src={item.video}
+                          poster={item.poster}
+                          muted
+                          loop
+                          playsInline
+                          className="w-full object-cover rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(213,0,50,0.7)] transition-shadow duration-300 cursor-pointer"
+                          style={{ aspectRatio: '16/9' }}
+                          onClick={() => handleVideoClick(item.youtubeUrl)}
+                          onMouseEnter={(e) => handleVideoHover(e, 'play')}
+                          onMouseLeave={(e) => handleVideoHover(e, 'pause')}
+                      />
+                       <div className="absolute inset-0 bg-black/30 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                            <Play className="w-12 h-12 text-white/80" />
+                        </div>
+                    </div>
+                  </div>
+              ))}
+             </div>
+             {/* Mobile View */}
+             <div className="block md:hidden space-y-12">
+                {workData.map((cat) => (
+                  <div key={cat.category} className="mobile-section">
+                     <h3 className="font-headline text-3xl text-primary mb-6">{cat.category}</h3>
+                     <div className="space-y-8">
+                       {cat.subcategories.map(item => (
+                         <div key={item.title}>
+                           <h4 className="font-bold text-xl text-white mb-1">{item.title}</h4>
+                           <p className="text-white/70 text-sm mb-4">{item.description}</p>
+                           <div className="relative group">
+                              <video
+                                  src={item.video}
+                                  poster={item.poster}
+                                  controls
+                                  className="w-full object-cover rounded-lg shadow-lg"
+                                  style={{ aspectRatio: '16/9' }}
+                                  onClick={() => handleVideoClick(item.youtubeUrl)}
+                              />
+                              <div className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center pointer-events-none">
+                                <Play className="w-12 h-12 text-white/80" />
+                              </div>
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                  </div>
+                ))}
+             </div>
            </div>
         </div>
       </div>
@@ -261,3 +272,4 @@ export function ProjectsSection() {
   );
 }
 
+    
