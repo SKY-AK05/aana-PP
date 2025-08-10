@@ -118,19 +118,18 @@ export function ProjectsSection() {
       
       mm.add("(min-width: 768px)", () => {
         const sections = rightRef.current?.querySelectorAll('.work-item-video') || [];
-        if (!containerRef.current || sections.length === 0) return;
+        if (!containerRef.current || !leftRef.current || sections.length === 0) return;
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: () => `+=${rightRef.current?.offsetHeight! - window.innerHeight}`,
-            pin: leftRef.current,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          }
+        // Pin the left panel while the right one scrolls
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: "top top",
+          end: () => `bottom-=${window.innerHeight}`,
+          pin: leftRef.current,
+          pinSpacing: false,
         });
         
+        // For each video section, create a trigger to update the active category
         sections.forEach((section, index) => {
           const item = allItems[index];
           ScrollTrigger.create({
@@ -139,36 +138,52 @@ export function ProjectsSection() {
             end: 'bottom center',
             onEnter: () => setActiveCategory(item.categoryIndex),
             onEnterBack: () => setActiveCategory(item.categoryIndex),
+            animation: gsap.fromTo(section, 
+              { autoAlpha: 0.2, y: 50 },
+              { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' }
+            ),
+            toggleActions: 'play reverse play reverse',
           });
         });
 
-        // Add a master timeline for fading videos
-        const videoTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: rightRef.current,
-            start: "top top",
-            end: "bottom bottom",
-            scrub: true,
-          },
-        });
-
-        sections.forEach((section, i) => {
-          videoTl.from(section, { autoAlpha: 0, y: 100, ease: 'power2.inOut' }, i)
-                 .to(section, { autoAlpha: 1, y: 0, ease: 'power2.inOut' }, i + 0.5)
-                 .to(section, { autoAlpha: 0, y: -100, ease: 'power2.inOut' }, i + 1);
-        });
-
       });
+
+      mm.add("(max-width: 767px)", () => {
+        // On mobile, ensure all categories can be opened manually
+        // No special scroll animations needed
+      });
+
     }, containerRef);
     
     return () => ctx.revert();
   }, []);
 
+  const handleCategoryClick = (index: number) => {
+    // Allow manual toggle on both mobile and desktop
+    setActiveCategory(activeCategory === index ? null : index);
+    
+    // On desktop, scroll to the corresponding video
+    if (window.innerWidth >= 768) {
+        const firstItemIndex = portfolioData.slice(0, index).reduce((acc, cat) => acc + cat.items.length, 0);
+        const targetVideo = rightRef.current?.querySelectorAll('.work-item-video')[firstItemIndex];
+        if (targetVideo) {
+            gsap.to(window, {
+                scrollTo: {
+                    y: (targetVideo as HTMLElement).offsetTop + rightRef.current!.offsetTop,
+                    autoKill: false
+                },
+                duration: 1
+            });
+        }
+    }
+  };
+
+
   return (
     <section id="work" ref={containerRef} className="bg-black text-white film-grain overflow-hidden">
       <div className="container mx-auto flex flex-col md:flex-row min-h-screen relative">
         {/* Left Panel */}
-        <div ref={leftRef} className="md:w-1/3 md:h-screen p-8 md:p-12 flex flex-col justify-center">
+        <div ref={leftRef} className="md:w-1/3 md:h-screen p-8 md:p-12 flex flex-col justify-center self-start">
             <div className='w-full'>
                 <h2 className="font-headline text-5xl md:text-6xl font-bold text-white mb-12 cinematic-title">
                     MY WORK
@@ -178,7 +193,7 @@ export function ProjectsSection() {
                     <div key={cat.title} className="border-b border-white/10 overflow-hidden">
                         <button 
                             className="w-full flex justify-between items-center text-left py-4"
-                            onClick={() => setActiveCategory(activeCategory === catIndex ? null : catIndex)}
+                            onClick={() => handleCategoryClick(catIndex)}
                         >
                             <h3 className="text-2xl font-bold text-primary">{cat.title}</h3>
                              <ChevronDown className={cn("w-6 h-6 text-primary transition-transform duration-300", { "rotate-180": activeCategory === catIndex })} />
@@ -205,44 +220,27 @@ export function ProjectsSection() {
         </div>
 
         {/* Right Panel */}
-        <div ref={rightRef} className="w-full md:w-2/3 relative md:h-screen">
-          {/* Mobile Layout */}
-           <div className="block md:hidden p-8 space-y-8">
-             {allItems.map(item => (
-                <div key={item.name} className="work-item-video-mobile space-y-4">
-                    <h3 className="font-semibold text-xl text-primary">{item.name}</h3>
-                    <p className="text-sm italic text-white/60">{item.role}</p>
+        <div ref={rightRef} className="w-full md:w-2/3 md:py-[50vh]">
+           <div className="p-8 space-y-16">
+             {allItems.map((item, index) => (
+                <div key={`${item.name}-${index}`} className="work-item-video space-y-4">
+                    <h3 className="font-semibold text-xl text-primary md:hidden">{item.name}</h3>
+                    <p className="text-sm italic text-white/60 md:hidden">{item.role}</p>
                     <video
                         src={item.videoUrl}
                         poster={item.poster}
                         muted
-                        controls
+                        loop
                         playsInline
-                        className="w-full object-cover rounded-lg shadow-lg"
+                        className="w-full object-cover rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(213,0,50,0.7)] transition-shadow duration-300 cursor-pointer"
+                        style={{ aspectRatio: '16/9' }}
+                        onClick={() => window.open(item.youtubeUrl, "_blank")}
+                        onMouseEnter={e => e.currentTarget.play()}
+                        onMouseLeave={e => e.currentTarget.pause()}
                     />
                 </div>
              ))}
            </div>
-          
-          {/* Desktop Layout: Videos are positioned absolutely to fade over each other */}
-          <div className="hidden md:block h-full">
-            {allItems.map((item, index) => (
-              <div key={`${item.name}-${index}`} className="work-item-video absolute inset-0 h-full w-full flex items-center justify-center p-8 opacity-0">
-                <video
-                  src={item.videoUrl}
-                  poster={item.poster}
-                  muted
-                  loop
-                  playsInline
-                  className="w-full max-w-3xl object-cover rounded-lg shadow-2xl shadow-primary/10 hover:shadow-[0_0_25px_rgba(213,0,50,0.7)] transition-shadow duration-300 cursor-pointer"
-                  style={{ aspectRatio: '16/9' }}
-                  onClick={() => window.open(item.youtubeUrl, "_blank")}
-                  onMouseEnter={e => e.currentTarget.play()}
-                  onMouseLeave={e => e.currentTarget.pause()}
-                />
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>
