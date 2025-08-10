@@ -1,269 +1,223 @@
 "use client";
 
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ProjectCard } from './project-card';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const projects = [
-    {
-        title: "Chocolate Symphony – Cadbury Campaign",
-        subtitle: "Cadbury | Lead Video Editor",
-        description: "Produced a cinematic social-media campaign video highlighting Cadbury's new dark chocolate. Blended rich color grading with dynamic shots of the product, crafting a narrative that boosted online engagement by 25%. I led storyboarding, cinematography, and final edit to emphasize the brand's heritage and sensory experience.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
-        poster: "/assets/images/cadbury-poster.jpg",
-        aiHint: "chocolate commercial",
-        tags: ["Video Editing", "Cinematography", "Color Grading", "Storyboarding"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "Winter Wonderland – Coca-Cola Festive Spot",
-        subtitle: "Coca-Cola | Senior Video Editor",
-        description: "Edited a festive holiday commercial for Coca-Cola. Integrated live-action and motion graphics to create a warm, nostalgic mood. Optimized pacing and music cues for maximal emotional impact during the holiday season; the spot earned 100k+ views within days of release.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
-        poster: "/assets/images/cocacola-poster.jpg",
-        aiHint: "holiday commercial",
-        tags: ["Video Editing", "Motion Graphics", "Sound Design", "Adobe After Effects"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "Prime Time – Prime Video Trailer",
-        subtitle: "Prime Video | Video Editor",
-        description: "Crafted the theatrical trailer for Prime Video's new series. Oversaw footage selection and suspenseful pacing, intercutting scenes to highlight the show's dramatic tension. The final trailer was featured on Prime's homepage and achieved high click-through rates.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
-        poster: "/assets/images/primevideo-poster.jpg",
-        aiHint: "movie trailer",
-        tags: ["Video Editing", "Trailer Editing", "Color Correction", "Adobe Premiere Pro"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "Starlight – Dharma Productions Promo",
-        subtitle: "Dharma Productions | Assistant Editor",
-        description: "Worked on the promotional video for a Dharma Productions film. Edited interviews and B-roll into a cohesive teaser, focusing on character-driven storytelling. My contribution helped the promo video trend on YouTube upon release.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
-        poster: "/assets/images/dharma-poster.jpg",
-        aiHint: "bollywood film",
-        tags: ["Video Editing", "Cinematography", "Interview Filming", "DaVinci Resolve"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "AI Faces – Jio-Hotstar Original IP",
-        subtitle: "Jio-Hotstar | Creative Technologist & Editor",
-        description: "Developed AI-generated character visuals for a Jio-Hotstar original series. Combined my cinematography skills with custom AI tools to create lifelike avatars. Produced the launch video demonstrating the AI characters, showcasing the fusion of tech and storytelling.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
+interface WorkItem {
+  name: string;
+  role: string;
+  videoUrl: string;
+  poster: string;
+  youtubeUrl: string;
+}
+interface Category {
+  title: string;
+  items: WorkItem[];
+}
+
+const portfolioData: Category[] = [
+  {
+    title: "OTT & Entertainment",
+    items: [
+      {
+        name: "Jio-Hotstar",
+        role: "Creative Technologist & Editor for AI-based teasers",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
         poster: "/assets/images/jiohotstar-poster.jpg",
-        aiHint: "AI characters",
-        tags: ["AI Tools", "Video Editing", "Visual Effects", "Python"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "Ocean Beats – Universal Music Video",
-        subtitle: "Universal Music | Video Editor",
-        description: "Edited a music video for an emerging Universal Music artist. Matched rhythm edits to the beat and applied cinematic color grades to enhance mood. The video's polished look helped it gain playlist rotations on music channels.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
-        poster: "/assets/images/universal-poster.jpg",
-        aiHint: "music video",
-        tags: ["Video Editing", "Music Video Editing", "Color Grading", "Adobe Premiere Pro"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "Glide – Boat Gaming Headset Campaign",
-        subtitle: "Boat | Lead Video Editor",
-        description: "Created a high-energy product launch video for Boat's gaming headset. Merged in-game footage and product shots with dynamic graphics. My edit highlighted product features and the gaming experience, leading to strong social engagement from the gaming community.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
+        youtubeUrl: "https://www.youtube.com",
+      },
+      {
+        name: "Prime Video",
+        role: "Video Editor for a new series trailer, focusing on suspenseful pacing",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        poster: "/assets/images/primevideo-poster.jpg",
+        youtubeUrl: "https://www.youtube.com",
+      },
+      {
+        name: "Dharma Productions",
+        role: "Assistant Editor for a film promo, crafting a character-driven teaser",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        poster: "/assets/images/dharma-poster.jpg",
+        youtubeUrl: "https://www.youtube.com",
+      },
+    ],
+  },
+  {
+    title: "Global Brands",
+    items: [
+      {
+        name: "Cadbury",
+        role: "Lead Video Editor for a cinematic social media campaign",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        poster: "/assets/images/cadbury-poster.jpg",
+        youtubeUrl: "https://www.youtube.com",
+      },
+      {
+        name: "Coca-Cola",
+        role: "Senior Video Editor for a festive holiday commercial with motion graphics",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        poster: "/assets/images/cocacola-poster.jpg",
+        youtubeUrl: "https://www.youtube.com",
+      },
+      {
+        name: "Boat",
+        role: "Lead Video Editor for a high-energy gaming headset launch video",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
         poster: "/assets/images/boat-poster.jpg",
-        aiHint: "gaming headset",
-        tags: ["Video Editing", "Cinematography", "Motion Graphics", "Adobe After Effects"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "HealthGuard – Doctorpedia Series",
-        subtitle: "Doctorpedia | Editor & Cinematographer",
-        description: "Produced an educational video series for Doctorpedia. Shot and edited interviews with doctors into informative episodes. Emphasized clear visual explanations and motion-graphic overlays to make medical concepts accessible to a general audience.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
+        youtubeUrl: "https://www.youtube.com",
+      },
+    ],
+  },
+  {
+    title: "Music & Content",
+    items: [
+      {
+        name: "Universal Music",
+        role: "Video Editor for an emerging artist's music video",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+        poster: "/assets/images/universal-poster.jpg",
+        youtubeUrl: "https://www.youtube.com",
+      },
+      {
+        name: "Doctorpedia",
+        role: "Editor & Cinematographer for an educational medical series",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
         poster: "/assets/images/doctorpedia-poster.jpg",
-        aiHint: "medical education",
-        tags: ["Video Editing", "Cinematography", "Graphic Design", "Storyboarding"],
-        youtubeUrl: "https://www.youtube.com"
-    },
-    {
-        title: "Reels of Laughter – ComedyCulture YouTube",
-        subtitle: "ComedyCulture | Video Editor",
-        description: "Edited short-form comedy reels for the ComedyCulture YouTube channel. Trimmed humorous moments and added quick-paced cuts to maximize comedic timing. The resulting viral clip series increased channel subscribers by 40% over two months.",
-        image: "https://placehold.co/800x600.png",
-        video: "https://www.w3schools.com/html/mov_bbb.mp4",
+        youtubeUrl: "https://www.youtube.com",
+      },
+      {
+        name: "ComedyCulture",
+        role: "Video Editor for short-form viral comedy reels on YouTube",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
         poster: "/assets/images/comedy-poster.jpg",
-        aiHint: "comedy show",
-        tags: ["Video Editing", "Social Media Content", "Comedy Editing", "Sound Design"],
-        youtubeUrl: "https://www.youtube.com"
-    }
+        youtubeUrl: "https://www.youtube.com",
+      },
+    ],
+  },
 ];
 
+
 export function ProjectsSection() {
-    const isMobile = useIsMobile();
-    const sectionRef = useRef<HTMLElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const leftRef = useRef<HTMLDivElement>(null);
+  const rightRef = useRef<HTMLDivElement>(null);
 
-    useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
-            // Use matchMedia for responsive animations
-            gsap.matchMedia().add("(min-width: 769px)", () => {
-                if (!sectionRef.current || !containerRef.current) return;
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      
+      mm.add("(min-width: 768px)", () => {
+        const sections = rightRef.current?.querySelectorAll('.work-item-video') || [];
+        if (!containerRef.current || sections.length === 0) return;
 
-                const items = gsap.utils.toArray(".work-item");
-                const amount = items.length;
+        const scrollLen = (sections.length) * 100;
 
-                // Horizontal scroll animation for desktop
-                const horizontalScroll = gsap.to(containerRef.current, {
-                    x: () => -(containerRef.current!.scrollWidth - window.innerWidth),
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top top",
-                        end: () => "+=" + (containerRef.current!.scrollWidth - window.innerWidth),
-                        pin: true,
-                        scrub: 1,
-                        invalidateOnRefresh: true
-                    }
-                });
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: `+=${scrollLen}%`,
+            pin: leftRef.current,
+            scrub: 1,
+          }
+        });
 
-                // Cinematic reveal animations
-                items.forEach((item, i) => {
-                    gsap.fromTo(item as HTMLElement,
-                        {
-                            x: 300,
-                            opacity: 0,
-                            scale: 0.8
-                        },
-                        {
-                            x: 0,
-                            opacity: 1,
-                            scale: 1,
-                            duration: 1.2,
-                            ease: 'power3.out',
-                            scrollTrigger: {
-                                trigger: item as HTMLElement,
-                                containerAnimation: horizontalScroll,
-                                start: "left 90%",
-                                end: "left 20%",
-                                toggleActions: "play none none reverse"
-                            }
-                        }
-                    );
-                });
-            });
+        sections.forEach((section, i) => {
+           tl.fromTo(section, 
+            { opacity: 0, y: 50 }, 
+            { opacity: 1, y: 0, duration: 0.5, immediateRender: false }
+          )
+          .to(section, 
+            { opacity: 0, y: -50, duration: 0.5 }, 
+            "+=0.5"
+          );
+        });
+      });
+    }, containerRef);
+    
+    return () => ctx.revert();
+  }, []);
 
-            // Mobile vertical scroll animations
-            gsap.matchMedia().add("(max-width: 768px)", () => {
-                const items = gsap.utils.toArray(".work-item-mobile");
+  const allItems = portfolioData.flatMap(cat => cat.items);
 
-                items.forEach((item, i) => {
-                    gsap.fromTo(item as HTMLElement,
-                        {
-                            y: 100,
-                            opacity: 0
-                        },
-                        {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.8,
-                            ease: 'power2.out',
-                            scrollTrigger: {
-                                trigger: item as HTMLElement,
-                                start: "top 85%",
-                                toggleActions: "play none none reverse"
-                            }
-                        }
-                    );
-                });
-            });
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
-
-    return (
-        <section
-            id="work"
-            ref={sectionRef}
-            className="bg-black text-white overflow-hidden relative film-grain"
-        >
-            {/* Mobile Layout */}
-            <div className="block md:hidden">
-                <div className="py-20 cinematic-scrollbar">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-16">
-                            <h2 className="font-headline text-5xl md:text-6xl font-bold text-white mb-6 cinematic-title">
-                                MY WORK
-                            </h2>
-                            <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary/50 mx-auto mb-6"></div>
-                            <p className="mt-4 max-w-2xl mx-auto text-lg text-white/70 leading-relaxed">
-                                Cinematic stories crafted for brands that demand excellence. Each project is a journey from concept to compelling narrative.
-                            </p>
-                        </div>
-                        <div className="flex flex-col gap-16">
-                            {projects.map((project, index) => (
-                                <div key={index} className="work-item-mobile w-full">
-                                    <ProjectCard project={project} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+  return (
+    <section id="work" ref={containerRef} className="bg-black text-white film-grain">
+      <div className="container mx-auto flex flex-col md:flex-row min-h-screen">
+        {/* Left Panel */}
+        <div ref={leftRef} className="md:w-1/3 p-8 md:p-12 space-y-12 self-start">
+          <h2 className="font-headline text-5xl md:text-6xl font-bold text-white mb-6 cinematic-title sticky top-12">
+              MY WORK
+          </h2>
+          {portfolioData.map((cat) => (
+            <div key={cat.title}>
+              <h3 className="text-2xl font-bold text-primary mb-6">{cat.title}</h3>
+              <ul className="space-y-6">
+                {cat.items.map(item => (
+                  <li key={item.name}>
+                    <span className="font-semibold text-lg text-white/90">{item.name}</span><br/>
+                    <span className="text-sm italic text-white/60">{item.role}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
+          ))}
+        </div>
 
-            {/* Desktop Horizontal Scroll Layout */}
-            <div className="hidden md:block">
-                <div className="h-screen flex items-center justify-start relative cinematic-scrollbar">
-                    <div ref={containerRef} className="flex h-full py-20 pl-20">
-                        {/* Intro Section */}
-                        <div className="flex items-center pr-32">
-                            <div className="text-left w-[35vw] max-w-lg">
-                                <div className="mb-8">
-                                    <div className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full mb-6">
-                                        <span className="text-primary text-sm font-medium tracking-wider uppercase">Featured Work</span>
-                                    </div>
-                                    <h2 className="font-headline text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight cinematic-title">
-                                        MY<br />
-                                        <span className="cinematic-accent-primary">
-                                            WORK
-                                        </span>
-                                    </h2>
-                                    <div className="w-32 h-1 bg-gradient-to-r from-primary to-primary/50 mb-8"></div>
-                                </div>
-                                <p className="text-xl text-white/80 leading-relaxed mb-8">
-                                    Cinematic stories crafted for brands that demand excellence. Each project is a journey from concept to compelling narrative.
-                                </p>
-                                <div className="flex items-center text-white/60">
-                                    <div className="w-8 h-px bg-white/30 mr-4"></div>
-                                    <span className="text-sm uppercase tracking-wider">Scroll to explore</span>
-                                </div>
+        {/* Right Panel */}
+        <div ref={rightRef} className="w-full md:w-2/3 relative">
+          {/* Mobile Layout */}
+           <div className="block md:hidden p-8">
+             {portfolioData.map((cat) => (
+                <div key={cat.title} className="mb-12">
+                  <h3 className="text-2xl font-bold text-primary mb-6">{cat.title}</h3>
+                  <div className="space-y-8">
+                     {cat.items.map(item => (
+                        <div key={item.name} className="work-item-video-mobile">
+                            <video
+                                src={item.videoUrl}
+                                poster={item.poster}
+                                muted
+                                controls
+                                playsInline
+                                className="w-full object-cover rounded-lg shadow-lg"
+                            />
+                            <div className="mt-4">
+                               <span className="font-semibold text-lg text-white/90">{item.name}</span><br/>
+                               <span className="text-sm italic text-white/60">{item.role}</span>
                             </div>
                         </div>
-
-                        {/* Project Cards */}
-                        {projects.map((project, index) => (
-                            <div key={index} className="work-item flex-shrink-0 w-[70vw] max-w-5xl h-[70vh] mr-20">
-                                <ProjectCard project={project} />
-                            </div>
-                        ))}
-
-                        {/* End spacer */}
-                        <div className="flex-shrink-0 w-[25vw]"></div>
-                    </div>
+                     ))}
+                  </div>
                 </div>
-            </div>
-        </section>
-    );
+             ))}
+           </div>
+          
+          {/* Desktop Layout */}
+          <div className="hidden md:block">
+            {allItems.map((item, index) => (
+              <div key={`${item.name}-${index}`} className="work-item-video h-screen flex items-center justify-center p-8">
+                <video
+                  src={item.videoUrl}
+                  poster={item.poster}
+                  muted
+                  loop
+                  playsInline
+                  className="w-full max-w-2xl object-cover rounded-lg shadow-2xl shadow-primary/10 hover:shadow-[0_0_25px_rgba(213,0,50,0.7)] transition-shadow duration-300 cursor-pointer"
+                  style={{
+                      aspectRatio: '16/9'
+                  }}
+                  onClick={() => window.open(item.youtubeUrl, "_blank")}
+                  onMouseEnter={e => e.currentTarget.play()}
+                  onMouseLeave={e => e.currentTarget.pause()}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
