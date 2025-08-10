@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 interface WorkItem {
   name: string;
@@ -102,79 +103,100 @@ const portfolioData: Category[] = [
   },
 ];
 
-const allItems = portfolioData.flatMap((cat, catIndex) => 
-  cat.items.map(item => ({ ...item, categoryIndex: catIndex }))
-);
-
 export function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState<number | null>(0);
+  const [activeCategory, setActiveCategory] = useState<number>(0);
+
+  const activeItems = useMemo(() => {
+    return portfolioData[activeCategory]?.items || [];
+  }, [activeCategory]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       
-      mm.add("(min-width: 768px)", () => {
-        const sections = rightRef.current?.querySelectorAll('.work-item-video') || [];
-        if (!containerRef.current || !leftRef.current || sections.length === 0) return;
+      let scrollTriggerInstance: ScrollTrigger | null = null;
+
+      const setupAnimations = () => {
+        if (scrollTriggerInstance) {
+          scrollTriggerInstance.kill();
+        }
+
+        const sections = rightRef.current?.querySelectorAll('.work-item-video');
+        if (!containerRef.current || !leftRef.current || !sections || sections.length === 0) return;
 
         // Pin the left panel while the right one scrolls
-        ScrollTrigger.create({
+        scrollTriggerInstance = ScrollTrigger.create({
           trigger: containerRef.current,
           start: "top top",
-          end: () => `bottom-=${window.innerHeight}`,
+          // Calculate end based on the height of the right panel
+          end: () => `+=${rightRef.current!.offsetHeight - window.innerHeight}`,
           pin: leftRef.current,
           pinSpacing: false,
+          scrub: 1,
+          invalidateOnRefresh: true, // Recalculate on window resize
         });
         
-        // For each video section, create a trigger to update the active category
-        sections.forEach((section, index) => {
-          const item = allItems[index];
-          ScrollTrigger.create({
-            trigger: section,
-            start: 'top center',
-            end: 'bottom center',
-            onEnter: () => setActiveCategory(item.categoryIndex),
-            onEnterBack: () => setActiveCategory(item.categoryIndex),
-            animation: gsap.fromTo(section, 
-              { autoAlpha: 0.2, y: 50 },
-              { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' }
-            ),
-            toggleActions: 'play reverse play reverse',
-          });
+        sections.forEach((section) => {
+          gsap.fromTo(section, 
+            { autoAlpha: 0.2, y: 50 },
+            { 
+              autoAlpha: 1, 
+              y: 0, 
+              duration: 0.5, 
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: section,
+                containerAnimation: scrollTriggerInstance,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse',
+              }
+            }
+          );
         });
-
+      };
+      
+      mm.add("(min-width: 768px)", () => {
+        // We set up animations after a category is chosen and content is rendered
+        setupAnimations();
+        return () => {
+          if (scrollTriggerInstance) {
+            scrollTriggerInstance.kill();
+          }
+        };
       });
 
       mm.add("(max-width: 767px)", () => {
-        // On mobile, ensure all categories can be opened manually
-        // No special scroll animations needed
+        // On mobile, no pinning
       });
 
     }, containerRef);
     
-    return () => ctx.revert();
-  }, []);
+    // Re-run the effect when activeItems changes to set up new animations
+    ctx.revert(); // Cleanup old animations before setting up new ones
+    const timeoutId = setTimeout(() => {
+        ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      ctx.revert();
+      clearTimeout(timeoutId);
+    };
+  }, [activeItems]);
 
   const handleCategoryClick = (index: number) => {
-    // Allow manual toggle on both mobile and desktop
-    setActiveCategory(activeCategory === index ? null : index);
-    
-    // On desktop, scroll to the corresponding video
-    if (window.innerWidth >= 768) {
-        const firstItemIndex = portfolioData.slice(0, index).reduce((acc, cat) => acc + cat.items.length, 0);
-        const targetVideo = rightRef.current?.querySelectorAll('.work-item-video')[firstItemIndex];
-        if (targetVideo) {
-            gsap.to(window, {
-                scrollTo: {
-                    y: (targetVideo as HTMLElement).offsetTop + rightRef.current!.offsetTop,
-                    autoKill: false
-                },
-                duration: 1
-            });
-        }
+    setActiveCategory(activeCategory === index ? -1 : index);
+    // On desktop, scroll to the top of the section to start fresh
+    if (window.innerWidth >= 768 && containerRef.current) {
+        gsap.to(window, {
+            scrollTo: {
+                y: containerRef.current.offsetTop,
+                autoKill: false
+            },
+            duration: 0.5
+        });
     }
   };
 
@@ -183,7 +205,7 @@ export function ProjectsSection() {
     <section id="work" ref={containerRef} className="bg-black text-white film-grain overflow-hidden">
       <div className="container mx-auto flex flex-col md:flex-row min-h-screen relative">
         {/* Left Panel */}
-        <div ref={leftRef} className="md:w-1/3 md:h-screen p-8 md:p-12 flex flex-col justify-center self-start">
+        <div ref={leftRef} className="md:w-1/3 md:h-screen p-8 md:p-12 flex flex-col justify-center self-start md:sticky top-0">
             <div className='w-full'>
                 <h2 className="font-headline text-5xl md:text-6xl font-bold text-white mb-12 cinematic-title">
                     MY WORK
@@ -220,9 +242,9 @@ export function ProjectsSection() {
         </div>
 
         {/* Right Panel */}
-        <div ref={rightRef} className="w-full md:w-2/3 md:py-[50vh]">
+        <div ref={rightRef} className="w-full md:w-2/3 md:py-16">
            <div className="p-8 space-y-16">
-             {allItems.map((item, index) => (
+             {activeItems.map((item, index) => (
                 <div key={`${item.name}-${index}`} className="work-item-video space-y-4">
                     <h3 className="font-semibold text-xl text-primary md:hidden">{item.name}</h3>
                     <p className="text-sm italic text-white/60 md:hidden">{item.role}</p>
