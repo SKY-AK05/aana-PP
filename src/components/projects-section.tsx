@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ProjectCard } from './project-card';
@@ -112,53 +113,69 @@ const projects = [
 
 export function ProjectsSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const leftPanelRef = useRef<HTMLDivElement>(null);
+  const rightPanelRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
-        if (!triggerRef.current || !containerRef.current) return;
-
-        const cards = gsap.utils.toArray<HTMLDivElement>('.project-card-item');
-        const totalWidth = cards.reduce((acc, card) => acc + card.offsetWidth, 0);
-        const amountToScroll = totalWidth - window.innerWidth;
-
-        const tween = gsap.to(containerRef.current, {
-          x: -amountToScroll,
-          ease: "none",
-        });
-
+        // Pin the right panel
         ScrollTrigger.create({
-          trigger: triggerRef.current,
-          pin: true,
-          scrub: 1,
+          trigger: sectionRef.current,
           start: "top top",
-          end: () => `+=${amountToScroll}`,
-          animation: tween,
+          end: "bottom bottom",
+          pin: rightPanelRef.current,
+          pinSpacing: false,
         });
-
-        // Staggered card entrance animation
-        gsap.from(cards, {
+        
+        // Animate title entrance
+        gsap.from(".section-title", {
           scrollTrigger: {
-            trigger: triggerRef.current,
+            trigger: sectionRef.current,
             start: "top 80%",
             toggleActions: "play none none reverse",
           },
           opacity: 0,
           y: 50,
-          scale: 0.95,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'power3.out',
+          duration: 1,
+          ease: "power3.out",
+        });
+
+        // Create a trigger for each text block on the left to update active index
+        const leftItems = gsap.utils.toArray<HTMLDivElement>('.left-panel-item');
+        leftItems.forEach((item, index) => {
+          ScrollTrigger.create({
+            trigger: item,
+            start: "top center",
+            end: "bottom center",
+            onToggle: (self) => {
+              if (self.isActive) {
+                setActiveIndex(index);
+              }
+            }
+          });
+          
+          gsap.from(item, {
+            scrollTrigger: {
+              trigger: item,
+              start: "top 90%",
+              toggleActions: "play none none reverse",
+            },
+            opacity: 0,
+            y: 40,
+            duration: 0.8,
+            ease: "power2.out",
+          });
         });
       });
-
+      
       mm.add("(max-width: 767px)", () => {
-        const cards = gsap.utils.toArray<HTMLDivElement>('.project-card-item');
-        cards.forEach(card => {
+         // On mobile, just a simple stagger animation for the cards
+        const allCards = gsap.utils.toArray<HTMLDivElement>('.mobile-project-card');
+        allCards.forEach((card) => {
           gsap.from(card, {
             scrollTrigger: {
               trigger: card,
@@ -167,7 +184,7 @@ export function ProjectsSection() {
             },
             opacity: 0,
             y: 50,
-            duration: 0.6,
+            duration: 0.8,
             ease: "power2.out",
           });
         });
@@ -177,24 +194,68 @@ export function ProjectsSection() {
 
     return () => ctx.revert();
   }, []);
+  
+  const activeProject = projects[activeIndex];
 
   return (
-    <section id="work" ref={sectionRef} className="bg-black text-white film-grain overflow-hidden">
-      <div ref={triggerRef} className="py-20 md:py-28 relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-16 text-center">
-          <h2 className="font-headline text-5xl md:text-6xl font-bold text-white cinematic-title">
+    <section id="work" ref={sectionRef} className="bg-black text-white film-grain overflow-hidden py-20 md:py-28">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16 md:mb-20">
+          <h2 className="font-headline text-5xl md:text-6xl font-bold text-white cinematic-title section-title">
             MY WORK
           </h2>
         </div>
 
-        {/* Horizontal Scrolling Container */}
-        <div ref={containerRef} className={cn(
-          "w-max flex gap-8 px-4 md:px-8", // Desktop: flex row
-          "md:w-max md:flex-row",
-          "max-md:w-full max-md:flex-col" // Mobile: flex column
-        )}>
-          {projects.map((project, index) => (
-            <div key={index} className="project-card-item md:w-[45vw] lg:w-[35vw] xl:w-[28vw] max-md:mb-8">
+        {/* Desktop Layout */}
+        <div className="hidden md:grid md:grid-cols-2 md:gap-16">
+          {/* Left Panel: Scrollable Text */}
+          <div ref={leftPanelRef} className="flex flex-col gap-24">
+            {projects.map((project, index) => (
+              <div key={index} className="left-panel-item">
+                <div className={cn(
+                  "text-sm font-medium tracking-wider uppercase mb-3 transition-colors duration-300",
+                  activeIndex === index ? "text-primary" : "text-white/40"
+                )}>
+                  {project.subtitle}
+                </div>
+                <h3 className={cn(
+                  "text-4xl font-bold font-headline mb-4 transition-colors duration-300",
+                  activeIndex === index ? "text-white cinematic-title" : "text-white/60"
+                )}>
+                  {project.title}
+                </h3>
+                <p className={cn(
+                  "text-white/60 leading-relaxed transition-opacity duration-300",
+                  activeIndex === index ? "opacity-100" : "opacity-70"
+                )}>
+                  {project.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Panel: Sticky Video */}
+          <div ref={rightPanelRef} className="relative h-screen flex items-center justify-center">
+            <div className="w-full aspect-video">
+               {projects.map((project, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "absolute inset-0 transition-opacity duration-500 ease-in-out",
+                    activeIndex === index ? 'opacity-100' : 'opacity-0'
+                  )}
+                >
+                  {activeIndex === index && <ProjectCard project={project} />}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* Mobile Layout */}
+        <div className="md:hidden flex flex-col gap-12">
+           {projects.map((project, index) => (
+            <div key={index} className="mobile-project-card">
               <ProjectCard project={project} />
             </div>
           ))}
