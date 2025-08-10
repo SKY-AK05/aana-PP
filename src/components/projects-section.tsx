@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useRef, useEffect, useState, useMemo } from 'react';
@@ -110,74 +111,65 @@ export function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState<number>(0);
 
   const activeItems = useMemo(() => {
+    if (activeCategory === -1) return portfolioData.flatMap(cat => cat.items);
     return portfolioData[activeCategory]?.items || [];
   }, [activeCategory]);
-
+  
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
-      
-      let scrollTriggerInstance: ScrollTrigger | null = null;
-
-      const setupAnimations = () => {
-        if (scrollTriggerInstance) {
-          scrollTriggerInstance.kill();
-        }
-
-        const sections = rightRef.current?.querySelectorAll('.work-item-video');
-        if (!containerRef.current || !leftRef.current || !sections || sections.length === 0) return;
-
-        // Pin the left panel while the right one scrolls
-        scrollTriggerInstance = ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: "top top",
-          // Calculate end based on the height of the right panel
-          end: () => `+=${rightRef.current!.offsetHeight - window.innerHeight}`,
-          pin: leftRef.current,
-          pinSpacing: false,
-          scrub: 1,
-          invalidateOnRefresh: true, // Recalculate on window resize
-        });
-        
-        sections.forEach((section) => {
-          gsap.fromTo(section, 
-            { autoAlpha: 0.2, y: 50 },
-            { 
-              autoAlpha: 1, 
-              y: 0, 
-              duration: 0.5, 
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: section,
-                containerAnimation: scrollTriggerInstance,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse',
-              }
-            }
-          );
-        });
-      };
-      
-      mm.add("(min-width: 768px)", () => {
-        // We set up animations after a category is chosen and content is rendered
-        setupAnimations();
-        return () => {
-          if (scrollTriggerInstance) {
-            scrollTriggerInstance.kill();
-          }
-        };
-      });
-
-      mm.add("(max-width: 767px)", () => {
-        // On mobile, no pinning
-      });
-
-    }, containerRef);
+    let ctx = gsap.context(() => {});
     
-    // Re-run the effect when activeItems changes to set up new animations
-    ctx.revert(); // Cleanup old animations before setting up new ones
+    // We need to wait for the DOM to update with the new activeItems
     const timeoutId = setTimeout(() => {
-        ScrollTrigger.refresh();
+      ctx.revert(); // Clean up previous animations and ScrollTriggers
+
+      ctx = gsap.context(() => {
+        const mm = gsap.matchMedia();
+        
+        mm.add("(min-width: 768px)", () => {
+          if (!containerRef.current || !leftRef.current || !rightRef.current) return;
+          
+          const sections = gsap.utils.toArray('.work-item-video');
+          if (sections.length === 0) return;
+
+          // Pin the left panel while the right one scrolls
+          const pin = gsap.to(leftRef.current, {
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: () => `+=${rightRef.current!.offsetHeight - window.innerHeight}`,
+              pin: leftRef.current,
+              pinSpacing: false,
+              scrub: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+          
+          sections.forEach((section) => {
+            gsap.fromTo(section as HTMLElement, 
+              { autoAlpha: 0.2, y: 50 },
+              { 
+                autoAlpha: 1, 
+                y: 0, 
+                duration: 0.5, 
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: section as HTMLElement,
+                  // containerAnimation: pin, // This was causing issues. Simpler trigger is better.
+                  start: 'top 80%',
+                  end: 'bottom 20%',
+                  toggleActions: 'play none none reverse',
+                }
+              }
+            );
+          });
+        });
+
+        mm.add("(max-width: 767px)", () => {
+          // On mobile, no pinning
+        });
+      }, containerRef);
+      
+      ScrollTrigger.refresh();
     }, 100);
 
     return () => {
@@ -268,3 +260,4 @@ export function ProjectsSection() {
     </section>
   );
 }
+
