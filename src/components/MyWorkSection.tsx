@@ -117,7 +117,7 @@ const MediaCard: React.FC<{
   type?: 'video' | 'image'
 }> = ({ media, title, type = 'image' }) => {
   return (
-    <div className="media-card relative w-full h-full rounded-xl overflow-hidden bg-gray-50 border border-gray-200">
+    <div className="media-card relative w-full h-full rounded-xl overflow-hidden bg-muted border border-border">
       {type === 'video' ? (
         <video
           className="w-full h-full object-cover"
@@ -138,8 +138,8 @@ const MediaCard: React.FC<{
         />
       )}
       <div className="absolute bottom-4 right-4">
-        <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-gray-200">
-          <p className="text-gray-700 text-xs font-medium">{title}</p>
+        <div className="bg-background/90 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-border">
+          <p className="text-foreground/80 text-xs font-medium">{title}</p>
         </div>
       </div>
     </div>
@@ -225,11 +225,11 @@ const MyWorkSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="work" ref={sectionRef} className="bg-white text-gray-900 relative">
+    <section id="work" ref={sectionRef} className="bg-background text-foreground relative">
       {/* Section Title */}
       <div className="text-center py-20">
-        <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">MY WORK</h2>
-        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+        <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-4">MY WORK</h2>
+        <p className="text-foreground/70 text-lg max-w-2xl mx-auto">
           A showcase of my professional journey through video editing and cinematography
         </p>
       </div>
@@ -247,43 +247,43 @@ const MyWorkSection: React.FC = () => {
                   {workData.map((category, categoryIndex) => (
                     <div key={categoryIndex} className="flex items-center space-x-2">
                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-medium transition-all duration-300 ${categoryIndex === activeCategory
-                        ? 'bg-gray-900 border-gray-900 text-white'
+                        ? 'bg-foreground border-foreground text-background'
                         : categoryIndex < activeCategory
-                          ? 'bg-gray-900 border-gray-900 text-white'
-                          : 'border-gray-300 text-gray-400'
+                          ? 'bg-foreground border-foreground text-background'
+                          : 'border-border text-foreground/50'
                         }`}>
                         {categoryIndex + 1}
                       </div>
                       {categoryIndex < workData.length - 1 && (
-                        <div className={`w-8 h-0.5 transition-all duration-300 ${categoryIndex < activeCategory ? 'bg-gray-900' : 'bg-gray-200'
+                        <div className={`w-8 h-0.5 transition-all duration-300 ${categoryIndex < activeCategory ? 'bg-foreground' : 'bg-border'
                           }`} />
                       )}
                     </div>
                   ))}
                 </div>
 
-                <div className="text-gray-500 text-sm font-medium mb-4">
+                <div className="text-foreground/60 text-sm font-medium mb-4">
                   {currentContent.category} • {currentContent.role}
                 </div>
-                <h1 className="text-4xl font-bold mb-6 leading-tight text-gray-900">
+                <h1 className="text-4xl font-bold mb-6 leading-tight text-foreground">
                   {currentSubcontent.title}
                 </h1>
-                <p className="text-gray-600 text-lg leading-relaxed mb-8">
+                <p className="text-foreground/70 text-lg leading-relaxed mb-8">
                   {currentSubcontent.description}
                 </p>
 
                 {/* Progress indicator */}
                 <div className="flex items-center space-x-3">
-                  <div className="text-sm font-medium text-gray-900">
+                  <div className="text-sm font-medium text-foreground">
                     {activeSubcategory + 1}
                   </div>
-                  <div className="text-sm text-gray-400">/</div>
-                  <div className="text-sm text-gray-400">
+                  <div className="text-sm text-foreground/50">/</div>
+                  <div className="text-sm text-foreground/50">
                     {currentContent.subcategories.length}
                   </div>
-                  <div className="flex-1 h-px bg-gray-200 ml-4">
+                  <div className="flex-1 h-px bg-border ml-4">
                     <div
-                      className="h-full bg-gray-900 transition-all duration-500"
+                      className="h-full bg-foreground transition-all duration-500"
                       style={{
                         width: `${((activeSubcategory + 1) / currentContent.subcategories.length) * 100}%`
                       }}
@@ -324,13 +324,13 @@ const MyWorkSection: React.FC = () => {
             category.subcategories.map((subcategory, subIndex) => (
               <div key={`${categoryIndex}-${subIndex}`} className="space-y-6">
                 <div>
-                  <div className="text-gray-500 text-sm font-medium mb-2">
+                  <div className="text-foreground/60 text-sm font-medium mb-2">
                     {category.category} • {category.role}
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-900">
+                  <h3 className="text-2xl font-bold mb-4 text-foreground">
                     {subcategory.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-foreground/70 leading-relaxed">
                     {subcategory.description}
                   </p>
                 </div>
