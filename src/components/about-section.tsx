@@ -125,8 +125,8 @@ export function AboutSection() {
   return (
     <section id="about" ref={containerRef} className="py-20 md:py-28 bg-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div ref={photoRef} className="relative">
+        <div className="grid md:grid-cols-5 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+          <div ref={photoRef} className="relative md:col-span-2">
             {/* Photo with enhanced styling */}
             <div className="relative group">
               <div
@@ -158,7 +158,7 @@ export function AboutSection() {
             <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/5 rounded-full blur-lg -z-10" />
           </div>
 
-          <div ref={bioContentRef}>
+          <div ref={bioContentRef} className="md:col-span-3">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-4">
               About Me
             </h2>
