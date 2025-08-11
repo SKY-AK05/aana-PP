@@ -174,7 +174,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </h3>
 
         {/* Description */}
-        <p className="text-white/70 mb-6 flex-grow leading-relaxed text-sm md:text-base">
+        <p className="text-white/70 mb-6 leading-relaxed text-sm md:text-base">
           {project.description}
         </p>
 
