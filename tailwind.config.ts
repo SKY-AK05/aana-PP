@@ -70,6 +70,11 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      spacing: {
+        '160': '40rem',
+        '192': '48rem',
+        '224': '56rem',
+      },
       keyframes: {
         'accordion-down': {
           from: {
