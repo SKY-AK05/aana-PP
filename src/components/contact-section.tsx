@@ -21,8 +21,10 @@ if (typeof window !== 'undefined') {
 }
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  firstName: z.string().min(2, { message: "First name must be at least 2 characters." }),
+  lastName: z.string().min(2, { message: "Last name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
+  phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }),
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
 });
 
@@ -31,8 +33,10 @@ export function ContactSection() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
+      phone: "",
       message: "",
     },
   });
@@ -41,6 +45,7 @@ export function ContactSection() {
 
   // Refs for GSAP animation targets
   const sectionRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -49,11 +54,12 @@ export function ContactSection() {
     if (typeof window === 'undefined') return;
 
     const section = sectionRef.current;
+    const imageElement = imageRef.current;
     const title = titleRef.current;
     const subtitle = subtitleRef.current;
     const formElement = formRef.current;
 
-    if (!section || !title || !subtitle || !formElement) return;
+    if (!section || !imageElement || !title || !subtitle || !formElement) return;
 
     // Find the previous section (What I Do section) for overlap effect
     const previousSection = document.querySelector('.what-i-do-section') as HTMLElement;
@@ -66,7 +72,7 @@ export function ContactSection() {
     });
 
     // Set initial states for content elements (hidden until overlap completes)
-    gsap.set([title, subtitle], {
+    gsap.set([imageElement, title, subtitle], {
       opacity: 0,
       y: 30,
       willChange: "transform, opacity"
@@ -93,6 +99,13 @@ export function ContactSection() {
       });
       
       // Add content animations that happen during the scroll
+      overlapTl.to(imageElement, {
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        ease: "none"
+      }, 0.6); // Start image animation at 60%
+      
       overlapTl.to([title, subtitle], {
         opacity: 1,
         y: 0,
@@ -133,13 +146,18 @@ export function ContactSection() {
         }
       });
 
-      fallbackTl.to([title, subtitle], {
+      fallbackTl.to(imageElement, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out"
+      }).to([title, subtitle], {
         opacity: 1,
         y: 0,
         duration: 0.8,
         stagger: 0.2,
         ease: "power2.out"
-      }).to(formElements, {
+      }, "-=0.6").to(formElements, {
         opacity: 1,
         y: 0,
         duration: 0.6,
@@ -168,6 +186,13 @@ export function ContactSection() {
           y: '0%',
           ease: "none"
         });
+        
+        mobileOverlapTl.to(imageElement, {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          ease: "none"
+        }, 0.5);
         
         mobileOverlapTl.to([title, subtitle], {
           opacity: 1,
@@ -242,94 +267,163 @@ export function ContactSection() {
         zIndex: 10
       }}
     >
-      {/* Content Container - Positioned for overlap scroll effect */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-3xl mx-auto">
-          {/* Header Section - Will fade in after overlap completes */}
-          <div className="text-center mb-8 md:mb-10">
-            <h2 
-              ref={titleRef}
-              className="font-headline text-4xl md:text-5xl font-bold text-white"
-            >
-              Let's Create Together
-            </h2>
-            <p 
-              ref={subtitleRef}
-              className="mt-4 max-w-2xl mx-auto text-lg text-gray-300"
-            >
-              Have a project in mind or just want to connect? I'd love to hear from you.
-            </p>
+      {/* Split Layout Container */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 h-full items-center">
+          
+          {/* Left Side - Image and Contact Info */}
+          <div ref={imageRef} className="relative">
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-purple-400 via-pink-400 to-blue-500 p-1">
+              <div className="relative rounded-3xl overflow-hidden">
+                <img 
+                  src="/assets/profile-hero.jpg" 
+                  alt="Contact Profile" 
+                  className="w-full h-[500px] lg:h-[600px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              </div>
+            </div>
+            
+            {/* Contact Info Overlay */}
+            <div className="absolute bottom-8 left-8 text-white">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-white/20 backdrop-blur-lg rounded-xl flex items-center justify-center">
+                  <Mail className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 ref={titleRef} className="text-2xl font-bold">Contact us</h3>
+                </div>
+              </div>
+              <p ref={subtitleRef} className="text-sm text-gray-200 max-w-xs leading-relaxed">
+                Ask about our platform, pricing, implementation or anything else. Our highly trained reps are standing by. Ready to help
+              </p>
+            </div>
           </div>
 
-          {/* Form Container - Elements will stagger-fade in after overlap */}
-          <Card className="p-8 md:p-10 bg-white/10 backdrop-blur-lg border border-white/20">
+          {/* Right Side - Contact Form */}
+          <div className="lg:pl-8">
             <div ref={formRef}>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-lg text-white">Name</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="Your Name" 
-                            {...field} 
-                            className="h-12 text-base bg-white/10 border-white/20 text-white placeholder:text-gray-400" 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  
+                  {/* First Name and Last Name Row */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-300">First name</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Marshmelo" 
+                              {...field} 
+                              className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500" 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-300">Last name</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Donas" 
+                              {...field} 
+                              className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500" 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {/* Email Field */}
                   <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg text-white">Email</FormLabel>
+                        <FormLabel className="text-sm font-medium text-gray-300">
+                          E-mail address <span className="text-red-500">*</span>
+                        </FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="your.email@example.com" 
+                            placeholder="Dryaebrahimi@gmail.com" 
                             {...field} 
-                            className="h-12 text-base bg-white/10 border-white/20 text-white placeholder:text-gray-400" 
+                            className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500" 
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
+                  {/* Phone Field */}
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-medium text-gray-300">
+                          Phone <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <div className="flex">
+                            <div className="flex items-center px-3 bg-gray-800/50 border border-r-0 border-gray-700 rounded-l-lg">
+                              <span className="text-sm text-gray-400">🇨🇦 +1</span>
+                            </div>
+                            <Input 
+                              placeholder="778 558 5250" 
+                              {...field} 
+                              className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-l-none rounded-r-lg focus:border-blue-500 focus:ring-blue-500" 
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Message Field */}
                   <FormField
                     control={form.control}
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-lg text-white">Message</FormLabel>
+                        <FormLabel className="text-sm font-medium text-gray-300">Message</FormLabel>
                         <FormControl>
                           <Textarea 
-                            placeholder="Tell me about your project..." 
+                            placeholder="Hi, unfortunately I don't have access to my account, please check if there is any problem there." 
                             {...field} 
-                            rows={6} 
-                            className="text-base bg-white/10 border-white/20 text-white placeholder:text-gray-400" 
+                            rows={4} 
+                            className="text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500 resize-none" 
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
+                  {/* Submit Button */}
                   <Button 
                     type="submit" 
                     size="lg" 
-                    className="w-full h-14 text-lg font-bold bg-red-600 hover:bg-red-700 text-white" 
+                    className="w-full h-12 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200" 
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Sending...' : <>Send Message <Send className="ml-2 h-5 w-5" /></>}
+                    {isSubmitting ? 'Sending...' : 'Send message'}
                   </Button>
                 </form>
               </Form>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </section>
