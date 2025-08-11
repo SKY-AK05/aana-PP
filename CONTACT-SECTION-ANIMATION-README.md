@@ -49,10 +49,19 @@ duration: 0.6,
 ```javascript
 scrollTrigger: {
   trigger: section,
-  start: "top 75%",    // Start when 75% in viewport
-  end: "bottom 25%",   // End when 25% in viewport
+  start: "top 80%",    // Start when 80% in viewport (optimized)
+  end: "top 20%",      // End when top reaches 20% (minimal scroll area)
   toggleActions: "play none none reverse"
 }
+```
+
+### Spacing Optimizations
+```javascript
+// Section padding (reduced for tighter layout)
+className="py-12 md:py-16"  // Was py-20 md:py-28
+
+// Header margin (reduced gap)
+className="text-center mb-8 md:mb-10"  // Was mb-12
 ```
 
 ### Clip-Path Directions

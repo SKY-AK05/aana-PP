@@ -78,12 +78,12 @@ export function ContactSection() {
       willChange: "transform, opacity"
     });
 
-    // Create the main timeline
+    // Create the main timeline with optimized scroll trigger area
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top 75%", // Start when section is 75% in viewport
-        end: "bottom 25%",
+        start: "top 80%", // Start when section is 80% in viewport (tighter trigger)
+        end: "top 20%", // End when section top reaches 20% (minimal scroll area)
         toggleActions: "play none none reverse", // Play on enter, reverse on leave
         // Uncomment for debugging:
         // markers: true
@@ -147,7 +147,7 @@ export function ContactSection() {
     <section 
       ref={sectionRef}
       id="contact" 
-      className="py-20 md:py-28 border-t border-border bg-background overflow-hidden"
+      className="py-12 md:py-16 border-t border-border bg-background overflow-hidden"
     >
       {/* 
         Mask Container: This div wraps all content and applies the clip-path animation
@@ -166,7 +166,7 @@ export function ContactSection() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             {/* Header Section - Will fade in after unmask */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-8 md:mb-10">
               <h2 
                 ref={titleRef}
                 className="font-headline text-4xl md:text-5xl font-bold text-primary"
