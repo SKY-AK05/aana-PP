@@ -4,10 +4,17 @@ import React, { useLayoutEffect, useRef } from 'react';
 import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Linkedin, Github } from 'lucide-react';
-import { Button } from './ui/button';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const companies = [
+  { name: 'Cadbury' },
+  { name: 'Coca-Cola' },
+  { name: 'Prime Video' },
+  { name: 'Universal Music' },
+  { name: 'Dharma Productions' },
+  { name: 'Jio' },
+];
 
 export function AboutSection() {
   const containerRef = useRef<HTMLElement>(null);
@@ -15,12 +22,12 @@ export function AboutSection() {
   const photoImgRef = useRef<HTMLDivElement>(null);
   const photoBorderRef = useRef<HTMLDivElement>(null);
   const bioContentRef = useRef<HTMLDivElement>(null);
-  const socialLinksRef = useRef<HTMLDivElement>(null);
+  const companiesRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       // Set initial states
-      gsap.set([photoRef.current, bioContentRef.current, socialLinksRef.current], {
+      gsap.set([photoRef.current, bioContentRef.current, companiesRef.current], {
         opacity: 0,
         y: 30
       });
@@ -35,13 +42,37 @@ export function AboutSection() {
       });
 
       aboutTimeline
-        .to([photoRef.current, bioContentRef.current, socialLinksRef.current], {
+        .to([photoRef.current, bioContentRef.current], {
           opacity: 1,
           y: 0,
           duration: 0.8,
           stagger: 0.2,
           ease: 'power2.out'
+        })
+        .to(companiesRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+        }, "-=0.5");
+        
+      // Animate company logos
+      const logos = companiesRef.current?.querySelectorAll('.company-logo');
+      if (logos) {
+        gsap.from(logos, {
+            scrollTrigger: {
+                trigger: companiesRef.current,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+            },
+            opacity: 0,
+            y: 20,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: 'power2.out'
         });
+      }
+
 
       // Photo hover effects
       if (photoRef.current && photoImgRef.current && photoBorderRef.current) {
@@ -77,46 +108,6 @@ export function AboutSection() {
         })
       });
 
-      // Social links hover animations
-      const socialLinks = socialLinksRef.current?.querySelectorAll('a');
-      socialLinks?.forEach((link) => {
-        const icon = link.querySelector('svg');
-
-        link.addEventListener('mouseenter', () => {
-          gsap.to(link, {
-            scale: 1.05,
-            y: -2,
-            duration: 0.3,
-            ease: 'power2.out'
-          });
-          if (icon) {
-            gsap.to(icon, {
-              scale: 1.2,
-              rotation: 5,
-              duration: 0.3,
-              ease: 'power2.out'
-            });
-          }
-        });
-
-        link.addEventListener('mouseleave', () => {
-          gsap.to(link, {
-            scale: 1,
-            y: 0,
-            duration: 0.3,
-            ease: 'power2.out'
-          });
-          if (icon) {
-            gsap.to(icon, {
-              scale: 1,
-              rotation: 0,
-              duration: 0.3,
-              ease: 'power2.out'
-            });
-          }
-        });
-      });
-
     }, containerRef);
 
     return () => ctx.revert();
@@ -125,7 +116,7 @@ export function AboutSection() {
   return (
     <section id="about" ref={containerRef} className="py-20 md:py-28 bg-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-5 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
           <div ref={photoRef} className="relative md:col-span-2">
             {/* Photo with enhanced styling */}
             <div className="relative group">
@@ -169,19 +160,17 @@ export function AboutSection() {
               From fast-paced promotional videos to detailed graphic layouts, I bring a commitment to quality, creativity, and technical excellence. Let's create something memorable together.
             </p>
 
-            <div className="flex space-x-4" ref={socialLinksRef}>
-              <Button asChild variant="outline" className="group cinematic-focus rounded-lg">
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                  <Linkedin className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                  LinkedIn
-                </a>
-              </Button>
-              <Button asChild variant="outline" className="group cinematic-focus rounded-lg">
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  <Github className="mr-2 h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
-                  Portfolio
-                </a>
-              </Button>
+            <div ref={companiesRef} className="mt-12">
+              <h3 className="text-sm font-semibold tracking-wider uppercase text-foreground/60 mb-6">
+                Worked With
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-8">
+                {companies.map((company) => (
+                  <div key={company.name} className="company-logo flex items-center justify-center p-4 bg-secondary/20 rounded-lg border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+                     <p className="text-sm font-semibold text-white/80">{company.name}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
