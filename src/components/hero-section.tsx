@@ -17,9 +17,9 @@ import { Linkedin, Github, Dribbble } from 'lucide-react';
 
 
 const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#work", label: "Work" },
-    { href: "#contact", label: "Contact" },
+  { href: "#about", label: "About" },
+  { href: "#work", label: "Work" },
+  { href: "#contact", label: "Contact" },
 ];
 
 const stats = [
@@ -60,9 +60,9 @@ export function HeroSection() {
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map(link => (
-                  <Link key={link.href} href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
-                      {link.label}
-                  </Link>
+                <Link key={link.href} href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
+                  {link.label}
+                </Link>
               ))}
             </nav>
 
@@ -76,20 +76,20 @@ export function HeroSection() {
           </div>
         </div>
       </header>
-      
+
       {/* Mobile Menu */}
       {isMenuOpen && (
-          <div className="md:hidden absolute top-24 left-0 right-0 bg-background z-40">
-              <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                  <nav className="flex flex-col space-y-4">
-                      {navLinks.map(link => (
-                          <Link key={link.href} href={link.href} className="text-lg font-medium text-stone-300 hover:text-primary transition-colors text-center" onClick={() => setIsMenuOpen(false)}>
-                              {link.label}
-                          </Link>
-                      ))}
-                  </nav>
-              </div>
+        <div className="md:hidden absolute top-24 left-0 right-0 bg-background z-40">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <nav className="flex flex-col space-y-4">
+              {navLinks.map(link => (
+                <Link key={link.href} href={link.href} className="text-lg font-medium text-stone-300 hover:text-primary transition-colors text-center" onClick={() => setIsMenuOpen(false)}>
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
           </div>
+        </div>
       )}
 
       {/* Main Content Grid */}
@@ -103,23 +103,23 @@ export function HeroSection() {
             A creative Video Editor and Graphic Designer with a passion for cinematic storytelling and crafting visually stunning narratives.
           </p>
           <div className="mt-12 flex items-center gap-4">
-             <div className="w-0.5 h-12 bg-primary"></div>
-             <div>
-                <p className="font-headline font-bold text-white tracking-wider">BY HARDWORK & DETERMINATION</p>
-                <p className="text-sm text-foreground/60">Currently shaping visuals that inspire.</p>
-             </div>
+            <div className="w-0.5 h-12 bg-primary"></div>
+            <div>
+              <p className="font-headline font-bold text-white tracking-wider">BY HARDWORK & DETERMINATION</p>
+              <p className="text-sm text-foreground/60">Currently shaping visuals that inspire.</p>
+            </div>
           </div>
         </div>
-        
+
         {/* Center Column (Image) */}
-        <div className="md:col-span-4 flex items-center justify-center relative order-first md:order-none">
-          <div className="absolute inset-y-0 right-0 w-full bg-primary hero-element" style={{width: '75%'}}></div>
-          <div className="relative w-full h-full hero-element">
-            <Image 
-              src="/myheroimage.png" 
+        <div className="md:col-span-4 flex flex-col justify-end relative order-first md:order-none min-h-screen">
+          <div className="absolute inset-y-0 right-0 w-full bg-primary hero-element" style={{ width: '75%' }}></div>
+          <div className="relative w-full flex-shrink-0 hero-element mb-[-100px]" style={{ height: '650px', marginLeft: '13%' }}>
+            <Image
+              src="/assets/myheroimage.png"
               data-ai-hint="man illustration"
-              alt="Bharath Naidu" 
-              fill 
+              alt="Bharath Naidu"
+              fill
               className="object-contain object-bottom"
             />
           </div>
