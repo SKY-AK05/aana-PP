@@ -116,7 +116,7 @@ export function HeroSection() {
           <div className="absolute inset-y-0 right-0 w-full bg-primary hero-element" style={{width: '75%'}}></div>
           <div className="relative w-full h-full hero-element">
             <Image 
-              src="/myheroimage.svg" 
+              src="/myheroimage.png" 
               data-ai-hint="man illustration"
               alt="Bharath Naidu" 
               fill 
