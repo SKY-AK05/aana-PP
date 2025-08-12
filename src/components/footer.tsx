@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 export function Footer() {
   return (
-    <footer className="bg-background border-t border-border">
+    <footer className="bg-background border-t border-border/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-sm text-foreground/60 text-center md:text-left">
@@ -17,7 +17,7 @@ export function Footer() {
               </a>
             </Button>
             <Button asChild variant="ghost" size="icon">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="Portfolio">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="Github">
                 <Github className="h-5 w-5 text-foreground/80 hover:text-primary" />
               </a>
             </Button>
