@@ -172,7 +172,7 @@ export function AboutSection() {
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-8">
                 {companies.map((company) => (
-                  <div key={company.name} className="company-logo flex items-center justify-center p-4 bg-secondary/20 rounded-lg border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20">
+                  <div key={company.name} className="company-logo flex items-center justify-center p-4 bg-secondary/20 rounded-lg border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 h-20">
                      <p className="text-sm font-semibold text-white/80">{company.name}</p>
                   </div>
                 ))}
