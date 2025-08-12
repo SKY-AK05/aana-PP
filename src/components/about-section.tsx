@@ -117,7 +117,7 @@ export function AboutSection() {
     <section id="about" ref={containerRef} className="py-20 md:py-28 bg-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
-          <div ref={photoRef} className="relative md:col-span-2">
+          <div ref={photoRef} className="relative lg:col-span-2">
             {/* Photo with enhanced styling */}
             <div className="relative group">
               <div
@@ -129,6 +129,7 @@ export function AboutSection() {
                   data-ai-hint="man portrait"
                   alt="Bharath Naidu"
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
@@ -149,16 +150,21 @@ export function AboutSection() {
             <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/5 rounded-full blur-lg -z-10" />
           </div>
 
-          <div ref={bioContentRef} className="md:col-span-3">
+          <div ref={bioContentRef} className="lg:col-span-3">
             <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-4">
               About Me
             </h2>
-            <p className="text-lg text-foreground/80 mb-6 leading-relaxed">
-              I'm a passionate Video Editor and Graphic Designer with a keen eye for storytelling. My experience is rooted in transforming raw ideas and footage into polished, impactful visual narratives that resonate with audiences.
-            </p>
-            <p className="text-lg text-foreground/80 mb-8 leading-relaxed">
-              From fast-paced promotional videos to detailed graphic layouts, I bring a commitment to quality, creativity, and technical excellence. Let's create something memorable together.
-            </p>
+            <div className="space-y-6 text-lg text-foreground/80 leading-relaxed">
+              <p>
+                Hey, I’m Bharath. I’ve spent over 15 years bringing stories to life for brands like Coca-Cola, Sony Pictures, Xiaomi, Boat, and Dharma Productions. My work blends cinematic storytelling with digital trends — from brand films and trailers to influencer reels and AI-driven visuals.
+              </p>
+              <p>
+                I believe in making every frame count. Whether it’s launching a product, sparking a viral moment, or building something never seen before, I bring both creativity and precision to the table.
+              </p>
+              <p>
+                At the end of the day, it’s about connecting with people. That’s what got me started, and it’s still what drives me today.
+              </p>
+            </div>
 
             <div ref={companiesRef} className="mt-12">
               <h3 className="text-sm font-semibold tracking-wider uppercase text-foreground/60 mb-6">
