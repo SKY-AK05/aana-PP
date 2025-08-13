@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useLayoutEffect, useRef } from 'react';
@@ -129,6 +130,30 @@ export function EnhancedAboutSection() {
             {/* Decorative elements */}
             <div className="absolute -top-6 -right-6 w-12 h-12 bg-primary/10 rounded-full blur-xl -z-10" />
             <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/5 rounded-full blur-lg -z-10" />
+
+            <div className="mt-12 text-center">
+              <h3 className="font-headline text-sm font-bold tracking-wider uppercase text-foreground/60 mb-6">
+                Trusted by Industry Leaders
+              </h3>
+              
+              <div className="flex flex-wrap gap-x-4 gap-y-3 justify-center max-w-sm mx-auto">
+                {companies.map((company) => (
+                  <div 
+                    key={company.name} 
+                    className="company-logo inline-flex items-center px-3 py-1.5 bg-foreground/5 border border-border rounded-full text-xs font-medium text-foreground/80 hover:bg-foreground/10 hover:border-primary/20 transition-all duration-300 cursor-pointer hover:scale-105"
+                  >
+                    <Image
+                      src={company.logo}
+                      alt={company.name}
+                      width={16}
+                      height={16}
+                      className="w-4 h-4 object-contain mr-2 filter dark:invert"
+                    />
+                    {company.name}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           
           <style jsx>{`
@@ -202,33 +227,10 @@ export function EnhancedAboutSection() {
                 ))}
               </div>
             </div>
-
-            <div className="mt-12">
-              <h3 className="font-headline text-sm font-bold tracking-wider uppercase text-foreground/60 mb-6 text-center">
-                Trusted by Industry Leaders
-              </h3>
-              
-              <div className="flex flex-wrap gap-x-4 gap-y-3 justify-center">
-                {companies.map((company) => (
-                  <div 
-                    key={company.name} 
-                    className="company-logo inline-flex items-center px-3 py-1.5 bg-foreground/5 border border-border rounded-full text-xs font-medium text-foreground/80 hover:bg-foreground/10 hover:border-primary/20 transition-all duration-300 cursor-pointer hover:scale-105"
-                  >
-                    <Image
-                      src={company.logo}
-                      alt={company.name}
-                      width={16}
-                      height={16}
-                      className="w-4 h-4 object-contain mr-2 filter dark:invert"
-                    />
-                    {company.name}
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
