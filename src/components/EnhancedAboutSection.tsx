@@ -207,46 +207,46 @@ export function EnhancedAboutSection() {
           `}</style>
 
           <div ref={bioContentRef} className="lg:col-span-3">
-            <h2 className="font-headline text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
+            <h2 className="font-headline text-5xl md:text-6xl font-black text-foreground mb-6 leading-tight">
               About Me
             </h2>
-            <div className="space-y-6 text-lg text-white/80 leading-relaxed font-medium">
+            <div className="space-y-6 text-lg text-foreground/80 leading-relaxed font-medium">
               <p>
-                Hey, I'm Bharath. I've spent over <span className="text-[#e50914] font-semibold">15 years</span> bringing stories to life for brands like Coca-Cola, Sony Pictures, Xiaomi, Boat, and Dharma Productions. My journey started with a camera at 15, and I've since delivered content for <span className="text-[#e50914] font-semibold">200+ brands across 30+ industries</span> with <span className="text-[#e50914] font-semibold">100% client satisfaction</span>.
+                Hey, I'm Bharath. I've spent over <span className="text-primary font-semibold">15 years</span> bringing stories to life for brands like Coca-Cola, Sony Pictures, Xiaomi, Boat, and Dharma Productions. My journey started with a camera at 15, and I've since delivered content for <span className="text-primary font-semibold">200+ brands across 30+ industries</span> with <span className="text-primary font-semibold">100% client satisfaction</span>.
               </p>
               <p>
                 My work blends cinematic storytelling with digital trends — from brand films and trailers to influencer reels and AI-driven visuals. I believe in making every frame count, whether it's launching a product, sparking a viral moment, or building something never seen before.
               </p>
               <p>
-                Beyond video editing, I'm passionate about <span className="text-white font-semibold">photography, music production, and drumming</span>. I even hold a <span className="text-[#e50914] font-semibold">Guinness World Record</span> for the largest drumming event and have won awards for Best Short Film and Best Drummer.
+                Beyond video editing, I'm passionate about <span className="text-foreground font-semibold">photography, music production, and drumming</span>. I even hold a <span className="text-primary font-semibold">Guinness World Record</span> for the largest drumming event and have won awards for Best Short Film and Best Drummer.
               </p>
               <p>
-                At the end of the day, it's about connecting with people. That's what got me started, and it's still what drives me today from my base in <span className="text-white font-semibold">Navi Mumbai</span>.
+                At the end of the day, it's about connecting with people. That's what got me started, and it's still what drives me today from my base in <span className="text-foreground font-semibold">Navi Mumbai</span>.
               </p>
             </div>
 
             {/* Awards Section */}
             <div className="awards-section mt-12">
-              <h3 className="font-headline text-xl font-bold text-[#e50914] mb-6">
+              <h3 className="font-headline text-xl font-bold text-primary mb-6">
                 Awards & Recognition
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {awards.map((award, index) => (
                   <div 
                     key={index}
-                    className="award-card p-4 bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg hover:border-[#e50914]/40 transition-all duration-300"
+                    className="award-card p-4 bg-card/60 backdrop-blur-sm border border-border rounded-lg hover:border-primary/40 transition-all duration-300 shadow-sm"
                   >
                     <div className="text-2xl mb-2">🏆</div>
-                    <div className="text-white font-semibold text-sm">{award.title}</div>
-                    <div className="text-white/60 text-xs">{award.description}</div>
-                    <div className="text-[#e50914] text-xs font-medium mt-1">{award.year}</div>
+                    <div className="text-foreground font-semibold text-sm">{award.title}</div>
+                    <div className="text-foreground/60 text-xs">{award.description}</div>
+                    <div className="text-primary text-xs font-medium mt-1">{award.year}</div>
                   </div>
                 ))}
               </div>
             </div>
 
             <div ref={companiesRef} className="mt-12">
-              <h3 className="font-headline text-sm font-bold tracking-wider uppercase text-white/60 mb-8">
+              <h3 className="font-headline text-sm font-bold tracking-wider uppercase text-foreground/60 mb-8">
                 Trusted by Industry Leaders
               </h3>
               
@@ -255,14 +255,14 @@ export function EnhancedAboutSection() {
                 {companies.map((company) => (
                   <div 
                     key={company.name} 
-                    className="company-logo inline-flex items-center px-3 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-white/80 hover:bg-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer hover:scale-105"
+                    className="company-logo inline-flex items-center px-3 py-2 bg-foreground/5 border border-border rounded-full text-xs font-medium text-foreground/80 hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300 cursor-pointer hover:scale-105"
                   >
                     <Image
                       src={company.logo}
                       alt={company.name}
                       width={20}
                       height={20}
-                      className="w-5 h-5 object-contain mr-2 filter brightness-90"
+                      className="w-5 h-5 object-contain mr-2 filter brightness-90 dark:invert"
                     />
                     {company.name}
                   </div>
