@@ -1,6 +1,5 @@
 import { HeroSection } from "@/components/hero-section";
 import { EnhancedAboutSection } from "@/components/EnhancedAboutSection";
-import StatsSection from "@/components/StatsSection";
 import WhatIDoSection from "@/components/WhatIDoSection";
 import MyWorkSection from "@/components/MyWorkSection";
 import ClientsSection from "@/components/ClientsSection";
@@ -14,7 +13,6 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection />
         <EnhancedAboutSection />
-        <StatsSection />
         <WhatIDoSection />
         <MyWorkSection />
         <ClientsSection />
