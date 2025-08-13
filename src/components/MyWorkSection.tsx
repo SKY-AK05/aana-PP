@@ -137,7 +137,6 @@ const YouTubeVideoCard: React.FC<{ step: CareerStep | null, isVisible: boolean }
     <div
       className={cn(
         "relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-black shadow-2xl cursor-pointer group cinematic-transition",
-        isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -180,49 +179,46 @@ const YouTubeVideoCard: React.FC<{ step: CareerStep | null, isVisible: boolean }
 
 const MyWorkSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const rightPanelRef = useRef<HTMLDivElement>(null);
-  const [activeStep, setActiveStep] = useState<CareerStep | null>(careerData[0]);
-  const [isCardVisible, setIsCardVisible] = useState(true);
-  const [openAccordion, setOpenAccordion] = useState<string>(`item-${careerData[0].stepNumber}`);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !rightPanelRef.current) return;
+    if (!sectionRef.current || !containerRef.current) return;
     
     const ctx = gsap.context(() => {
         const mm = gsap.matchMedia();
 
         mm.add("(min-width: 768px)", () => {
-            ScrollTrigger.create({
-              trigger: sectionRef.current,
-              start: "top top",
-              end: "bottom bottom",
-              pin: rightPanelRef.current,
-              pinSpacing: false,
-            });
+          const slides = gsap.utils.toArray('.work-slide');
+          const totalWidth = slides.reduce((acc, slide: any) => acc + slide.offsetWidth, 0);
 
-            careerData.forEach((step) => {
-              ScrollTrigger.create({
-                trigger: `#accordion-item-${step.stepNumber}`,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => {
-                  setIsCardVisible(false);
-                  setTimeout(() => {
-                    setActiveStep(step);
-                    setOpenAccordion(`item-${step.stepNumber}`);
-                    setIsCardVisible(true);
-                  }, 250);
-                },
-                onEnterBack: () => {
-                   setIsCardVisible(false);
-                  setTimeout(() => {
-                    setActiveStep(step);
-                    setOpenAccordion(`item-${step.stepNumber}`);
-                    setIsCardVisible(true);
-                  }, 250);
-                },
-              });
+          ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${totalWidth - window.innerWidth}`,
+            pin: true,
+            scrub: 1,
+            animation: gsap.to(containerRef.current, {
+              x: () => -(totalWidth - window.innerWidth),
+              ease: 'none',
+            }),
+            anticipatePin: 1
+          });
+          
+          slides.forEach((slide: any) => {
+            gsap.from(slide.children, {
+              y: 50,
+              opacity: 0,
+              duration: 1,
+              stagger: 0.1,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: slide,
+                containerAnimation: ScrollTrigger.get(containerRef.current)?.animation,
+                start: 'left center',
+                toggleActions: 'play none none reverse'
+              }
             });
+          });
         });
 
         mm.add("(max-width: 767px)", () => {
@@ -247,7 +243,7 @@ const MyWorkSection: React.FC = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="work" className="bg-gradient-to-br from-black via-[#101012] to-black text-white py-20 md:py-28">
+    <section ref={sectionRef} id="work" className="bg-gradient-to-br from-black via-[#101012] to-black text-white py-20 md:py-28 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16 md:mb-20">
           <h2 className="text-5xl lg:text-7xl font-bold font-headline cinematic-title mb-4">
@@ -257,83 +253,71 @@ const MyWorkSection: React.FC = () => {
             A showcase of my professional journey through video editing and cinematography.
           </p>
         </div>
-
-        <div className="hidden md:grid md:grid-cols-2 md:gap-16 lg:gap-24">
-          <div className="left-panel flex flex-col">
-            <Accordion type="single" value={openAccordion} collapsible className="w-full space-y-4">
-              {careerData.map((step) => (
-                <AccordionItem 
-                  value={`item-${step.stepNumber}`} 
-                  key={step.stepNumber} 
-                  id={`accordion-item-${step.stepNumber}`}
-                  className="bg-card/30 border border-white/10 rounded-xl transition-all duration-300 hover:border-primary/50"
-                >
-                  <AccordionTrigger className="p-6 text-left hover:no-underline">
-                    <div className="flex flex-col">
-                       <span className="font-headline text-2xl text-white">{step.company}</span>
-                       <span className="text-sm text-white/50">{step.period}</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="p-6 pt-0">
-                    <div className="space-y-4">
-                       <h4 className="text-3xl font-bold text-primary font-headline leading-tight">
-                        {step.role}
-                      </h4>
-                      <p className="text-lg text-white/80 leading-relaxed">
-                        {step.title}
-                      </p>
-                      <p className="text-base text-white/60 leading-relaxed">
-                        {step.shortDescription}
-                      </p>
-                      {step.brands && (
-                        <div className="flex flex-wrap gap-2 pt-2">
-                           {step.brands.map((brand) => (
-                             <span key={brand} className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">
-                               {brand}
-                             </span>
-                           ))}
-                        </div>
-                      )}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-
-          <div ref={rightPanelRef} className="right-panel h-screen flex items-center justify-center">
-              <div className="w-full aspect-[16/10]">
-                  <YouTubeVideoCard step={activeStep} isVisible={isCardVisible} />
-              </div>
-          </div>
-        </div>
-
-        {/* Mobile Layout: Stacked cards */}
-        <div className="md:hidden space-y-12">
-            {careerData.map((step) => (
-                <div key={step.stepNumber} className="mobile-work-item bg-card/30 border border-white/10 rounded-xl p-6">
-                    <div className="space-y-4 mb-6">
-                      <h3 className="text-2xl font-bold text-primary font-headline">
-                        {step.company}
-                      </h3>
-                      <p className="text-gray-400 font-medium">{step.period}</p>
-                      <h4 className="text-3xl font-bold text-white font-headline leading-tight">
-                        {step.role}
-                      </h4>
-                      <p className="text-lg text-gray-300 leading-relaxed">
-                        {step.title}
-                      </p>
-                      <p className="text-base text-gray-400 leading-relaxed">
-                        {step.shortDescription}
-                      </p>
-                    </div>
-                    <div className="w-full aspect-[16/10]">
-                        <YouTubeVideoCard step={step} isVisible={true} />
-                    </div>
-                </div>
-            ))}
-        </div>
       </div>
+        
+      {/* Mobile Layout: Stacked cards */}
+      <div className="md:hidden space-y-12 container mx-auto px-4 sm:px-6 lg:px-8">
+          {careerData.map((step) => (
+              <div key={step.stepNumber} className="mobile-work-item bg-card/30 border border-white/10 rounded-xl p-6">
+                  <div className="space-y-4 mb-6">
+                    <h3 className="text-2xl font-bold text-primary font-headline">
+                      {step.company}
+                    </h3>
+                    <p className="text-gray-400 font-medium">{step.period}</p>
+                    <h4 className="text-3xl font-bold text-white font-headline leading-tight">
+                      {step.role}
+                    </h4>
+                    <p className="text-lg text-gray-300 leading-relaxed">
+                      {step.title}
+                    </p>
+                    <p className="text-base text-gray-400 leading-relaxed">
+                      {step.shortDescription}
+                    </p>
+                  </div>
+                  <div className="w-full aspect-[16/10]">
+                      <YouTubeVideoCard step={step} isVisible={true} />
+                  </div>
+              </div>
+          ))}
+      </div>
+
+      {/* Desktop Horizontal Scroll */}
+      <div ref={containerRef} className="hidden md:flex w-max">
+        {careerData.map((step) => (
+          <div key={step.stepNumber} className="work-slide w-screen h-full flex items-center justify-center px-16">
+            <div className="grid grid-cols-2 gap-16 items-center">
+              <div className="slide-content-left space-y-6">
+                <h3 className="text-3xl font-bold text-primary font-headline">
+                  {step.company}
+                </h3>
+                <p className="text-gray-400 font-medium">{step.period}</p>
+                <h4 className="text-5xl font-bold text-white font-headline leading-tight">
+                  {step.role}
+                </h4>
+                <p className="text-2xl text-gray-300 leading-relaxed">
+                  {step.title}
+                </p>
+                <p className="text-lg text-gray-400 leading-relaxed">
+                  {step.shortDescription}
+                </p>
+                {step.brands && (
+                  <div className="flex flex-wrap gap-2 pt-2">
+                     {step.brands.map((brand) => (
+                       <span key={brand} className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">
+                         {brand}
+                       </span>
+                     ))}
+                  </div>
+                )}
+              </div>
+              <div className="slide-content-right w-full aspect-[16/10]">
+                <YouTubeVideoCard step={step} isVisible={true} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
     </section>
   );
 };
