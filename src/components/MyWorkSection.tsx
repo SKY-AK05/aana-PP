@@ -191,16 +191,18 @@ const MyWorkSection: React.FC = () => {
           const slides = gsap.utils.toArray('.work-slide');
           const totalWidth = slides.reduce((acc, slide: any) => acc + slide.offsetWidth, 0);
 
+          const horizontalScrollAnimation = gsap.to(containerRef.current, {
+            x: () => -(totalWidth - window.innerWidth),
+            ease: 'none',
+          });
+
           ScrollTrigger.create({
             trigger: sectionRef.current,
             start: "top top",
             end: () => `+=${totalWidth - window.innerWidth}`,
             pin: true,
             scrub: 1,
-            animation: gsap.to(containerRef.current, {
-              x: () => -(totalWidth - window.innerWidth),
-              ease: 'none',
-            }),
+            animation: horizontalScrollAnimation,
             anticipatePin: 1
           });
           
@@ -213,7 +215,7 @@ const MyWorkSection: React.FC = () => {
               ease: 'power3.out',
               scrollTrigger: {
                 trigger: slide,
-                containerAnimation: ScrollTrigger.get(containerRef.current)?.animation,
+                containerAnimation: horizontalScrollAnimation,
                 start: 'left center',
                 toggleActions: 'play none none reverse'
               }
