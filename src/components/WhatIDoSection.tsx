@@ -4,6 +4,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Camera, Clapperboard, MonitorPlay, Users, Wand2, Music } from 'lucide-react';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -11,54 +12,47 @@ if (typeof window !== 'undefined') {
 }
 
 interface Service {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   description: string;
-  link?: string;
   stats?: string;
 }
 
 const servicesData: Service[] = [
   {
-    icon: '🎥',
+    icon: <Clapperboard className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />,
     title: 'Video Editing & Post-Production',
-    description: 'Craft compelling narratives through precise editing, effects, and sound mixing for brands like Cadbury and Prime Video, driving 1M+ views and viral campaigns.',
-    link: '/work-demo',
+    description: 'Crafting compelling narratives through precise editing, effects, and sound mixing for brands like Cadbury and Prime Video, driving 1M+ views and viral campaigns.',
     stats: '1M+ Views Generated'
   },
   {
-    icon: '📹',
+    icon: <Camera className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />,
     title: 'Cinematography & Camera Operation',
-    description: 'Capture stunning visuals with professional shooting techniques for Comedy Culture and Xiaomi, from influencer reels to event coverage, elevating storytelling.',
-    link: '/work-demo',
+    description: 'Capturing stunning visuals with professional shooting techniques for Comedy Culture and Xiaomi, from influencer reels to event coverage, elevating storytelling.',
     stats: '200+ Projects Shot'
   },
   {
-    icon: '🤖',
+    icon: <Wand2 className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />,
     title: 'AI Tools & Innovative Design',
-    description: 'Leverage AI for smart editing and character generation for Jio-Hotstar IP, creating trend-setting content with graphic design and retouching.',
-    link: '/work-demo',
+    description: 'Leveraging AI for smart editing and character generation for Jio-Hotstar IP, creating trend-setting content with graphic design and retouching.',
     stats: 'AI-Powered Innovation'
   },
   {
-    icon: '📸',
+    icon: <MonitorPlay className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />,
     title: 'Photography & Visual Design',
-    description: 'Deliver captivating photography and visual design for Travenix & Vijayeesam, enhancing brand visuals with creative composition and post-processing.',
-    link: '/work-demo',
+    description: 'Delivering captivating photography and visual design for Travenix & Vijayeesam, enhancing brand visuals with creative composition and post-processing.',
     stats: '15+ Years Experience'
   },
   {
-    icon: '🎵',
+    icon: <Music className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />,
     title: 'Sound Mixing & Audio Mastering',
-    description: 'Enhance videos with seamless audio for Wake Fit and Dharma Productions, providing professional sound mixing, mastering, and audio post-production.',
-    link: '/work-demo',
+    description: 'Enhancing videos with seamless audio for Wake Fit and Dharma Productions, providing professional sound mixing, mastering, and audio post-production.',
     stats: 'Professional Audio'
   },
   {
-    icon: '👥',
+    icon: <Users className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />,
     title: 'Team Leadership & Project Management',
-    description: 'Lead creative teams of 8+ editors at Sociohub Media, delivering high-impact campaigns for Coca-Cola and Tata EV with 100% client satisfaction.',
-    link: '/work-demo',
+    description: 'Leading creative teams of 8+ editors at Sociohub Media, delivering high-impact campaigns for Coca-Cola and Tata EV with 100% client satisfaction.',
     stats: '100% Client Satisfaction'
   },
 ];
@@ -135,7 +129,7 @@ const WhatIDoSection: React.FC = () => {
               className="service-card group p-6 lg:p-8 bg-card/80 backdrop-blur-xl border border-border rounded-2xl hover:border-primary/40 cinematic-glow hover:shadow-[0_0_30px_rgba(213,0,50,0.2)] cinematic-transition transform hover:scale-[1.02] min-h-[320px] flex flex-col opacity-100 shadow-sm"
             >
               {/* Icon */}
-              <div className="text-4xl lg:text-5xl mb-4 lg:mb-6 transform group-hover:scale-110 transition-transform duration-300">
+              <div className="mb-4 lg:mb-6 transform group-hover:scale-110 transition-transform duration-300">
                 {service.icon}
               </div>
               
@@ -151,22 +145,9 @@ const WhatIDoSection: React.FC = () => {
               
               {/* Stats Badge */}
               {service.stats && (
-                <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 mb-4 w-fit">
+                <div className="mt-auto inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 w-fit">
                   {service.stats}
                 </div>
-              )}
-              
-              {/* CTA Link */}
-              {service.link && (
-                <a 
-                  href={service.link}
-                  className="inline-flex items-center text-primary hover:text-foreground cinematic-transition text-sm font-medium group/link w-fit"
-                >
-                  View Examples
-                  <svg className="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
               )}
             </div>
           ))}
@@ -177,5 +158,3 @@ const WhatIDoSection: React.FC = () => {
 };
 
 export default WhatIDoSection;
-
-    
