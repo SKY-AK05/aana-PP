@@ -64,7 +64,7 @@ function AnimatedCounter({ targetValue, suffix, duration = 2 }: { targetValue: n
   }, [targetValue, duration]);
 
   return (
-    <span ref={countRef} className="text-4xl font-bold text-white">
+    <span ref={countRef} className="text-4xl font-bold text-foreground">
       {count}{suffix}
     </span>
   );
@@ -113,14 +113,14 @@ export function HeroSection() {
       <header className="absolute top-0 left-0 right-0 z-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-24">
-            <Link href="/" className="text-2xl font-bold font-headline tracking-tighter text-white">
+            <Link href="/" className="text-2xl font-bold font-headline tracking-tighter text-foreground">
               B/N
             </Link>
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map(link => (
-                <Link key={link.href} href={link.href} className="text-sm font-medium text-stone-300 hover:text-primary transition-colors">
+                <Link key={link.href} href={link.href} className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
                   {link.label}
                 </Link>
               ))}
@@ -143,7 +143,7 @@ export function HeroSection() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <nav className="flex flex-col space-y-4">
               {navLinks.map(link => (
-                <Link key={link.href} href={link.href} className="text-lg font-medium text-stone-300 hover:text-primary transition-colors text-center" onClick={() => setIsMenuOpen(false)}>
+                <Link key={link.href} href={link.href} className="text-lg font-medium text-foreground/70 hover:text-primary transition-colors text-center" onClick={() => setIsMenuOpen(false)}>
                   {link.label}
                 </Link>
               ))}
@@ -156,7 +156,7 @@ export function HeroSection() {
       <main className="flex-1 grid grid-cols-1 md:grid-cols-12 container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Left Column (Text) */}
         <div className="md:col-span-5 flex flex-col justify-center text-left py-16 md:py-0 hero-element">
-          <h1 className="font-headline text-6xl lg:text-8xl font-black text-white leading-none">
+          <h1 className="font-headline text-6xl lg:text-8xl font-black text-foreground leading-none">
             Bharath<br />Naidu
           </h1>
           <p className="mt-6 text-lg text-foreground/70 max-w-md">
@@ -165,7 +165,7 @@ export function HeroSection() {
           <div className="mt-12 flex items-center gap-4">
             <div className="w-0.5 h-12 bg-primary"></div>
             <div>
-              <p className="font-headline font-bold text-white tracking-wider">BY HARDWORK & DETERMINATION</p>
+              <p className="font-headline font-bold text-foreground tracking-wider">BY HARDWORK & DETERMINATION</p>
               <p className="text-sm text-foreground/60">Currently shaping visuals that inspire.</p>
             </div>
           </div>

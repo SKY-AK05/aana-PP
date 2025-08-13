@@ -188,10 +188,10 @@ export function AboutSection() {
           `}</style>
 
           <div ref={bioContentRef} className="lg:col-span-3">
-            <h2 className="font-headline text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
+            <h2 className="font-headline text-5xl md:text-6xl font-black text-foreground mb-6 leading-tight">
               About Me
             </h2>
-            <div className="space-y-6 text-lg text-white/80 leading-relaxed font-medium">
+            <div className="space-y-6 text-lg text-foreground/80 leading-relaxed font-medium">
               <p>
                 Hey, I’m Bharath. I’ve spent over 15 years bringing stories to life for brands like Coca-Cola, Sony Pictures, Xiaomi, Boat, and Dharma Productions. My work blends cinematic storytelling with digital trends — from brand films and trailers to influencer reels and AI-driven visuals.
               </p>
@@ -204,7 +204,7 @@ export function AboutSection() {
             </div>
 
             <div ref={companiesRef} className="mt-12">
-              <h3 className="font-headline text-sm font-bold tracking-wider uppercase text-white/60 mb-8">
+              <h3 className="font-headline text-sm font-bold tracking-wider uppercase text-foreground/60 mb-8">
                 Trusted by Industry Leaders
               </h3>
               
@@ -213,7 +213,7 @@ export function AboutSection() {
                 {companies.map((company) => (
                   <div 
                     key={company.name} 
-                    className="company-logo inline-flex items-center px-3 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-white/80 hover:bg-white/10 hover:border-white/20 transition-all duration-300 cursor-pointer hover:scale-105"
+                    className="company-logo inline-flex items-center px-3 py-2 bg-foreground/5 border border-foreground/10 rounded-full text-xs font-medium text-foreground/80 hover:bg-foreground/10 hover:border-foreground/20 transition-all duration-300 cursor-pointer hover:scale-105"
                   >
                     <Image
                       src={company.logo}

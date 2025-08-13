@@ -256,12 +256,10 @@ export function ContactSection() {
     <section 
       ref={sectionRef}
       id="contact" 
-      className="relative min-h-screen py-12 md:py-16 overflow-hidden"
+      className="relative min-h-screen py-12 md:py-16 overflow-hidden bg-background film-grain"
       style={{
         // Ensure section has full width for seamless overlap
         width: '100%',
-        // Add subtle background gradient for visual depth
-        background: 'linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,1) 100%)',
         // Ensure proper stacking context for overlap
         position: 'relative',
         zIndex: 10
@@ -273,29 +271,29 @@ export function ContactSection() {
           
           {/* Left Side - Image and Contact Info */}
           <div ref={imageRef} className="relative">
-            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-purple-400 via-pink-400 to-blue-500 p-1">
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 p-1">
               <div className="relative rounded-3xl overflow-hidden">
                 <img 
                   src="/assets/profile-hero.jpg" 
                   alt="Contact Profile" 
                   className="w-full h-[500px] lg:h-[600px] object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 video-overlay" />
               </div>
             </div>
             
             {/* Contact Info Overlay */}
-            <div className="absolute bottom-8 left-8 text-white">
+            <div className="absolute bottom-8 left-8 text-foreground">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-white/20 backdrop-blur-lg rounded-xl flex items-center justify-center">
-                  <Mail className="w-6 h-6" />
+                <div className="w-12 h-12 bg-primary/20 backdrop-blur-lg rounded-xl flex items-center justify-center border border-primary/30">
+                  <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 ref={titleRef} className="text-2xl font-bold">Contact us</h3>
+                  <h3 ref={titleRef} className="text-2xl font-black font-headline">Let's Create Together</h3>
                 </div>
               </div>
-              <p ref={subtitleRef} className="text-sm text-gray-200 max-w-xs leading-relaxed">
-                Ask about our platform, pricing, implementation or anything else. Our highly trained reps are standing by. Ready to help
+              <p ref={subtitleRef} className="text-sm text-foreground/70 max-w-xs leading-relaxed">
+                Ready to bring your vision to life? Let's discuss your next cinematic project and create something extraordinary together.
               </p>
             </div>
           </div>
@@ -313,12 +311,12 @@ export function ContactSection() {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-300">First name</FormLabel>
+                          <FormLabel className="text-sm font-medium text-foreground/80">First name</FormLabel>
                           <FormControl>
                             <Input 
-                              placeholder="Marshmelo" 
+                              placeholder="Your first name" 
                               {...field} 
-                              className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500" 
+                              className="h-12 text-base bg-input border-border text-foreground placeholder:text-foreground/50 rounded-lg focus:border-primary focus:ring-primary cinematic-transition shadow-sm" 
                             />
                           </FormControl>
                           <FormMessage />
@@ -330,12 +328,12 @@ export function ContactSection() {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-300">Last name</FormLabel>
+                          <FormLabel className="text-sm font-medium text-foreground/80">Last name</FormLabel>
                           <FormControl>
                             <Input 
-                              placeholder="Donas" 
+                              placeholder="Your last name" 
                               {...field} 
-                              className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500" 
+                              className="h-12 text-base bg-input border-border text-foreground placeholder:text-foreground/50 rounded-lg focus:border-primary focus:ring-primary cinematic-transition shadow-sm" 
                             />
                           </FormControl>
                           <FormMessage />
@@ -350,14 +348,14 @@ export function ContactSection() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-gray-300">
-                          E-mail address <span className="text-red-500">*</span>
+                        <FormLabel className="text-sm font-medium text-foreground/80">
+                          E-mail address <span className="text-primary">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="Dryaebrahimi@gmail.com" 
+                            placeholder="your.email@example.com" 
                             {...field} 
-                            className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500" 
+                            className="h-12 text-base bg-input border-border text-foreground placeholder:text-foreground/50 rounded-lg focus:border-primary focus:ring-primary cinematic-transition shadow-sm" 
                           />
                         </FormControl>
                         <FormMessage />
@@ -371,18 +369,18 @@ export function ContactSection() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-gray-300">
-                          Phone <span className="text-red-500">*</span>
+                        <FormLabel className="text-sm font-medium text-foreground/80">
+                          Phone <span className="text-primary">*</span>
                         </FormLabel>
                         <FormControl>
                           <div className="flex">
-                            <div className="flex items-center px-3 bg-gray-800/50 border border-r-0 border-gray-700 rounded-l-lg">
-                              <span className="text-sm text-gray-400">🇨🇦 +1</span>
+                            <div className="flex items-center px-3 bg-input border border-r-0 border-border rounded-l-lg">
+                              <span className="text-sm text-foreground/60">🇮🇳 +91</span>
                             </div>
                             <Input 
-                              placeholder="778 558 5250" 
+                              placeholder="Your phone number" 
                               {...field} 
-                              className="h-12 text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-l-none rounded-r-lg focus:border-blue-500 focus:ring-blue-500" 
+                              className="h-12 text-base bg-input border-border text-foreground placeholder:text-foreground/50 rounded-l-none rounded-r-lg focus:border-primary focus:ring-primary cinematic-transition shadow-sm" 
                             />
                           </div>
                         </FormControl>
@@ -397,13 +395,13 @@ export function ContactSection() {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-medium text-gray-300">Message</FormLabel>
+                        <FormLabel className="text-sm font-medium text-foreground/80">Message</FormLabel>
                         <FormControl>
                           <Textarea 
-                            placeholder="Hi, unfortunately I don't have access to my account, please check if there is any problem there." 
+                            placeholder="Tell me about your project vision, goals, and how I can help bring your story to life..." 
                             {...field} 
                             rows={4} 
-                            className="text-base bg-gray-800/50 border-gray-700 text-white placeholder:text-gray-500 rounded-lg focus:border-blue-500 focus:ring-blue-500 resize-none" 
+                            className="text-base bg-input border-border text-foreground placeholder:text-foreground/50 rounded-lg focus:border-primary focus:ring-primary resize-none cinematic-transition shadow-sm" 
                           />
                         </FormControl>
                         <FormMessage />
@@ -415,10 +413,11 @@ export function ContactSection() {
                   <Button 
                     type="submit" 
                     size="lg" 
-                    className="w-full h-12 text-base font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200" 
+                    className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg cinematic-button cinematic-transition" 
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Sending...' : 'Send message'}
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                    <Send className="w-4 h-4 ml-2" />
                   </Button>
                 </form>
               </Form>

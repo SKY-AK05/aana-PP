@@ -103,15 +103,15 @@ const ClientsSection: React.FC = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-gray-900 to-black text-white"
+      className="py-20 bg-background text-foreground film-grain"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="clients-title text-4xl lg:text-5xl font-bold font-headline text-white mb-6">
+          <h2 className="clients-title text-4xl lg:text-5xl font-black font-headline cinematic-title mb-6">
             TRUSTED BY LEADING BRANDS
           </h2>
-          <p className="text-white/70 text-lg max-w-3xl mx-auto">
+          <p className="text-foreground/70 text-lg max-w-3xl mx-auto">
             Over 15 years of delivering exceptional video content for top-tier brands across 30+ industries
           </p>
         </div>
@@ -121,12 +121,12 @@ const ClientsSection: React.FC = () => {
           {clientsData.map((client, index) => (
             <div 
               key={index}
-              className="client-card p-6 bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl hover:border-[#e50914]/40 hover:shadow-[0_0_20px_rgba(229,9,20,0.2)] transition-all duration-300 group text-center"
+              className="client-card p-6 bg-card/80 backdrop-blur-xl border border-border rounded-xl hover:border-primary/40 cinematic-glow cinematic-transition group text-center shadow-sm"
             >
-              <div className="text-2xl font-bold text-white mb-2 group-hover:text-[#e50914] transition-colors duration-300">
+              <div className="text-2xl font-bold text-foreground mb-2 group-hover:text-primary cinematic-transition">
                 {client.name}
               </div>
-              <div className="text-white/50 text-sm">
+              <div className="text-foreground/50 text-sm">
                 {client.category}
               </div>
             </div>
@@ -135,22 +135,22 @@ const ClientsSection: React.FC = () => {
 
         {/* Testimonials */}
         <div className="testimonials-section">
-          <h3 className="text-3xl font-bold font-headline text-center mb-12 text-[#e50914]">
+          <h3 className="text-3xl font-black font-headline text-center mb-12 cinematic-accent-primary">
             CLIENT TESTIMONIALS
           </h3>
           <div className="testimonials-grid grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <div 
                 key={index}
-                className="testimonial-card p-6 bg-black/60 backdrop-blur-sm border border-white/10 rounded-xl hover:border-[#e50914]/40 transition-all duration-300"
+                className="testimonial-card p-6 bg-card/80 backdrop-blur-xl border border-border rounded-xl hover:border-primary/40 cinematic-glow cinematic-transition shadow-sm"
               >
-                <div className="text-[#e50914] text-4xl mb-4">"</div>
-                <p className="text-white/80 text-base leading-relaxed mb-4">
+                <div className="text-primary text-4xl mb-4">"</div>
+                <p className="text-foreground/80 text-base leading-relaxed mb-4">
                   {testimonial.quote}
                 </p>
-                <div className="border-t border-white/10 pt-4">
-                  <div className="text-white font-semibold">{testimonial.author}</div>
-                  <div className="text-[#e50914] text-sm">{testimonial.company}</div>
+                <div className="border-t border-border pt-4">
+                  <div className="text-foreground font-semibold">{testimonial.author}</div>
+                  <div className="text-primary text-sm">{testimonial.company}</div>
                 </div>
               </div>
             ))}

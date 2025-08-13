@@ -115,14 +115,14 @@ const WhatIDoSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="what-i-do-section relative bg-gradient-to-b from-gray-900 to-black text-white py-20 md:py-28"
+      className="what-i-do-section relative bg-background text-foreground py-20 md:py-28 film-grain"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headingRef} className="text-center mb-8 md:mb-12">
-          <h2 className="text-5xl lg:text-7xl font-bold font-headline text-white mb-6 tracking-tight">
+          <h2 className="text-5xl lg:text-7xl font-black font-headline cinematic-title mb-6 tracking-tight">
             WHAT I DO
           </h2>
-          <p className="text-white/80 text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed">
+          <p className="text-foreground/70 text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed">
             I offer a range of specialized services to bring your vision to life with cinematic quality and creative flair.
           </p>
         </div>
@@ -132,7 +132,7 @@ const WhatIDoSection: React.FC = () => {
           {servicesData.map((service, index) => (
             <div
               key={index}
-              className="service-card group p-6 lg:p-8 bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-[#e50914]/40 hover:shadow-[0_0_30px_rgba(229,9,20,0.3)] transition-all duration-300 transform hover:scale-[1.02] min-h-[320px] flex flex-col opacity-100"
+              className="service-card group p-6 lg:p-8 bg-card/80 backdrop-blur-xl border border-border rounded-2xl hover:border-primary/40 cinematic-glow hover:shadow-[0_0_30px_rgba(213,0,50,0.2)] cinematic-transition transform hover:scale-[1.02] min-h-[320px] flex flex-col opacity-100 shadow-sm"
             >
               {/* Icon */}
               <div className="text-4xl lg:text-5xl mb-4 lg:mb-6 transform group-hover:scale-110 transition-transform duration-300">
@@ -140,18 +140,18 @@ const WhatIDoSection: React.FC = () => {
               </div>
               
               {/* Title */}
-              <h3 className="text-lg lg:text-xl font-bold font-headline text-white mb-3 lg:mb-4 leading-tight group-hover:text-[#e50914] transition-colors duration-300">
+              <h3 className="text-lg lg:text-xl font-bold font-headline text-foreground mb-3 lg:mb-4 leading-tight group-hover:text-primary cinematic-transition">
                 {service.title}
               </h3>
               
               {/* Description */}
-              <p className="text-white/70 text-sm lg:text-base leading-relaxed mb-4 flex-grow">
+              <p className="text-foreground/70 text-sm lg:text-base leading-relaxed mb-4 flex-grow">
                 {service.description}
               </p>
               
               {/* Stats Badge */}
               {service.stats && (
-                <div className="inline-block px-3 py-1 bg-[#e50914]/10 text-[#e50914] text-xs font-semibold rounded-full border border-[#e50914]/20 mb-4 w-fit">
+                <div className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 mb-4 w-fit">
                   {service.stats}
                 </div>
               )}
@@ -160,7 +160,7 @@ const WhatIDoSection: React.FC = () => {
               {service.link && (
                 <a 
                   href={service.link}
-                  className="inline-flex items-center text-[#e50914] hover:text-white transition-all duration-300 text-sm font-medium group/link w-fit"
+                  className="inline-flex items-center text-primary hover:text-foreground cinematic-transition text-sm font-medium group/link w-fit"
                 >
                   View Examples
                   <svg className="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

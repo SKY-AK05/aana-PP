@@ -268,7 +268,7 @@ MyWorkSection: React.FC = () => {
   return (
     <section 
       ref={sectionRef} 
-      className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden scroll-optimized"
+      className="relative bg-background text-foreground overflow-hidden scroll-optimized film-grain"
       style={{ 
         willChange: 'auto',
         contain: 'layout style paint',
@@ -276,13 +276,13 @@ MyWorkSection: React.FC = () => {
       }}
     >
       {/* Compact Sticky Header */}
-      <div className="header-container sticky top-0 z-50 bg-black/95 backdrop-blur-md border-b border-[#e50914]/20">
+      <div className="header-container sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-primary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             {/* Compact Title */}
             <div className="flex items-center space-x-6">
-              <h2 className="text-2xl lg:text-3xl font-bold font-headline text-white">MY WORK</h2>
-              <span className="hidden lg:block text-gray-400 text-sm font-medium">Career journey through video editing and cinematography</span>
+              <h2 className="text-2xl lg:text-3xl font-black font-headline cinematic-title">MY WORK</h2>
+              <span className="hidden lg:block text-foreground/60 text-sm font-medium">Career journey through video editing and cinematography</span>
             </div>
             
             {/* Compact Progress Tracker */}
@@ -291,18 +291,18 @@ MyWorkSection: React.FC = () => {
                 <div key={index} className="flex items-center">
                   {/* Compact Step Circle */}
                   <div className="flex items-center space-x-2">
-                    <div className={`w-7 h-7 rounded-full border flex items-center justify-center font-bold text-xs transition-all duration-500 ${
+                    <div className={`w-7 h-7 rounded-full border flex items-center justify-center font-bold text-xs cinematic-transition ${
                       index <= activeStep
-                        ? 'bg-[#e50914] border-[#e50914] text-white shadow-md shadow-[#e50914]/50'
-                        : 'bg-transparent border-gray-600 text-gray-500'
+                        ? 'bg-primary border-primary text-primary-foreground cinematic-glow'
+                        : 'bg-transparent border-border text-foreground/50'
                     }`}>
                       {String(index + 1).padStart(2, '0')}
                     </div>
                     
                     {/* Company Name - Hidden on mobile */}
                     <div className="hidden md:block">
-                      <div className={`text-xs font-medium transition-colors duration-300 ${
-                        index <= activeStep ? 'text-[#e50914]' : 'text-gray-500'
+                      <div className={`text-xs font-medium cinematic-transition ${
+                        index <= activeStep ? 'text-primary' : 'text-foreground/50'
                       }`}>
                         {step.company.split(' ')[0]}
                       </div>
@@ -312,9 +312,9 @@ MyWorkSection: React.FC = () => {
                   {/* Compact Connecting Line */}
                   {index < careerData.length - 1 && (
                     <div className="relative mx-2 w-6">
-                      <div className="h-px bg-gray-700 w-full" />
+                      <div className="h-px bg-border w-full" />
                       <div 
-                        className="absolute top-0 left-0 h-px bg-[#e50914] transition-all duration-500"
+                        className="absolute top-0 left-0 h-px bg-primary cinematic-transition"
                         style={{
                           width: index < activeStep 
                             ? '100%' 
@@ -346,35 +346,35 @@ MyWorkSection: React.FC = () => {
               <div className="slide-content space-y-4 transform-gpu">
                 {/* Company Header - Compact */}
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-2xl lg:text-3xl font-bold text-[#e50914] font-headline">
+                  <h3 className="text-2xl lg:text-3xl font-black text-primary font-headline">
                     {step.company}
                   </h3>
-                  <span className="text-gray-400 text-sm font-medium">{step.period}</span>
+                  <span className="text-foreground/60 text-sm font-medium">{step.period}</span>
                 </div>
                 
                 {/* Role - Prominent but not oversized */}
-                <h4 className="text-3xl lg:text-4xl font-bold text-white font-headline leading-tight">
+                <h4 className="text-3xl lg:text-4xl font-black text-foreground font-headline leading-tight">
                   {step.role}
                 </h4>
                 
                 {/* Title - Concise */}
-                <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                <p className="text-lg lg:text-xl text-foreground/80 leading-relaxed">
                   {step.title}
                 </p>
                 
                 {/* Description - Compact */}
-                <p className="text-base text-gray-400 leading-relaxed">
+                <p className="text-base text-foreground/70 leading-relaxed">
                   {step.shortDescription}
                 </p>
                 
                 {/* Achievements - Compact list */}
                 <div className="space-y-2">
-                  <h5 className="text-sm font-semibold text-white uppercase tracking-wider">Key Achievements</h5>
+                  <h5 className="text-sm font-semibold text-foreground uppercase tracking-wider">Key Achievements</h5>
                   <div className="space-y-1">
                     {step.achievements.slice(0, 3).map((achievement, index) => (
                       <div key={index} className="flex items-start space-x-2">
-                        <div className="w-1.5 h-1.5 bg-[#e50914] rounded-full mt-2 flex-shrink-0" />
-                        <p className="text-sm text-gray-400 leading-relaxed">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
+                        <p className="text-sm text-foreground/70 leading-relaxed">
                           {achievement}
                         </p>
                       </div>
@@ -386,7 +386,7 @@ MyWorkSection: React.FC = () => {
                 {step.brands && (
                   <div className="flex flex-wrap gap-2">
                      {step.brands.map((brand, index) => (
-                       <span key={index} className="px-2 py-1 bg-[#e50914]/10 text-[#e50914] text-xs font-medium rounded-full border border-[#e50914]/20">
+                       <span key={index} className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full border border-primary/20">
                          {brand}
                        </span>
                      ))}

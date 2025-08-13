@@ -29,7 +29,7 @@ const StickyCTA: React.FC = () => {
   return (
     <button
       onClick={handleClick}
-      className={`fixed bottom-6 right-6 z-50 px-6 py-3 bg-[#e50914] hover:bg-[#c50812] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300 ${
+      className={`fixed bottom-6 right-6 z-50 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-full cinematic-glow cinematic-transition transform ${
         isVisible 
           ? 'translate-y-0 opacity-100 scale-100' 
           : 'translate-y-16 opacity-0 scale-95 pointer-events-none'
@@ -49,7 +49,7 @@ const StickyCTA: React.FC = () => {
       </div>
       
       {/* Pulse animation */}
-      <div className="absolute inset-0 rounded-full bg-[#e50914] animate-ping opacity-20"></div>
+      <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20"></div>
     </button>
   );
 };

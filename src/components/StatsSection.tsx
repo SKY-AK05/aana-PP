@@ -91,22 +91,22 @@ const StatsSection: React.FC = () => {
   return (
     <section 
       ref={sectionRef}
-      className="py-16 bg-gradient-to-r from-black via-gray-900 to-black"
+      className="py-16 bg-background film-grain"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {statsData.map((stat, index) => (
             <div 
               key={index}
-              className="stat-card text-center p-6 bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl hover:border-[#e50914]/40 hover:shadow-[0_0_20px_rgba(229,9,20,0.2)] transition-all duration-300 group"
+              className="stat-card text-center p-6 bg-card/80 backdrop-blur-xl border border-border rounded-xl hover:border-primary/40 cinematic-glow cinematic-transition group shadow-sm"
             >
               <div className="text-3xl mb-3 transform group-hover:scale-110 transition-transform duration-300">
                 {stat.icon}
               </div>
-              <div className="text-3xl lg:text-4xl font-bold text-[#e50914] mb-2 font-headline">
+              <div className="text-3xl lg:text-4xl font-black text-primary mb-2 font-headline">
                 {animatedStats[index]}{stat.suffix}
               </div>
-              <div className="text-white/70 text-sm lg:text-base font-medium">
+              <div className="text-foreground/70 text-sm lg:text-base font-medium">
                 {stat.label}
               </div>
             </div>
