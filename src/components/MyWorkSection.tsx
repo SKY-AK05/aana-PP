@@ -339,5 +339,3 @@ const MyWorkSection: React.FC = () => {
 };
 
 export default MyWorkSection;
-
-    
