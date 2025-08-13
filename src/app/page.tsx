@@ -1,21 +1,27 @@
 import { HeroSection } from "@/components/hero-section";
-import { AboutSection } from "@/components/about-section";
+import { EnhancedAboutSection } from "@/components/EnhancedAboutSection";
+import StatsSection from "@/components/StatsSection";
 import WhatIDoSection from "@/components/WhatIDoSection";
 import MyWorkSection from "@/components/MyWorkSection";
+import ClientsSection from "@/components/ClientsSection";
 import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
+import StickyCTA from "@/components/StickyCTA";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <main className="flex-1">
         <HeroSection />
-        <AboutSection />
-        <MyWorkSection />
+        <EnhancedAboutSection />
+        <StatsSection />
         <WhatIDoSection />
+        <MyWorkSection />
+        <ClientsSection />
         <ContactSection />
       </main>
       <Footer />
+      <StickyCTA />
     </div>
   );
 }

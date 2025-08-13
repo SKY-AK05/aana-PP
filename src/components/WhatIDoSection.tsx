@@ -4,110 +4,107 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 interface Service {
   icon: string;
   title: string;
   description: string;
+  link?: string;
+  stats?: string;
 }
 
 const servicesData: Service[] = [
   {
     icon: '🎥',
     title: 'Video Editing & Post-Production',
-    description: 'Craft compelling narratives through precise editing, effects, and sound mixing, turning raw footage into viral campaigns and cinematic stories for brands like Cadbury and Prime Video.',
+    description: 'Craft compelling narratives through precise editing, effects, and sound mixing for brands like Cadbury and Prime Video, driving 1M+ views and viral campaigns.',
+    link: '/work-demo',
+    stats: '1M+ Views Generated'
   },
   {
     icon: '📹',
     title: 'Cinematography & Camera Operation',
-    description: 'Capture stunning visuals with professional shooting techniques, from influencer reels to event coverage, ensuring high-quality footage that elevates storytelling.',
+    description: 'Capture stunning visuals with professional shooting techniques for Comedy Culture and Xiaomi, from influencer reels to event coverage, elevating storytelling.',
+    link: '/work-demo',
+    stats: '200+ Projects Shot'
   },
   {
     icon: '🤖',
     title: 'AI Tools & Innovative Design',
-    description: 'Leverage AI for smart editing and character generation, combined with graphic design and retouching, to create innovative, trend-setting content that drives engagement.',
+    description: 'Leverage AI for smart editing and character generation for Jio-Hotstar IP, creating trend-setting content with graphic design and retouching.',
+    link: '/work-demo',
+    stats: 'AI-Powered Innovation'
+  },
+  {
+    icon: '📸',
+    title: 'Photography & Visual Design',
+    description: 'Deliver captivating photography and visual design for Travenix & Vijayeesam, enhancing brand visuals with creative composition and post-processing.',
+    link: '/work-demo',
+    stats: '15+ Years Experience'
+  },
+  {
+    icon: '🎵',
+    title: 'Sound Mixing & Audio Mastering',
+    description: 'Enhance videos with seamless audio for Wake Fit and Dharma Productions, providing professional sound mixing, mastering, and audio post-production.',
+    link: '/work-demo',
+    stats: 'Professional Audio'
+  },
+  {
+    icon: '👥',
+    title: 'Team Leadership & Project Management',
+    description: 'Lead creative teams of 8+ editors at Sociohub Media, delivering high-impact campaigns for Coca-Cola and Tata EV with 100% client satisfaction.',
+    link: '/work-demo',
+    stats: '100% Client Satisfaction'
   },
 ];
 
 const WhatIDoSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const ctx = gsap.context(() => {
-      // Animate heading and subtitle when section enters viewport
-      gsap.from(headingRef.current, {
-        opacity: 0,
-        scale: 0.9,
-        y: 30,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-
-      const leftCards = gsap.utils.toArray('.left-card');
-      const rightCards = gsap.utils.toArray('.right-card');
-      const cardsContainer = sectionRef.current?.querySelector('.cards-container');
-
-      if (!cardsContainer || leftCards.length === 0 || rightCards.length === 0) return;
-
-      // Set initial states for cards
-      gsap.set(leftCards, { position: 'absolute', top: 0, left: 0 });
-      gsap.set(rightCards, { yPercent: 0 });
-      gsap.set(leftCards.slice(1), { autoAlpha: 0 }); // Hide all but the first left card
-
-      // Master timeline for the scroll-based animations
-      const tl = gsap.timeline();
-      timelineRef.current = tl;
-
-      // Loop through cards to create the stacking and scrolling animations
-      leftCards.forEach((card: any, i) => {
-        if (i < leftCards.length - 1) {
-          // Animate the current left card to stack
-          tl.to(card, {
-            y: -40,
-            scale: 1 - (leftCards.length - 1 - i) * 0.05, // Scale down based on position
-            autoAlpha: 1,
-            duration: 1,
-            ease: 'power2.inOut',
-          }, `card-${i}`)
-          // Reveal the next left card
-          .to(leftCards[i + 1], {
-            autoAlpha: 1,
-            duration: 0.5,
-          }, `card-${i}+=0.5`);
-
-          // Animate the corresponding right card to scroll up
-          tl.to(rightCards[i], {
-            yPercent: -100, // Move the card up by its full height
-            duration: 1.5,
-            ease: 'power2.inOut'
-          }, `card-${i}`);
+      // Simple entrance animation for heading
+      gsap.fromTo(headingRef.current, 
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
         }
-      });
-      
-      // Pin the container and link the timeline to the scroll action
-      ScrollTrigger.create({
-        trigger: cardsContainer,
-        start: 'top top',
-        end: `+=${leftCards.length * 150}%`, // Adjust duration based on number of cards
-        pin: true,
-        scrub: 1,
-        animation: tl,
-        // markers: true, // Uncomment for debugging
+      );
+
+      // Ensure cards are visible and animate them in
+      const cards = document.querySelectorAll('.service-card');
+      cards.forEach((card, index) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 90%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
       });
 
     }, sectionRef);
@@ -118,10 +115,10 @@ const WhatIDoSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="what-i-do-section relative min-h-screen bg-background text-foreground py-20 md:py-28 overflow-hidden font-body"
+      className="what-i-do-section relative bg-gradient-to-b from-gray-900 to-black text-white py-20 md:py-28"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div ref={headingRef} className="text-center mb-16 md:mb-20">
+        <div ref={headingRef} className="text-center mb-8 md:mb-12">
           <h2 className="text-5xl lg:text-7xl font-bold font-headline text-white mb-6 tracking-tight">
             WHAT I DO
           </h2>
@@ -130,53 +127,49 @@ const WhatIDoSection: React.FC = () => {
           </p>
         </div>
 
-        {/* This container will be pinned */}
-        <div className="cards-container relative grid grid-cols-1 lg:grid-cols-2 gap-8" style={{ minHeight: '80vh' }}>
-
-          {/* Left Column for Stacking Cards */}
-          <div className="left-column relative h-full flex items-center justify-center">
-            {servicesData.map((service, index) => (
-              <div
-                key={`left-${index}`}
-                className="left-card absolute w-full max-w-md p-8 bg-card border border-white/10 rounded-2xl shadow-2xl"
-                style={{ willChange: 'transform, opacity' }}
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="text-4xl">{service.icon}</div>
-                  <h3 className="text-2xl font-bold font-headline text-white leading-tight">
-                    {service.title}
-                  </h3>
-                </div>
-                <p className="text-white/70 text-base leading-relaxed">
-                  {service.description}
-                </p>
+        {/* Services Grid - Clean 3x2 Layout */}
+        <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
+          {servicesData.map((service, index) => (
+            <div
+              key={index}
+              className="service-card group p-6 lg:p-8 bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl hover:border-[#e50914]/40 hover:shadow-[0_0_30px_rgba(229,9,20,0.3)] transition-all duration-300 transform hover:scale-[1.02] min-h-[320px] flex flex-col opacity-100"
+            >
+              {/* Icon */}
+              <div className="text-4xl lg:text-5xl mb-4 lg:mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                {service.icon}
               </div>
-            ))}
-          </div>
-
-          {/* Right Column for Scrolling Content */}
-          <div className="right-column relative h-full overflow-hidden">
-             {servicesData.map((service, index) => (
-              <div 
-                key={`right-${index}`} 
-                className="right-card h-full flex flex-col justify-center items-center p-8"
-                style={{ willChange: 'transform' }}
-              >
-                 <div className="w-full max-w-md p-8 bg-black/60 backdrop-blur-xl border border-primary/20 rounded-2xl shadow-2xl transition-all duration-300 group hover:border-primary/40 hover:shadow-[0_0_30px_rgba(213,0,50,0.3)]">
-                  <div className="text-5xl mb-6 opacity-90">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-3xl font-bold font-headline text-primary mb-4 leading-tight">
-                    {service.title}
-                  </h3>
-                  <p className="text-white/80 text-lg leading-relaxed">
-                    {service.description}
-                  </p>
+              
+              {/* Title */}
+              <h3 className="text-lg lg:text-xl font-bold font-headline text-white mb-3 lg:mb-4 leading-tight group-hover:text-[#e50914] transition-colors duration-300">
+                {service.title}
+              </h3>
+              
+              {/* Description */}
+              <p className="text-white/70 text-sm lg:text-base leading-relaxed mb-4 flex-grow">
+                {service.description}
+              </p>
+              
+              {/* Stats Badge */}
+              {service.stats && (
+                <div className="inline-block px-3 py-1 bg-[#e50914]/10 text-[#e50914] text-xs font-semibold rounded-full border border-[#e50914]/20 mb-4 w-fit">
+                  {service.stats}
                 </div>
-              </div>
-            ))}
-          </div>
-
+              )}
+              
+              {/* CTA Link */}
+              {service.link && (
+                <a 
+                  href={service.link}
+                  className="inline-flex items-center text-[#e50914] hover:text-white transition-all duration-300 text-sm font-medium group/link w-fit"
+                >
+                  View Examples
+                  <svg className="w-4 h-4 ml-1 transform group-hover/link:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>
