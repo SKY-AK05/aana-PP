@@ -283,7 +283,7 @@ export function ContactSection() {
             </div>
             
             {/* Contact Info Overlay */}
-            <div className="absolute bottom-8 left-8 text-foreground">
+            <div className="absolute bottom-8 left-8 text-white">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-primary/20 backdrop-blur-lg rounded-xl flex items-center justify-center border border-primary/30">
                   <Mail className="w-6 h-6 text-primary" />
@@ -292,7 +292,7 @@ export function ContactSection() {
                   <h3 ref={titleRef} className="text-2xl font-black font-headline">Let's Create Together</h3>
                 </div>
               </div>
-              <p ref={subtitleRef} className="text-sm text-foreground/70 max-w-xs leading-relaxed">
+              <p ref={subtitleRef} className="text-sm text-white/80 max-w-xs leading-relaxed">
                 Ready to bring your vision to life? Let's discuss your next cinematic project and create something extraordinary together.
               </p>
             </div>
