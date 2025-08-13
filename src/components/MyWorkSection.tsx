@@ -9,137 +9,179 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-interface Subcategory {
-  title: string;
-  description: string;
-  media: string;
-  type?: 'video' | 'image';
-}
-
-interface WorkCategory {
-  category: string;
+interface CareerStep {
+  stepNumber: number;
+  company: string;
   role: string;
+  period: string;
   title: string;
-  description: string;
-  media: string;
-  subcategories: Subcategory[];
+  shortDescription: string;
+  achievements: string[];
+  brands?: string[];
+  youtubeUrl?: string;
+  videoId?: string;
 }
 
-const workData: WorkCategory[] = [
+// Define career data
+const careerData: CareerStep[] = [
   {
-    category: "Sociohub Media",
-    role: "Lead Video Editor & Cinematography",
-    title: "Multi-Disciplinary Creative Leadership",
-    description: "As a multi-disciplinary leader, I head a team of 8 in crafting viral, cinematic content for 200+ brands across 30+ industries, from global campaigns to influencer reels and meme-driven videos. Leveraging AI-generated characters for innovative storytelling, I blend art, tech, and culture to drive engagement and conversions that leave a lasting impact.",
-    media: "/images/sociohub.jpg",
-    subcategories: [
-      {
-        title: "Brand Campaigns",
-        description: "Collaborating with top-tier brands like Cadbury, Coca-Cola, Sony Pictures, Zee Group, Xiaomi, Boat, Dharma Productions, and Universal Music to produce high-engagement visuals that merge cinematic narratives with digital trends.",
-        media: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop",
-        type: "image"
-      },
-      {
-        title: "Influencer Content",
-        description: "Handling end-to-end video shoots and editing for influencers, creating fast-paced, trend-setting reels that boost visibility and audience interaction.",
-        media: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop",
-        type: "image"
-      },
-      {
-        title: "YouTube Production & Team Leadership",
-        description: "Sketching, shooting, and editing videos for Comedy Culture's YouTube channel, while leading a promoted team to deliver consistent, engaging content that grows subscriber bases.",
-        media: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop",
-        type: "image"
-      }
-    ]
+    stepNumber: 1,
+    company: 'Sociohub Media',
+    role: 'Lead Video Editor & Cinematography',
+    period: '2024 – Present',
+    title: 'Leading creative video production from concept to delivery',
+    shortDescription:
+      'Managing end-to-end influencer and brand video campaigns that drive engagement and reach for top-tier brands and content creators.',
+    achievements: [
+      'Shot & edited influencer content for Comedy Culture\'s YouTube channel',
+      'Collaborated with top brands like Cadbury, Coca-Cola, Sony Pictures, Zee Group, Xiaomi, Boat',
+      'Led a team of 8 editors delivering fast-paced, trend-setting reels',
+      'Achieved 40% increase in engagement rates across client campaigns',
+    ],
+    brands: ['Cadbury', 'Coca-Cola', 'Sony Pictures', 'Xiaomi', 'Boat'],
+    youtubeUrl: 'https://www.youtube.com/@ComedyCulture',
+    videoId: 'dQw4w9WgXcQ',
   },
   {
-    category: "Twilight Entertainment",
-    role: "Senior Video Editor",
-    title: "Post-Production Excellence",
-    description: "Focused on post-production excellence for informative and advertising content, I specialized in sound mixing, mastering, and visual storytelling to create compelling videos that educate and promote, drawing on my expertise in AI tools and smart editing.",
-    media: "/images/twilight.jpg",
-    subcategories: [
-      {
-        title: "Informative Video Editing",
-        description: "Producing educational content through informative video editing for Doctorpedia, ensuring clear, engaging narratives that simplify complex topics for wide audiences.",
-        media: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop",
-        type: "image"
-      },
-      {
-        title: "Memorial & Slideshow Editing",
-        description: "Crafting emotional slideshows and memorial videos for Urlifemedia, using cinematic techniques to honor stories with sensitivity and high production value.",
-        media: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop",
-        type: "image"
-      },
-      {
-        title: "Advertisement Sound Production",
-        description: "Delivering professional sound mixing and mastering for Wake Fit mattress ads, enhancing audio-visual synergy to create immersive, persuasive commercials.",
-        media: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800&h=600&fit=crop",
-        type: "image"
-      }
-    ]
+    stepNumber: 2,
+    company: 'Twilight Entertainment',
+    role: 'Senior Video Editor',
+    period: '2023 – 2024',
+    title: 'Specialized in creating compelling video content with AI integration',
+    shortDescription:
+      'Delivering high-impact campaigns across 200+ brands in 30+ industries, integrating cutting-edge AI technology for innovative storytelling.',
+    achievements: [
+      'Delivered content for 200+ brands across 30+ diverse industries',
+      'Specialized in high-impact campaigns from music videos to influencer reels',
+      'Integrated AI-generated characters for innovative storytelling approaches',
+      'Maintained 99% client satisfaction rate with rapid turnaround times',
+    ],
+    brands: ['Universal Music', 'Dharma Productions', 'Prime Video'],
+    youtubeUrl: 'https://www.youtube.com/@TwilightEntertainment',
+    videoId: 'dQw4w9WgXcQ',
   },
-  {
-    category: "Cocoma Digital",
-    role: "Video Editor & Team Lead",
-    title: "Streaming Platform Content Creation",
-    description: "As team lead, I managed high-profile editing projects for streaming platforms like Prime Video, including music videos, trailers, and monetization strategies, while working with clients like Tata EV and Amazon mini TV to produce dynamic, monetizable content.",
-    media: "/images/cocoma.jpg",
-    subcategories: [
-      {
-        title: "Prime Video Content Creation",
-        description: "Editing music videos, trailers, and teasers for Prime Video, resulting in polished, cinematic pieces that captivate viewers and support platform growth.",
-        media: "https://images.unsplash.com/photo-1489599735734-79b4af4e22f6?w=800&h=600&fit=crop",
-        type: "image"
-      },
-      {
-        title: "YouTube Monetization Strategies",
-        description: "Implementing YouTube monetization for Prime Video content, optimizing videos for algorithm success and increased revenue through strategic editing.",
-        media: "https://images.unsplash.com/photo-1489599735734-79b4af4e22f6?w=800&h=600&fit=crop",
-        type: "image"
-      },
-      {
-        title: "Client Project Management",
-        description: "Collaborating on projects with Tata EV Motors, Langistan (in-house brand), Amazon mini TV, and others, delivering versatile edits that align with brand goals and drive results.",
-        media: "https://images.unsplash.com/photo-1489599735734-79b4af4e22f6?w=800&h=600&fit=crop",
-        type: "image"
-      }
-    ]
-  }
 ];
 
+// Add remaining career steps
+careerData.push(
+  {
+    stepNumber: 3,
+    company: 'Cocoma Digital',
+    role: 'Video Editor (Team Lead)',
+    period: '2021 – 2023',
+    title: 'Premium content for major streaming platforms',
+    shortDescription:
+      'Specialized in branded video content and digital monetization strategies for leading streaming platforms and high-traffic channels.',
+    achievements: [
+      'Edited music videos, trailers & teasers for Prime Video originals',
+      'Produced branded content for Tata EV Motors and Amazon mini TV',
+      'Managed YouTube monetization for multiple high-traffic channels',
+      'Delivered content for Langistan and other premium streaming projects',
+    ],
+    brands: ['Prime Video', 'Amazon', 'Tata Motors'],
+    youtubeUrl: 'https://www.youtube.com/@CocomaDigital',
+    videoId: 'dQw4w9WgXcQ',
+  },
+  {
+    stepNumber: 4,
+    company: 'Travenix & Vijayeesam',
+    role: 'Photographer & Video Editor',
+    period: '2020',
+    title: 'Developed expertise in photography and video editing',
+    shortDescription:
+      'Building foundational skills in visual storytelling through photography and video editing for various commercial and creative projects.',
+    achievements: [
+      'Created compelling visual content for travel and lifestyle brands',
+      'Developed photography skills alongside video editing expertise',
+      'Managed multiple client projects with tight deadlines',
+      'Built portfolio across different creative disciplines',
+    ],
+    brands: ['Travel', 'Lifestyle', 'Commercial'],
+    youtubeUrl: 'https://www.youtube.com/@TravenixMedia',
+    videoId: 'dQw4w9WgXcQ',
+  },
+  {
+    stepNumber: 5,
+    company: 'Box Office India & Sound Box India',
+    role: 'Video Editor',
+    period: '2018 – 2020',
+    title: 'Started professional journey in video editing',
+    shortDescription:
+      'Beginning career in video editing with focus on entertainment content, building technical skills and industry knowledge.',
+    achievements: [
+      'Edited entertainment content for Box Office India',
+      'Worked on sound design and audio post-production',
+      'Developed technical proficiency in professional editing software',
+      'Built foundation for future career growth in video production',
+    ],
+    brands: ['Box Office', 'Entertainment', 'Audio'],
+    youtubeUrl: 'https://www.youtube.com/@BoxOfficeIndia',
+    videoId: 'dQw4w9WgXcQ',
+  },
+);
 
+const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-const MediaCard: React.FC<{
-  media: string;
-  title: string;
-  type?: 'video' | 'image'
-}> = ({ media, title, type = 'image' }) => {
+  const handleClick = () => {
+    if (step.youtubeUrl) {
+      window.open(step.youtubeUrl, '_blank');
+    }
+  };
+
   return (
-    <div className="media-card relative w-full h-full rounded-xl overflow-hidden bg-muted border border-border">
-      {type === 'video' ? (
-        <video
-          className="w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster={media.replace('.mp4', '.jpg')}
-        >
-          <source src={media} type="video/mp4" />
-        </video>
-      ) : (
-        <img
-          src={media}
-          alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]"
-          loading="lazy"
-        />
-      )}
-      <div className="absolute bottom-4 right-4">
-        <div className="bg-background/90 backdrop-blur-sm rounded-lg px-3 py-1.5 border border-border">
-          <p className="text-foreground/80 text-xs font-medium">{title}</p>
+    <div
+      className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-black shadow-2xl cursor-pointer group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
+    >
+      {/* Video Thumbnail/Preview */}
+      <div className="relative w-full h-full">
+        {step.videoId && (
+          <iframe
+            className="w-full h-full"
+            src={`https://www.youtube.com/embed/${step.videoId}?autoplay=${
+              isHovered ? 1 : 0
+            }&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1`}
+            title={`${step.company} - ${step.role}`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        )}
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300" />
+
+        {/* YouTube Play Button */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className={`bg-red-600 rounded-full p-4 transform transition-all duration-300 ${
+              isHovered ? 'scale-110' : 'scale-100'
+            }`}
+          >
+            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Company Info Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+          <div className="text-white font-bold text-lg">{step.company}</div>
+          <div className="text-gray-300 text-sm">{step.period}</div>
+        </div>
+
+        {/* YouTube Logo */}
+        <div className="absolute top-4 right-4">
+          <svg
+            className="w-8 h-8 text-red-600"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
         </div>
       </div>
     </div>
@@ -148,207 +190,253 @@ const MediaCard: React.FC<{
 
 const MyWorkSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [activeSubcategory, setActiveSubcategory] = useState(0);
-  const [currentContent, setCurrentContent] = useState(workData[0]);
-  const [currentSubcontent, setCurrentSubcontent] = useState(workData[0].subcategories[0]);
-
-
+  const [activeStep, setActiveStep] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Wait for DOM to be ready
-      setTimeout(() => {
-        // Create scroll triggers for each subcategory
-        let sectionIndex = 0;
-        workData.forEach((category, categoryIndex) => {
-          category.subcategories.forEach((subcategory, subIndex) => {
-            const triggerElement = document.querySelector(`.work-trigger-${sectionIndex}`);
+      const container = sectionRef.current?.querySelector(
+        '.horizontal-container'
+      ) as HTMLElement;
+      const slides = gsap.utils.toArray('.work-slide') as HTMLElement[];
 
-            if (triggerElement) {
-              ScrollTrigger.create({
-                trigger: triggerElement,
-                start: "top 60%",
-                end: "bottom 40%",
-                onEnter: () => updateContent(categoryIndex, subIndex),
-                onEnterBack: () => updateContent(categoryIndex, subIndex),
-                markers: false // Set to true for debugging
-              });
+      if (container && slides.length > 0) {
+        // Set up smooth horizontal scroll
+        const totalWidth = slides.length * window.innerWidth;
+
+        // Enable GPU acceleration
+        gsap.set(container, { willChange: 'transform' });
+        gsap.set(slides, { willChange: 'transform, opacity' });
+
+        // Main horizontal scroll timeline
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: () => `+=${totalWidth - window.innerWidth}`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const progress = self.progress;
+            const currentStepIndex = Math.min(
+              Math.floor(progress * careerData.length),
+              careerData.length - 1
+            );
+            const stepProgress =
+              ((progress * careerData.length) % 1) * 100;
+
+            if (currentStepIndex !== activeStep) {
+              setActiveStep(currentStepIndex);
             }
-
-            sectionIndex++;
-          });
+            setScrollProgress(stepProgress);
+          },
+          animation: gsap.to(container, {
+            x: () => -(totalWidth - window.innerWidth),
+            ease: 'none',
+          }),
         });
 
-        function updateContent(categoryIndex: number, subIndex: number) {
-          if (categoryIndex === activeCategory && subIndex === activeSubcategory) return;
+        // Individual slide animations
+        slides.forEach((slide, index) => {
+          const content = slide.querySelector('.slide-content');
+          const video = slide.querySelector('.video-card');
 
-          setActiveCategory(categoryIndex);
-          setActiveSubcategory(subIndex);
+          if (content && video) {
+            gsap.fromTo(
+              [content, video],
+              {
+                opacity: 0,
+                y: 50,
+              },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power2.out',
+                scrollTrigger: {
+                  trigger: sectionRef.current,
+                  start: 'top top',
+                  end: () => `+=${totalWidth - window.innerWidth}`,
+                  scrub: 1,
+                  onUpdate: (self) => {
+                    const progress = self.progress;
+                    const slideStart = index / slides.length;
+                    const slideEnd = (index + 1) / slides.length;
 
-          // Animate content changes
-          const tl = gsap.timeline();
+                    if (progress >= slideStart && progress <= slideEnd) {
+                      const slideProgress =
+                        (progress - slideStart) / (slideEnd - slideStart);
+                      gsap.set([content, video], {
+                        opacity: 1,
+                        y: 0,
+                      });
+                    }
+                  },
+                },
+              }
+            );
+          }
+        });
+      }
 
-          // Fade out current content
-          tl.to('.content-panel', {
-            opacity: 0,
-            y: 30,
-            duration: 0.3,
-            ease: "power2.out"
-          })
-            .call(() => {
-              setCurrentContent(workData[categoryIndex]);
-              setCurrentSubcontent(workData[categoryIndex].subcategories[subIndex]);
-            })
-            // Fade in new content
-            .to('.content-panel', {
-              opacity: 1,
-              y: 0,
-              duration: 0.4,
-              ease: "power2.out"
-            });
-        }
-
-        // Initial animation
-        gsap.fromTo('.content-panel',
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
-        );
-
-      }, 100);
-
+      setActiveStep(0);
+      setScrollProgress(0);
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [activeStep]);
 
   return (
-    <section id="work" ref={sectionRef} className="bg-background text-foreground relative">
-      {/* Section Title */}
-      <div className="text-center py-20">
-        <h2 className="text-5xl md:text-6xl font-bold text-foreground mb-4">MY WORK</h2>
-        <p className="text-foreground/70 text-lg max-w-2xl mx-auto">
-          A showcase of my professional journey through video editing and cinematography
-        </p>
-      </div>
+    <section
+      ref={sectionRef}
+      className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
+    >
+      {/* Section Header with Progress Tracker */}
+      <div className="relative z-10 py-8 px-8 bg-gradient-to-r from-black/80 to-[#e50914]/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto">
+          {/* Title */}
+          <div className="text-center mb-8">
+            <h2 className="text-5xl lg:text-7xl font-bold font-headline text-white mb-4">
+              MY WORK
+            </h2>
+            <p className="text-gray-300 text-lg lg:text-xl">
+              Career journey through video editing and cinematography
+            </p>
+          </div>
 
-      {/* Main Content Area */}
-      <div className="relative">
-        {/* Desktop Layout */}
-        <div className="hidden lg:block">
-          <div className="grid grid-cols-2 gap-20 px-12 max-w-7xl mx-auto">
-            {/* Left Panel - Sticky */}
-            <div className="sticky top-24 h-fit">
-              <div className="content-panel">
-                {/* Progress Indicator */}
-                <div className="flex items-center space-x-4 mb-8">
-                  {workData.map((category, categoryIndex) => (
-                    <div key={categoryIndex} className="flex items-center space-x-2">
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-medium transition-all duration-300 ${categoryIndex === activeCategory
-                        ? 'bg-foreground border-foreground text-background'
-                        : categoryIndex < activeCategory
-                          ? 'bg-foreground border-foreground text-background'
-                          : 'border-border text-foreground/50'
-                        }`}>
-                        {categoryIndex + 1}
-                      </div>
-                      {categoryIndex < workData.length - 1 && (
-                        <div className={`w-8 h-0.5 transition-all duration-300 ${categoryIndex < activeCategory ? 'bg-foreground' : 'bg-border'
-                          }`} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="text-foreground/60 text-sm font-medium mb-4">
-                  {currentContent.category} • {currentContent.role}
-                </div>
-                <h1 className="text-4xl font-bold mb-6 leading-tight text-foreground">
-                  {currentSubcontent.title}
-                </h1>
-                <p className="text-foreground/70 text-lg leading-relaxed mb-8">
-                  {currentSubcontent.description}
-                </p>
-
-                {/* Progress indicator */}
-                <div className="flex items-center space-x-3">
-                  <div className="text-sm font-medium text-foreground">
-                    {activeSubcategory + 1}
+          {/* Progress Tracker */}
+          <div className="flex items-center justify-center space-x-8">
+            {careerData.map((step, index) => (
+              <div key={index} className="flex items-center">
+                {/* Step Circle */}
+                <div className="flex flex-col items-center">
+                  <div
+                    className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg transition-all duration-500 ${
+                      index <= activeStep
+                        ? 'bg-[#e50914] border-[#e50914] text-white shadow-lg shadow-[#e50914]/50'
+                        : 'bg-transparent border-gray-500 text-gray-500'
+                    }`}
+                  >
+                    {String(index + 1).padStart(2, '0')}
                   </div>
-                  <div className="text-sm text-foreground/50">/</div>
-                  <div className="text-sm text-foreground/50">
-                    {currentContent.subcategories.length}
-                  </div>
-                  <div className="flex-1 h-px bg-border ml-4">
+
+                  {/* Company Label */}
+                  <div className="mt-2 text-center">
                     <div
-                      className="h-full bg-foreground transition-all duration-500"
+                      className={`text-xs font-semibold transition-colors duration-300 ${
+                        index <= activeStep ? 'text-[#e50914]' : 'text-gray-500'
+                      }`}
+                    >
+                      {step.company}
+                    </div>
+                    <div className="text-xs text-gray-400">{step.period}</div>
+                  </div>
+                </div>
+
+                {/* Connecting Line */}
+                {index < careerData.length - 1 && (
+                  <div className="relative mx-6 w-16">
+                    <div className="h-0.5 bg-gray-600 w-full" />
+                    <div
+                      className="absolute top-0 left-0 h-0.5 bg-[#e50914] transition-all duration-500"
                       style={{
-                        width: `${((activeSubcategory + 1) / currentContent.subcategories.length) * 100}%`
+                        width:
+                          index < activeStep
+                            ? '100%'
+                            : index === activeStep
+                            ? `${scrollProgress}%`
+                            : '0%',
                       }}
                     />
                   </div>
-                </div>
+                )}
               </div>
-            </div>
-
-            {/* Right Panel - Scrollable triggers */}
-            <div className="space-y-32">
-              {workData.map((category, categoryIndex) =>
-                category.subcategories.map((subcategory, subIndex) => {
-                  const globalIndex = workData.slice(0, categoryIndex).reduce((acc, cat) => acc + cat.subcategories.length, 0) + subIndex;
-                  return (
-                    <div
-                      key={`${categoryIndex}-${subIndex}`}
-                      className={`work-trigger-${globalIndex} h-[75vh] flex items-center`}
-                      data-category={categoryIndex}
-                      data-subcategory={subIndex}
-                    >
-                      <MediaCard
-                        media={subcategory.media}
-                        title={subcategory.title}
-                        type={subcategory.type}
-                      />
-                    </div>
-                  );
-                })
-              )}
-            </div>
+            ))}
           </div>
-        </div>
-
-        {/* Mobile Layout */}
-        <div className="lg:hidden px-6 space-y-16">
-          {workData.map((category, categoryIndex) =>
-            category.subcategories.map((subcategory, subIndex) => (
-              <div key={`${categoryIndex}-${subIndex}`} className="space-y-6">
-                <div>
-                  <div className="text-foreground/60 text-sm font-medium mb-2">
-                    {category.category} • {category.role}
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 text-foreground">
-                    {subcategory.title}
-                  </h3>
-                  <p className="text-foreground/70 leading-relaxed">
-                    {subcategory.description}
-                  </p>
-                </div>
-                <div className="h-[50vh]">
-                  <MediaCard
-                    media={subcategory.media}
-                    title={subcategory.title}
-                    type={subcategory.type}
-                  />
-                </div>
-              </div>
-            ))
-          )}
         </div>
       </div>
 
-      {/* Bottom spacing */}
-      <div className="h-32"></div>
+      {/* Horizontal Scroll Container */}
+      <div className="horizontal-container flex" style={{ willChange: 'transform' }}>
+        {careerData.map((step, stepIndex) => (
+          <div
+            key={stepIndex}
+            className="work-slide flex-shrink-0 w-screen h-screen flex items-center"
+            style={{ willChange: 'transform, opacity' }}
+          >
+            <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 h-full items-center">
+              {/* Left Content */}
+              <div className="slide-content space-y-8">
+                {/* Step Header */}
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-16 h-16 bg-[#e50914] rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-2xl">
+                      {String(stepIndex + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-bold text-[#e50914] font-headline">
+                      {step.company}
+                    </h3>
+                    <p className="text-gray-400 font-medium">{step.period}</p>
+                  </div>
+                </div>
+
+                {/* Role & Title */}
+                <div>
+                  <h4 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-headline leading-tight">
+                    {step.role}
+                  </h4>
+                  <p className="text-xl lg:text-2xl text-gray-300 leading-relaxed">
+                    {step.title}
+                  </p>
+                </div>
+
+                {/* Description */}
+                <p className="text-lg text-gray-400 leading-relaxed">
+                  {step.shortDescription}
+                </p>
+
+                {/* Brand Tags */}
+                {step.brands && (
+                  <div className="flex flex-wrap gap-3">
+                    {step.brands.map((brand, index) => (
+                      <span
+                        key={index}
+                        className="px-4 py-2 bg-[#e50914]/20 border border-[#e50914]/30 text-[#e50914] text-sm font-medium rounded-full"
+                      >
+                        {brand}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Achievements */}
+                <div className="space-y-4">
+                  <h5 className="text-xl font-semibold text-white">
+                    Key Achievements
+                  </h5>
+                  <div className="space-y-3">
+                    {step.achievements.map((achievement, index) => (
+                      <div key={index} className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-[#e50914] rounded-full mt-2 flex-shrink-0" />
+                        <p className="text-gray-300 leading-relaxed">{achievement}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Video Card */}
+              <div className="video-card h-[70vh] lg:h-[80vh]">
+                <YouTubeVideoCard step={step} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

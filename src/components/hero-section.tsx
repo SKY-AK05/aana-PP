@@ -23,18 +23,63 @@ const navLinks = [
 ];
 
 const stats = [
-  { id: 'stat-1', value: "15+", label: "Years Experience" },
-  { id: 'stat-2', value: "280+", label: "Projects Delivered" },
-  { id: 'stat-3', value: "99%", label: "Client Satisfaction" },
+  { id: 'stat-1', value: "15+", numericValue: 15, suffix: "+", label: "Years Experience" },
+  { id: 'stat-2', value: "280+", numericValue: 280, suffix: "+", label: "Projects Delivered" },
+  { id: 'stat-3', value: "99%", numericValue: 99, suffix: "%", label: "Client Satisfaction" },
 ]
+
+// Animated Counter Component
+function AnimatedCounter({ targetValue, suffix, duration = 2 }: { targetValue: number; suffix: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const countRef = useRef<HTMLSpanElement>(null);
+  const hasAnimated = useRef(false);
+
+  useLayoutEffect(() => {
+    const element = countRef.current;
+    if (!element || hasAnimated.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true;
+            
+            // GSAP counter animation
+            gsap.to({ value: 0 }, {
+              value: targetValue,
+              duration: duration,
+              ease: "power2.out",
+              onUpdate: function() {
+                setCount(Math.round(this.targets()[0].value));
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [targetValue, duration]);
+
+  return (
+    <span ref={countRef} className="text-4xl font-bold text-white">
+      {count}{suffix}
+    </span>
+  );
+}
 
 export function HeroSection() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
+      
+      // Main hero elements animation
       tl.from(".hero-element", {
         opacity: 0,
         y: 20,
@@ -43,6 +88,21 @@ export function HeroSection() {
         ease: 'power3.out',
         delay: 0.2
       });
+
+      // Stats slide-in animation
+      if (statsRef.current) {
+        const statElements = statsRef.current.querySelectorAll('.stat-item');
+        gsap.set(statElements, { opacity: 0, x: 50 });
+        
+        gsap.to(statElements, {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power3.out',
+          delay: 0.5
+        });
+      }
     }, containerRef);
     return () => ctx.revert();
   }, []);
@@ -97,7 +157,7 @@ export function HeroSection() {
         {/* Left Column (Text) */}
         <div className="md:col-span-5 flex flex-col justify-center text-left py-16 md:py-0 hero-element">
           <h1 className="font-headline text-6xl lg:text-8xl font-black text-white leading-none">
-            Bharath<br />Naidu,
+            Bharath<br />Naidu
           </h1>
           <p className="mt-6 text-lg text-foreground/70 max-w-md">
             A creative Video Editor and Graphic Designer with a passion for cinematic storytelling and crafting visually stunning narratives.
@@ -127,10 +187,14 @@ export function HeroSection() {
 
         {/* Right Column (Stats/Awards) */}
         <div className="md:col-span-3 flex flex-col justify-center items-start md:items-end py-16 md:py-0 text-left md:text-right">
-          <div className="space-y-10">
+          <div ref={statsRef} className="space-y-10">
             {stats.map((stat, index) => (
-              <div key={stat.id} className="hero-element">
-                <h3 className="text-4xl font-bold text-white">{stat.value}</h3>
+              <div key={stat.id} className="stat-item">
+                <AnimatedCounter 
+                  targetValue={stat.numericValue} 
+                  suffix={stat.suffix}
+                  duration={2 + (index * 0.2)} // Slightly different durations for variety
+                />
                 <p className="text-sm text-foreground/60">{stat.label}</p>
               </div>
             ))}

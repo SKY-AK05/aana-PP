@@ -125,14 +125,13 @@ const WhatIDoSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="what-i-do-section relative min-h-screen overflow-hidden"
+      className="what-i-do-section relative min-h-screen overflow-hidden font-body"
       style={{
         background: `linear-gradient(180deg, 
           #e50914 0%, 
           #ff6b6b 15%, 
-          #ffa8a8 30%, 
-          #ffcccc 45%, 
-          #000000 60%, 
+          #1a0000 30%, 
+          #000000 45%, 
           #000000 100%)`
       }}
     >
@@ -140,8 +139,8 @@ const WhatIDoSection: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
         {/* Header */}
         <div ref={headingRef} className="text-center mb-12 lg:mb-16">
-          <h2 className="text-5xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-            What I Do
+          <h2 className="text-5xl lg:text-7xl font-bold font-headline text-white mb-6 tracking-tight">
+            WHAT I DO
           </h2>
           <p className="text-gray-300 text-lg lg:text-xl max-w-4xl mx-auto leading-relaxed">
             I offer a range of specialized services to bring your vision to life with cinematic quality and creative flair.
@@ -165,14 +164,14 @@ const WhatIDoSection: React.FC = () => {
                   zIndex: serviceData.length - index
                 }}
               >
-                <div className="h-full bg-black/60 backdrop-blur-xl border border-white/30 rounded-2xl p-6 xl:p-8 shadow-2xl transition-all duration-300 group">
+                <div className="h-full bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6 xl:p-8 shadow-2xl transition-all duration-300 group hover:border-[#e50914]/40 hover:shadow-[0_0_30px_rgba(229,9,20,0.3)]">
                   {/* Icon */}
                   <div className="text-3xl xl:text-4xl mb-4 xl:mb-6 opacity-90">
                     {service.icon}
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl xl:text-2xl font-bold text-white mb-3 xl:mb-4 leading-tight">
+                  <h3 className="text-xl xl:text-2xl font-bold font-headline text-white mb-3 xl:mb-4 leading-tight">
                     {service.title}
                   </h3>
 
@@ -193,14 +192,14 @@ const WhatIDoSection: React.FC = () => {
                 className="service-card"
                 style={{ willChange: 'transform' }}
               >
-                <div className="bg-black/60 backdrop-blur-lg border border-white/30 rounded-2xl p-6 shadow-2xl">
+                <div className="bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl hover:border-[#e50914]/40 hover:shadow-[0_0_30px_rgba(229,9,20,0.3)] transition-all duration-300">
                   {/* Icon */}
                   <div className="text-3xl mb-4 opacity-90">
                     {service.icon}
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold text-white mb-3 leading-tight">
+                  <h3 className="text-xl font-bold font-headline text-white mb-3 leading-tight">
                     {service.title}
                   </h3>
 
