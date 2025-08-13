@@ -126,30 +126,28 @@ YouTubeVideoCard: React.FC<{
 
   return (
     <div 
-      className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-black shadow-2xl cursor-pointer group"
+      className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-black shadow-2xl cursor-pointer group transform-gpu"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
+      style={{ willChange: 'transform' }}
     >
-      {/* Video Thumbnail/Preview */}
+      {/* Static Thumbnail instead of iframe for better performance */}
       <div className="relative w-full h-full">
-        {step.videoId && (
-          <iframe
-            className="w-full h-full"
-            src={`https://www.youtube.com/embed/${step.videoId}?autoplay=${isHovered ? 1 : 0}&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1`}
-            title={`${step.company} - ${step.role}`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        )}
+        <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+          {/* Thumbnail placeholder */}
+          <div className="text-center">
+            <div className="text-4xl font-bold text-white mb-2">{step.company}</div>
+            <div className="text-gray-400">{step.role}</div>
+          </div>
+        </div>
         
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300" />
+        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-opacity duration-300" />
         
         {/* YouTube Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`bg-red-600 rounded-full p-4 transform transition-all duration-300 ${isHovered ? 'scale-110' : 'scale-100'}`}>
+          <div className={`bg-red-600 rounded-full p-4 transform transition-transform duration-300 ${isHovered ? 'scale-110' : 'scale-100'}`}>
             <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
             </svg>
@@ -176,6 +174,8 @@ MyWorkSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const lastUpdateTime = useRef(0);
+  const animationFrameId = useRef<number>();
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -188,104 +188,92 @@ MyWorkSection: React.FC = () => {
         // Set up smooth horizontal scroll
         const totalWidth = slides.length * window.innerWidth;
         
-        // Enable GPU acceleration
-        gsap.set(container, { willChange: "transform" });
-        gsap.set(slides, { willChange: "transform, opacity" });
-
-        // Header fade animation during scroll
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          onUpdate: (self) => {
-            const header = document.querySelector('.header-container');
-            if (header) {
-              gsap.to(header, {
-                opacity: 1 - (self.progress * 0.3),
-                y: self.progress * -10,
-                duration: 0.3,
-                ease: "power2.out"
-              });
-            }
-          }
+        // Enable GPU acceleration and optimize for performance
+        gsap.set(container, { 
+          willChange: "transform",
+          force3D: true,
+          transformOrigin: "0 0"
+        });
+        
+        gsap.set(slides, { 
+          willChange: "auto",
+          force3D: true
         });
 
-        // Main horizontal scroll timeline
-        ScrollTrigger.create({
+        // Simplified main horizontal scroll - single ScrollTrigger for better performance
+        const scrollTrigger = ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "top top",
           end: () => `+=${totalWidth - window.innerWidth}`,
           pin: true,
-          scrub: 1,
+          scrub: 0.3, // Further reduced scrub for smoother animation
           anticipatePin: 1,
+          invalidateOnRefresh: true,
+          refreshPriority: -1, // Lower priority for better performance
           onUpdate: (self) => {
+            const now = Date.now();
+            
+            // Throttle updates to 60fps for smoother performance
+            if (now - lastUpdateTime.current < 16) return;
+            lastUpdateTime.current = now;
+            
             const progress = self.progress;
             const currentStepIndex = Math.min(Math.floor(progress * careerData.length), careerData.length - 1);
             const stepProgress = ((progress * careerData.length) % 1) * 100;
             
-            if (currentStepIndex !== activeStep) {
-              setActiveStep(currentStepIndex);
+            // Use requestAnimationFrame for smooth state updates
+            if (animationFrameId.current) {
+              cancelAnimationFrame(animationFrameId.current);
             }
-            setScrollProgress(stepProgress);
+            
+            animationFrameId.current = requestAnimationFrame(() => {
+              if (currentStepIndex !== activeStep) {
+                setActiveStep(currentStepIndex);
+              }
+              setScrollProgress(stepProgress);
+              
+              // Simple header fade without additional animations
+              const header = document.querySelector('.header-container');
+              if (header) {
+                (header as HTMLElement).style.opacity = String(1 - (progress * 0.2));
+              }
+            });
           },
           animation: gsap.to(container, {
             x: () => -(totalWidth - window.innerWidth),
-            ease: "none"
+            ease: "none",
+            force3D: true
           })
         });
 
-        // Individual slide animations
-        slides.forEach((slide, index) => {
-          const content = slide.querySelector('.slide-content');
-          const video = slide.querySelector('.video-card');
-          
-          if (content && video) {
-            gsap.fromTo([content, video], 
-              {
-                opacity: 0,
-                y: 50
-              },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: sectionRef.current,
-                  start: "top top",
-                  end: () => `+=${totalWidth - window.innerWidth}`,
-                  scrub: 1,
-                  onUpdate: (self) => {
-                    const progress = self.progress;
-                    const slideStart = index / slides.length;
-                    const slideEnd = (index + 1) / slides.length;
-                    
-                    if (progress >= slideStart && progress <= slideEnd) {
-                      gsap.set([content, video], {
-                        opacity: 1,
-                        y: 0
-                      });
-                    }
-                  }
-                }
-              }
-            );
-          }
-        });
+        // Pre-set all slides to visible to avoid layout shifts
+        gsap.set(slides, { opacity: 1, y: 0 });
       }
 
+      // Initialize state
       setActiveStep(0);
       setScrollProgress(0);
 
     }, sectionRef);
 
-    return () => ctx.revert();
-  }, [activeStep]);
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+      ctx.revert();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []); // Remove activeStep dependency to prevent re-initialization
 
   return (
     <section 
       ref={sectionRef} 
-      className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
+      className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden scroll-optimized"
+      style={{ 
+        willChange: 'auto',
+        contain: 'layout style paint',
+        isolation: 'isolate'
+      }}
     >
       {/* Compact Sticky Header */}
       <div className="header-container sticky top-0 z-50 bg-black/95 backdrop-blur-md border-b border-[#e50914]/20">
@@ -344,14 +332,18 @@ MyWorkSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Horizontal Scroll Container */}
-      <div className="horizontal-container flex" style={{ willChange: 'transform' }}>
+      {/* Horizontal Scroll Container - Optimized for smooth scrolling */}
+      <div className="horizontal-container flex transform-gpu" style={{ willChange: 'transform' }}>
         {careerData.map((step, stepIndex) => (
-          <div key={stepIndex} className="work-slide flex-shrink-0 w-screen min-h-[90vh] flex items-center" style={{ willChange: 'transform, opacity' }}>
+          <div 
+            key={stepIndex} 
+            className="work-slide flex-shrink-0 w-screen min-h-[90vh] flex items-center transform-gpu" 
+            style={{ willChange: 'auto' }}
+          >
             <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 h-full items-center">
               
               {/* Left Content - Optimized for better space usage */}
-              <div className="slide-content space-y-4">
+              <div className="slide-content space-y-4 transform-gpu">
                 {/* Company Header - Compact */}
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-2xl lg:text-3xl font-bold text-[#e50914] font-headline">
@@ -403,7 +395,7 @@ MyWorkSection: React.FC = () => {
               </div>
 
               {/* Right Video Card - Centered and optimized */}
-              <div className="video-card flex items-center justify-center">
+              <div className="video-card flex items-center justify-center transform-gpu">
                 <div className="w-full max-w-lg aspect-[16/9]">
                   <YouTubeVideoCard step={step} />
                 </div>
