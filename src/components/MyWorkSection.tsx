@@ -60,10 +60,6 @@ const careerData: CareerStep[] = [
     youtubeUrl: 'https://www.youtube.com/@TwilightEntertainment',
     videoId: 'dQw4w9WgXcQ',
   },
-];
-
-// Add remaining career steps
-careerData.push(
   {
     stepNumber: 3,
     company: 'Cocoma Digital',
@@ -118,7 +114,7 @@ careerData.push(
     youtubeUrl: 'https://www.youtube.com/@BoxOfficeIndia',
     videoId: 'dQw4w9WgXcQ',
   },
-);
+];
 
 const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -190,7 +186,6 @@ const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
 
 const MyWorkSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeStep, setActiveStep] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -211,150 +206,67 @@ const MyWorkSection: React.FC = () => {
         gsap.set(slides, { willChange: 'transform, opacity' });
 
         // Main horizontal scroll timeline
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: () => `+=${totalWidth - window.innerWidth}`,
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            const currentStepIndex = Math.min(
-              Math.floor(progress * careerData.length),
-              careerData.length - 1
-            );
-            const stepProgress =
-              ((progress * careerData.length) % 1) * 100;
-
-            if (currentStepIndex !== activeStep) {
-              setActiveStep(currentStepIndex);
+        const timeline = gsap.to(container, {
+          x: () => -(totalWidth - window.innerWidth),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: () => `+=${totalWidth - window.innerWidth}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            onUpdate: self => {
+              setScrollProgress(self.progress * 100);
             }
-            setScrollProgress(stepProgress);
           },
-          animation: gsap.to(container, {
-            x: () => -(totalWidth - window.innerWidth),
-            ease: 'none',
-          }),
         });
-
+        
         // Individual slide animations
-        slides.forEach((slide, index) => {
+        slides.forEach((slide) => {
           const content = slide.querySelector('.slide-content');
           const video = slide.querySelector('.video-card');
 
           if (content && video) {
             gsap.fromTo(
               [content, video],
-              {
-                opacity: 0,
-                y: 50,
-              },
+              { opacity: 0 },
               {
                 opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: 'power2.out',
+                duration: 0.5,
+                ease: 'power2.inOut',
                 scrollTrigger: {
-                  trigger: sectionRef.current,
-                  start: 'top top',
-                  end: () => `+=${totalWidth - window.innerWidth}`,
-                  scrub: 1,
-                  onUpdate: (self) => {
-                    const progress = self.progress;
-                    const slideStart = index / slides.length;
-                    const slideEnd = (index + 1) / slides.length;
-
-                    if (progress >= slideStart && progress <= slideEnd) {
-                      const slideProgress =
-                        (progress - slideStart) / (slideEnd - slideStart);
-                      gsap.set([content, video], {
-                        opacity: 1,
-                        y: 0,
-                      });
-                    }
-                  },
+                  trigger: slide,
+                  containerAnimation: timeline,
+                  start: 'left 80%',
+                  end: 'right 20%',
+                  scrub: true,
                 },
               }
             );
           }
         });
       }
-
-      setActiveStep(0);
-      setScrollProgress(0);
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [activeStep]);
+  }, []);
 
   return (
     <section
       ref={sectionRef}
+      id="work"
       className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
     >
-      {/* Section Header with Progress Tracker */}
-      <div className="relative z-10 py-8 px-8 bg-gradient-to-r from-black/80 to-[#e50914]/20 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto">
-          {/* Title */}
-          <div className="text-center mb-8">
-            <h2 className="text-5xl lg:text-7xl font-bold font-headline text-white mb-4">
-              MY WORK
-            </h2>
-            <p className="text-gray-300 text-lg lg:text-xl">
-              Career journey through video editing and cinematography
-            </p>
-          </div>
-
-          {/* Progress Tracker */}
-          <div className="flex items-center justify-center space-x-8">
-            {careerData.map((step, index) => (
-              <div key={index} className="flex items-center">
-                {/* Step Circle */}
-                <div className="flex flex-col items-center">
-                  <div
-                    className={`w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-lg transition-all duration-500 ${
-                      index <= activeStep
-                        ? 'bg-[#e50914] border-[#e50914] text-white shadow-lg shadow-[#e50914]/50'
-                        : 'bg-transparent border-gray-500 text-gray-500'
-                    }`}
-                  >
-                    {String(index + 1).padStart(2, '0')}
-                  </div>
-
-                  {/* Company Label */}
-                  <div className="mt-2 text-center">
-                    <div
-                      className={`text-xs font-semibold transition-colors duration-300 ${
-                        index <= activeStep ? 'text-[#e50914]' : 'text-gray-500'
-                      }`}
-                    >
-                      {step.company}
-                    </div>
-                    <div className="text-xs text-gray-400">{step.period}</div>
-                  </div>
-                </div>
-
-                {/* Connecting Line */}
-                {index < careerData.length - 1 && (
-                  <div className="relative mx-6 w-16">
-                    <div className="h-0.5 bg-gray-600 w-full" />
-                    <div
-                      className="absolute top-0 left-0 h-0.5 bg-[#e50914] transition-all duration-500"
-                      style={{
-                        width:
-                          index < activeStep
-                            ? '100%'
-                            : index === activeStep
-                            ? `${scrollProgress}%`
-                            : '0%',
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+      {/* Simplified Section Header (sticky) */}
+      <div className="sticky top-0 z-20 py-8 px-8 bg-gradient-to-r from-black/80 to-[#e50914]/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-5xl lg:text-7xl font-bold font-headline text-white mb-4">
+            MY WORK
+          </h2>
+          <p className="text-gray-300 text-lg lg:text-xl">
+            A showcase of my professional journey through video editing and cinematography
+          </p>
         </div>
       </div>
 
@@ -363,79 +275,89 @@ const MyWorkSection: React.FC = () => {
         {careerData.map((step, stepIndex) => (
           <div
             key={stepIndex}
-            className="work-slide flex-shrink-0 w-screen h-screen flex items-center"
+            className="work-slide flex-shrink-0 w-screen h-screen flex items-center justify-center"
             style={{ willChange: 'transform, opacity' }}
           >
-            <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 h-full items-center">
-              {/* Left Content */}
-              <div className="slide-content space-y-8">
-                {/* Step Header */}
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-16 h-16 bg-[#e50914] rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-2xl">
-                      {String(stepIndex + 1).padStart(2, '0')}
-                    </span>
+            <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-[80vh]">
+              {stepIndex % 2 === 0 ? (
+                <>
+                  <div className="video-card h-full order-1 lg:order-1">
+                    <YouTubeVideoCard step={step} />
                   </div>
-                  <div>
-                    <h3 className="text-3xl font-bold text-[#e50914] font-headline">
-                      {step.company}
-                    </h3>
-                    <p className="text-gray-400 font-medium">{step.period}</p>
-                  </div>
-                </div>
+                  <div className="slide-content space-y-6 order-2 lg:order-2">
+                    <div>
+                      <h3 className="text-3xl font-bold text-[#e50914] font-headline mb-2">
+                        {step.company}
+                      </h3>
+                      <p className="text-gray-400 font-medium mb-4">{step.period}</p>
+                      <h4 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-headline leading-tight">
+                        {step.role}
+                      </h4>
+                      <p className="text-xl text-gray-300 leading-relaxed mb-4">
+                        {step.title}
+                      </p>
+                      <p className="text-base text-gray-400 leading-relaxed">
+                        {step.shortDescription}
+                      </p>
+                    </div>
 
-                {/* Role & Title */}
-                <div>
-                  <h4 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-headline leading-tight">
-                    {step.role}
-                  </h4>
-                  <p className="text-xl lg:text-2xl text-gray-300 leading-relaxed">
-                    {step.title}
-                  </p>
-                </div>
-
-                {/* Description */}
-                <p className="text-lg text-gray-400 leading-relaxed">
-                  {step.shortDescription}
-                </p>
-
-                {/* Brand Tags */}
-                {step.brands && (
-                  <div className="flex flex-wrap gap-3">
-                    {step.brands.map((brand, index) => (
-                      <span
-                        key={index}
-                        className="px-4 py-2 bg-[#e50914]/20 border border-[#e50914]/30 text-[#e50914] text-sm font-medium rounded-full"
-                      >
-                        {brand}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                {/* Achievements */}
-                <div className="space-y-4">
-                  <h5 className="text-xl font-semibold text-white">
-                    Key Achievements
-                  </h5>
-                  <div className="space-y-3">
-                    {step.achievements.map((achievement, index) => (
-                      <div key={index} className="flex items-start space-x-3">
-                        <div className="w-2 h-2 bg-[#e50914] rounded-full mt-2 flex-shrink-0" />
-                        <p className="text-gray-300 leading-relaxed">{achievement}</p>
+                    {step.brands && (
+                      <div className="flex flex-wrap gap-3">
+                        {step.brands.map((brand, index) => (
+                          <span
+                            key={index}
+                            className="px-4 py-2 bg-[#e50914]/20 border border-[#e50914]/30 text-[#e50914] text-sm font-medium rounded-full"
+                          >
+                            {brand}
+                          </span>
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </div>
-                </div>
-              </div>
-
-              {/* Right Video Card */}
-              <div className="video-card h-[70vh] lg:h-[80vh]">
-                <YouTubeVideoCard step={step} />
-              </div>
+                </>
+              ) : (
+                <>
+                  <div className="slide-content space-y-6 order-2 lg:order-1">
+                    <div>
+                       <h3 className="text-3xl font-bold text-[#e50914] font-headline mb-2">
+                        {step.company}
+                      </h3>
+                      <p className="text-gray-400 font-medium mb-4">{step.period}</p>
+                      <h4 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-headline leading-tight">
+                        {step.role}
+                      </h4>
+                      <p className="text-xl text-gray-300 leading-relaxed mb-4">
+                        {step.title}
+                      </p>
+                      <p className="text-base text-gray-400 leading-relaxed">
+                        {step.shortDescription}
+                      </p>
+                    </div>
+                    {step.brands && (
+                      <div className="flex flex-wrap gap-3">
+                        {step.brands.map((brand, index) => (
+                          <span
+                            key={index}
+                            className="px-4 py-2 bg-[#e50914]/20 border border-[#e50914]/30 text-[#e50914] text-sm font-medium rounded-full"
+                          >
+                            {brand}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="video-card h-full order-1 lg:order-2">
+                    <YouTubeVideoCard step={step} />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         ))}
+      </div>
+      
+      <div className="fixed bottom-0 left-0 w-full h-1 bg-gray-800/50 z-30">
+          <div className="h-full bg-[#e50914]" style={{ width: `${scrollProgress}%` }} />
       </div>
     </section>
   );
