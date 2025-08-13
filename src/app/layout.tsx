@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
 import { Rubik, Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const rubik = Rubik({
   subsets: ['latin'],
@@ -27,10 +28,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{scrollBehavior:'smooth'}}>
+    <html lang="en" style={{scrollBehavior:'smooth'}} suppressHydrationWarning>
       <body className={cn("font-body antialiased bg-background text-foreground", inter.variable, rubik.variable)}>
-        {children}
-        <Toaster />
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

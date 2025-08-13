@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from '@/lib/utils';
 import { Linkedin, Github, Dribbble } from 'lucide-react';
+import { ThemeToggle } from './ui/theme-toggle';
 
 
 const navLinks = [
@@ -124,9 +125,11 @@ export function HeroSection() {
                   {link.label}
                 </Link>
               ))}
+              <ThemeToggle />
             </nav>
 
             <div className="flex items-center md:hidden">
+              <ThemeToggle />
               {/* Mobile Menu Button */}
               <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
