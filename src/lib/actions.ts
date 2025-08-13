@@ -5,7 +5,7 @@ import { z } from "zod";
 import { Resend } from 'resend';
 
 // Initialize Resend with your API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const contactSchema = z.object({
   firstName: z.string().min(2, { message: "First name must be at least 2 characters." }),
@@ -30,6 +30,14 @@ export type FormState = {
 export async function submitContactForm(
   data: z.infer<typeof contactSchema>
 ): Promise<FormState> {
+  if (!resend) {
+    console.error('Resend is not configured. Please check your RESEND_API_KEY environment variable.');
+    return {
+      message: "The server is not configured to send emails. Please contact the site administrator.",
+      success: false,
+    };
+  }
+  
   const validatedFields = contactSchema.safeParse(data);
 
   if (!validatedFields.success) {
