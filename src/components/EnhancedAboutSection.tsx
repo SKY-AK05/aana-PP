@@ -127,10 +127,6 @@ export function EnhancedAboutSection() {
               </div>
             </div>
             
-            {/* Decorative elements */}
-            <div className="absolute -top-6 -right-6 w-12 h-12 bg-primary/10 rounded-full blur-xl -z-10" />
-            <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/5 rounded-full blur-lg -z-10" />
-
             <div className="mt-12 text-center">
               <h3 className="font-headline text-sm font-bold tracking-wider uppercase text-foreground/60 mb-6">
                 Trusted by Industry Leaders
@@ -233,4 +229,3 @@ export function EnhancedAboutSection() {
     </section>
   );
 }
-
