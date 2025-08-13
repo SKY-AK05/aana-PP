@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -116,8 +117,10 @@ const careerData: CareerStep[] = [
   },
 ];
 
-const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
+const YouTubeVideoCard: React.FC<{ step: CareerStep | null, isVisible: boolean }> = ({ step, isVisible }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  if (!step) return null;
 
   const handleClick = () => {
     if (step.youtubeUrl) {
@@ -127,12 +130,11 @@ const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
 
   return (
     <div
-      className="relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-black shadow-2xl cursor-pointer group"
+      className={`relative w-full h-full rounded-xl overflow-hidden bg-gradient-to-br from-gray-900 to-black shadow-2xl cursor-pointer group transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
     >
-      {/* Video Thumbnail/Preview */}
       <div className="relative w-full h-full">
         {step.videoId && (
           <iframe
@@ -147,10 +149,8 @@ const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
           />
         )}
 
-        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300" />
 
-        {/* YouTube Play Button */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div
             className={`bg-red-600 rounded-full p-4 transform transition-all duration-300 ${
@@ -163,13 +163,11 @@ const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
           </div>
         </div>
 
-        {/* Company Info Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
           <div className="text-white font-bold text-lg">{step.company}</div>
           <div className="text-gray-300 text-sm">{step.period}</div>
         </div>
 
-        {/* YouTube Logo */}
         <div className="absolute top-4 right-4">
           <svg
             className="w-8 h-8 text-red-600"
@@ -186,107 +184,92 @@ const YouTubeVideoCard: React.FC<{ step: CareerStep }> = ({ step }) => {
 
 const MyWorkSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const rightPanelRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState<CareerStep | null>(careerData[0]);
+  const [isCardVisible, setIsCardVisible] = useState(true);
 
   useEffect(() => {
-    if (!sectionRef.current) return;
-
+    if (!sectionRef.current || !rightPanelRef.current) return;
+    
     const ctx = gsap.context(() => {
-      const container = sectionRef.current?.querySelector(
-        '.horizontal-container'
-      ) as HTMLElement;
-      const slides = gsap.utils.toArray('.work-slide') as HTMLElement[];
+        const mm = gsap.matchMedia();
 
-      if (container && slides.length > 0) {
-        // Set up smooth horizontal scroll
-        const totalWidth = slides.length * window.innerWidth;
+        mm.add("(min-width: 768px)", () => {
+            // Pin the right panel
+            ScrollTrigger.create({
+              trigger: sectionRef.current,
+              start: "top top",
+              end: "bottom bottom",
+              pin: rightPanelRef.current,
+              pinSpacing: false,
+            });
 
-        // Enable GPU acceleration
-        gsap.set(container, { willChange: 'transform' });
-        gsap.set(slides, { willChange: 'transform, opacity' });
-
-        // Main horizontal scroll timeline
-        const timeline = gsap.to(container, {
-          x: () => -(totalWidth - window.innerWidth),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: () => `+=${totalWidth - window.innerWidth}`,
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-            onUpdate: self => {
-              setScrollProgress(self.progress * 100);
-            }
-          },
-        });
-        
-        // Individual slide animations
-        slides.forEach((slide) => {
-          const content = slide.querySelector('.slide-content');
-          const video = slide.querySelector('.video-card');
-
-          if (content && video) {
-            gsap.fromTo(
-              [content, video],
-              { opacity: 0 },
-              {
-                opacity: 1,
-                duration: 0.5,
-                ease: 'power2.inOut',
-                scrollTrigger: {
-                  trigger: slide,
-                  containerAnimation: timeline,
-                  start: 'left 80%',
-                  end: 'right 20%',
-                  scrub: true,
+            // Create triggers for each text block on the left
+            careerData.forEach((step) => {
+              ScrollTrigger.create({
+                trigger: `#step-${step.stepNumber}`,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => {
+                  setIsCardVisible(false);
+                  setTimeout(() => {
+                    setActiveStep(step);
+                    setIsCardVisible(true);
+                  }, 300); // Wait for fade out to complete
                 },
-              }
-            );
-          }
+                onEnterBack: () => {
+                   setIsCardVisible(false);
+                  setTimeout(() => {
+                    setActiveStep(step);
+                    setIsCardVisible(true);
+                  }, 300);
+                },
+              });
+            });
         });
-      }
+
+        // Simple stagger animation for mobile
+        mm.add("(max-width: 767px)", () => {
+          gsap.utils.toArray('.mobile-work-item').forEach((item: any) => {
+            gsap.from(item, {
+              opacity: 0,
+              y: 50,
+              duration: 0.6,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: item,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse'
+              }
+            });
+          });
+        });
+
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="work"
-      className="relative bg-gradient-to-br from-black via-gray-900 to-black text-white overflow-hidden"
-    >
-      {/* Simplified Section Header (sticky) */}
-      <div className="sticky top-0 z-20 py-8 px-8 bg-gradient-to-r from-black/80 to-[#e50914]/20 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto text-center">
+    <section ref={sectionRef} id="work" className="bg-gradient-to-br from-black via-gray-900 to-black text-white py-20 md:py-28">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16 md:mb-20">
           <h2 className="text-5xl lg:text-7xl font-bold font-headline text-white mb-4">
             MY WORK
           </h2>
-          <p className="text-gray-300 text-lg lg:text-xl">
-            A showcase of my professional journey through video editing and cinematography
+          <p className="text-gray-300 text-lg lg:text-xl max-w-3xl mx-auto">
+            A showcase of my professional journey through video editing and cinematography.
           </p>
         </div>
-      </div>
 
-      {/* Horizontal Scroll Container */}
-      <div className="horizontal-container flex" style={{ willChange: 'transform' }}>
-        {careerData.map((step, stepIndex) => (
-          <div
-            key={stepIndex}
-            className="work-slide flex-shrink-0 w-screen h-screen flex items-center justify-center"
-            style={{ willChange: 'transform, opacity' }}
-          >
-            <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center h-[80vh]">
-              {stepIndex % 2 === 0 ? (
-                <>
-                  <div className="video-card h-full order-1 lg:order-1">
-                    <YouTubeVideoCard step={step} />
-                  </div>
-                  <div className="slide-content space-y-6 order-2 lg:order-2">
-                    <div>
-                      <h3 className="text-3xl font-bold text-[#e50914] font-headline mb-2">
+        {/* Desktop Layout: 2-column with sticky right panel */}
+        <div className="hidden md:grid md:grid-cols-2 md:gap-16 lg:gap-24">
+          {/* Left Panel: Scrolling Text Content */}
+          <div className="left-panel flex flex-col">
+            {careerData.map((step) => (
+              <div key={step.stepNumber} id={`step-${step.stepNumber}`} className="min-h-screen py-24 flex flex-col justify-center">
+                  <div className="space-y-6">
+                      <h3 className="text-3xl font-bold text-primary font-headline mb-2">
                         {step.company}
                       </h3>
                       <p className="text-gray-400 font-medium mb-4">{step.period}</p>
@@ -299,68 +282,49 @@ const MyWorkSection: React.FC = () => {
                       <p className="text-base text-gray-400 leading-relaxed">
                         {step.shortDescription}
                       </p>
-                    </div>
-
-                    {step.brands && (
-                      <div className="flex flex-wrap gap-3">
-                        {step.brands.map((brand, index) => (
-                          <span
-                            key={index}
-                            className="px-4 py-2 bg-[#e50914]/20 border border-[#e50914]/30 text-[#e50914] text-sm font-medium rounded-full"
-                          >
-                            {brand}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                   </div>
-                </>
-              ) : (
-                <>
-                  <div className="slide-content space-y-6 order-2 lg:order-1">
-                    <div>
-                       <h3 className="text-3xl font-bold text-[#e50914] font-headline mb-2">
-                        {step.company}
-                      </h3>
-                      <p className="text-gray-400 font-medium mb-4">{step.period}</p>
-                      <h4 className="text-4xl lg:text-5xl font-bold text-white mb-4 font-headline leading-tight">
-                        {step.role}
-                      </h4>
-                      <p className="text-xl text-gray-300 leading-relaxed mb-4">
-                        {step.title}
-                      </p>
-                      <p className="text-base text-gray-400 leading-relaxed">
-                        {step.shortDescription}
-                      </p>
-                    </div>
-                    {step.brands && (
-                      <div className="flex flex-wrap gap-3">
-                        {step.brands.map((brand, index) => (
-                          <span
-                            key={index}
-                            className="px-4 py-2 bg-[#e50914]/20 border border-[#e50914]/30 text-[#e50914] text-sm font-medium rounded-full"
-                          >
-                            {brand}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="video-card h-full order-1 lg:order-2">
-                    <YouTubeVideoCard step={step} />
-                  </div>
-                </>
-              )}
-            </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      
-      <div className="fixed bottom-0 left-0 w-full h-1 bg-gray-800/50 z-30">
-          <div className="h-full bg-[#e50914]" style={{ width: `${scrollProgress}%` }} />
+
+          {/* Right Panel: Sticky Video */}
+          <div ref={rightPanelRef} className="right-panel h-screen flex items-center justify-center">
+              <div className="w-full aspect-[16/10]">
+                  <YouTubeVideoCard step={activeStep} isVisible={isCardVisible} />
+              </div>
+          </div>
+        </div>
+
+        {/* Mobile Layout: Stacked cards */}
+        <div className="md:hidden space-y-16">
+            {careerData.map((step) => (
+                <div key={step.stepNumber} className="mobile-work-item">
+                    <div className="space-y-4 mb-6">
+                      <h3 className="text-2xl font-bold text-primary font-headline">
+                        {step.company}
+                      </h3>
+                      <p className="text-gray-400 font-medium">{step.period}</p>
+                      <h4 className="text-3xl font-bold text-white font-headline leading-tight">
+                        {step.role}
+                      </h4>
+                      <p className="text-lg text-gray-300 leading-relaxed">
+                        {step.title}
+                      </p>
+                      <p className="text-base text-gray-400 leading-relaxed">
+                        {step.shortDescription}
+                      </p>
+                    </div>
+                    <div className="w-full aspect-[16/10]">
+                        <YouTubeVideoCard step={step} isVisible={true} />
+                    </div>
+                </div>
+            ))}
+        </div>
       </div>
     </section>
   );
 };
 
 export default MyWorkSection;
+
+    
